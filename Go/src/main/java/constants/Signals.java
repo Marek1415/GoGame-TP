@@ -14,7 +14,7 @@ public final class Signals {
 	//start game
 	public final static String CL_PLAYBOT = "CL_PLAYBOT";
 	public final static String CL_PLAYUSR = "CL_PLAYBOT";
-	public final static String SE_ROOMSGET = "CL_ROOMSGET";
+	public final static String SE_ROOMSGET = "SE_ROOMSGET";
 	public final static String CL_ROOMSET = "CL_ROOMSET";
 	public final static String CL_ROOMNEW = "CL_ROOMNEW";
 	public final static String SE_SIZEGET = "SE_SIZEGET";
@@ -34,13 +34,13 @@ public final class Signals {
 	
 	//end game
 	public final static String CL_END = "CL_END";
-	public final static String SE_ENDGET = "CL_ENDGET";
+	public final static String SE_ENDGET = "SE_ENDGET";
 	public final static String CL_ENDSET = "CL_ENDSET";
 	public final static String SE_ENDOK = "SE_ENDOK";
 	public final static String SE_ENDNO = "SE_ENDNO";
 	public final static String CL_RESIGN = "CL_RESIGN";
-	public final static String SE_WIN = "CL_WIN";
-	public final static String SE_LOST = "CL_LOST";
+	public final static String SE_WIN = "SE_WIN";
+	public final static String SE_LOST = "SE_LOST";
 	
 	private Signals() {};
 	
