@@ -4,11 +4,14 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 
-public final class EndModConstants {
+import client.modules.Constants;
+
+
+public final class EndModConstants extends Constants{
 	
 	//strings
-	public final static String STR_END = "Koniec";
-	public final static String STR_RESIGN = "Poddana";
+	public final static String STR_END = "Zakończ";
+	public final static String STR_RESIGN = "Poddaj się";
 	public final static String STR_CANCEL = "Anuluj";
 	public final static String STR_TITLE = "Koniec rozgrywki";
 	public final static String STR_INFO = "Zaproponuj przeciwnikowi koniec lub poddaj się.";
@@ -17,7 +20,8 @@ public final class EndModConstants {
 	public final static Dimension DIM_END = new Dimension(250,150);
 	public final static Dimension DIM_RESIGN = new Dimension(250,150);
 	public final static Dimension DIM_CANCEL = new Dimension(250,150);
-	public final static Dimension DIM_INFO = new Dimension(600,100);
+	public final static Dimension DIM_INFO = new Dimension(600,90);
+	public final static Dimension DIM_DIALOG = new Dimension(800,300);
 	
 	//font
 	public final static Font FONT = new Font("Helvetica", Font.PLAIN, 18);

@@ -13,51 +13,41 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 
-import static constants.EndModConstants.*;
-import static constants.StartModConstants.DIM_DIALOG;
+import static constants.StartModConstants.*;
 
 
 /**
  * @author gumises
- * End dialog 
+ * Start dialog, client chooses the game mode.
  */
 @SuppressWarnings("serial")
-public class EndMod extends JDialog {
+public class StartMod extends JDialog {
 
 	//action buttons
-	AbstractButton endButton;
-	AbstractButton resignButton;
-	AbstractButton cancelButton;
+	AbstractButton playerButton;
+	AbstractButton botButton;
 	
 	//labels
 	JLabel infoLabel;
 	
-	public EndMod() {
+	public StartMod() {
 		
 		//info label
 		infoLabel = new InfoLabel(STR_INFO, DIM_INFO);
 		
 		//end button
-		endButton = new ActionButton(STR_END, DIM_END, COL_END) {
+		playerButton = new ActionButton(STR_PLAYER, DIM_PLAYER, COL_PLAYER) {
 			@Override
 			public void action() {
-				end();
+				player();
 			}
 		};
 		
 		//resign button
-		resignButton = new ActionButton(STR_RESIGN, DIM_RESIGN, COL_RESIGN) {
+		botButton = new ActionButton(STR_BOT, DIM_BOT, COL_BOT) {
 			@Override
 			public void action() {
-				resign();
-			}
-		};
-		
-		//cancel button
-		cancelButton = new ActionButton(STR_CANCEL, DIM_CANCEL, COL_CANCEL) {
-			@Override
-			public void action() {
-				cancel();
+				bot();
 			}
 		};
 		
@@ -69,7 +59,7 @@ public class EndMod extends JDialog {
 		//info
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		gbc.gridwidth = 3;
+		gbc.gridwidth = 2;
 		gbc.insets = new Insets(5, 5, 5, 5);
 		add(infoLabel, gbc);
 		
@@ -77,43 +67,33 @@ public class EndMod extends JDialog {
 		gbc.gridx = 0;
 		gbc.gridy = 1;
 		gbc.gridwidth = 1;
-		add(endButton, gbc);
+		add(playerButton, gbc);
 		
 		//resign
 		gbc.gridx = 1;
 		gbc.gridy = 1;
-		add(resignButton, gbc);
-		
-		//cancel
-		gbc.gridx = 2;
-		gbc.gridy = 1;
-		add(cancelButton, gbc);
+		add(botButton, gbc);
 		
 		setTitle(STR_TITLE);
 		setPreferredSize(DIM_DIALOG);
-		setPreferredSize(DIM_DIALOG);
+		setResizable(false);
 		
 		pack();
 		setVisible(true);
 	}
 	
-	/** Resign method, must be override by parent. */
-	public void resign() {
-		System.out.println("Resign!");							//<make this abstract
+	/** Playing with the other player method, must be override by parent. */
+	public void player() {
+		System.out.println("Player!");
 	}
 	
-	/** End method, must be override by parent. */
-	public void end() {
-		System.out.println("End!");								//<this one too
-	}
-	
-	/** Cancel method, close the window. */
-	public void cancel() {
-		dispose();
+	/** Playing with bot, must be override by parent. */
+	public void bot() {
+		System.out.println("Bot!");
 	}
 	
     public static void main( String[] args ) {
-		new EndMod();
+		new StartMod();
     }
     
     /*
@@ -144,7 +124,7 @@ public class EndMod extends JDialog {
     	/*
     	 * action method, must be override by parent
     	 */
-    	public void action() {															//< make this abstract
+    	public void action() {
     		//override
     	}
     }
