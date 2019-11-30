@@ -13,24 +13,26 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 
-import static constants.SizeModConstants.*;
+import static constants.RoomModConstants.*;
 
 
 /**
  * @author gumises
- * Size dialog, client chooses the board size.
+ * Room dialog, client chooses the room or creates new.
  */
 @SuppressWarnings("serial")
-public class SizeMod extends JDialog {
+public class RoomMod extends JDialog {
 	//TODO make class abstract
 	
 	//buttons
-	AbstractButton sizeButton;
+	AbstractButton roomButton;
+	AbstractButton newRoomButton;
 	
 	//labels
 	JLabel infoLabel;
+	JLabel roomLabel;
 	
-	public SizeMod(final int [] sizes) {
+	public RoomMod(final String [] rooms) {
 		
 		//info label
 		infoLabel = new InfoLabel(STR_INFO, DIM_INFO);
@@ -49,20 +51,46 @@ public class SizeMod extends JDialog {
 		
 		gbc.gridwidth = 1;
 		
-		for(int i = 0; i < sizes.length; i++) {
+		//rooms
+		int i;
+		for(i = 0; i < rooms.length; i++) {
 			
-			sizeButton = new ActionButton(DIM_BUTTON, COL_BUTTON, sizes[i]) {
+			roomLabel = new RoomLabel(i, DIM_LABEL);
+			roomButton = new ActionButton(DIM_BUTTON, COL_BUTTON, i, rooms[i]) {
 				
 				@Override
 				public void action() {
-					boardSize(size);
+					room(room);
 				}
 			};
 			
+			//button
 			gbc.gridx = i%3;
-			gbc.gridy = 1 + i/3;
-			add(sizeButton, gbc);
+			gbc.gridy = 1 + 2*(i/3);
+			gbc.insets = new Insets(5, 5, 0, 5);
+			add(roomButton, gbc);
+			
+			//label
+			gbc.gridx = i%3;
+			gbc.gridy = 2 + 2*(i/3);
+			gbc.insets = new Insets(0, 5, 5, 5);
+			add(roomLabel, gbc);
 		}
+		
+		//new room
+		newRoomButton = new ActionButton(DIM_BUTTON, COL_NEWROOM, i, STR_NEWROOM) {
+			
+			@Override
+			public void action() {
+				newRoom();
+			}
+		};
+		
+		//new room
+		gbc.gridx = i%3;
+		gbc.gridy = 1 + 2*(i/3);
+		gbc.insets = new Insets(5, 5, 0, 5);
+		add(newRoomButton, gbc);
 		
 		setTitle(STR_TITLE);
 		setResizable(false);
@@ -71,15 +99,21 @@ public class SizeMod extends JDialog {
 		setVisible(true);
 	}
 	
-	/** Sets the board size, must be override by parent. */
-	public void boardSize(int newSize) {
+	/** Sets the room, must be override by parent. */
+	public void room(int newRoom) {
 		//TODO make this abstract
-		System.out.println(newSize);
+		System.out.println(newRoom);
+	}
+	
+	/** Sets the board size, must be override by parent. */
+	public void newRoom() {
+		//TODO make this abstract
+		System.out.println("newRoom");
 	}
 	
     public static void main( String[] args ) {
     	//TODO delete main method
-		new SizeMod(new int[] {7,9,13, 25, 253});
+		new RoomMod(new String[] {"pierwszy", "drugi", "trzeci", "czwarte"});
     }
     
     /*
@@ -87,17 +121,17 @@ public class SizeMod extends JDialog {
      */
     private abstract class ActionButton extends JButton {
     	
-    	//board size
-    	int size;
+    	//room noumber
+    	int room;
     	
     	/*
     	 * constructor
     	 */
-    	private ActionButton(Dimension dim, Color col, int newSize) {
+    	private ActionButton(Dimension dim, Color col, int newRoom, String newRoomName) {
     		
     		super();
-    		setText(getName(newSize));
-    		this.size = newSize;
+    		setText(newRoomName);
+    		this.room = newRoom;
     		setPreferredSize(dim);
     		setBackground(col);
     		setForeground(COL_FOREGROUND);
@@ -116,15 +150,6 @@ public class SizeMod extends JDialog {
     	 */
     	public abstract void action();
     	
-
-    	/**
-    	 * Calculate the button text by the size.
-    	 * @param size
-    	 * @return name of the button
-    	 */
-    	private String getName(int size) {
-    		return Integer.toString(size) + "x" + Integer.toString(size);
-    	}
     }
     
     /*
@@ -138,6 +163,30 @@ public class SizeMod extends JDialog {
     		setPreferredSize(dim);
     		setHorizontalAlignment(JLabel.CENTER);
     	    setVerticalAlignment(JLabel.CENTER);
+    	}
+    }
+    
+    /*
+     * Label for displaying room number.
+     */
+    private class RoomLabel extends JLabel {
+    	
+    	private RoomLabel(int number, Dimension dim) {
+    		super();
+    		setText(getName(number));
+    		setFont(FONT);
+    		setPreferredSize(dim);
+    		setHorizontalAlignment(JLabel.CENTER);
+    	    setVerticalAlignment(JLabel.CENTER);
+    	}
+    	
+    	/**
+    	 * Calculate the label text by the number.
+    	 * @param number
+    	 * @return text for the button
+    	 */
+    	private String getName(int number) {
+    		return STR_LABEL + " " + Integer.toString(number+1);
     	}
     }
 }
