@@ -22,6 +22,7 @@ import static constants.StartModConstants.*;
  */
 @SuppressWarnings("serial")
 public class StartMod extends JDialog {
+	//TODO make class abstract
 
 	//action buttons
 	AbstractButton playerButton;
@@ -75,7 +76,6 @@ public class StartMod extends JDialog {
 		add(botButton, gbc);
 		
 		setTitle(STR_TITLE);
-		setPreferredSize(DIM_DIALOG);
 		setResizable(false);
 		
 		pack();
@@ -95,6 +95,7 @@ public class StartMod extends JDialog {
 	}
 	
     public static void main( String[] args ) {
+    	//TODO delete main method
 		new StartMod();
     }
     

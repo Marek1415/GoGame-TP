@@ -13,51 +13,42 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 
-import static constants.EndModConstants.*;
+import static constants.AgreeModConstants.*;
 
 
 /**
  * @author gumises
- * End dialog 
+ * Dialog for agree or disagree with enemy proposal of game end.
  */
 @SuppressWarnings("serial")
-public class EndMod extends JDialog {
+public class AgreeMod extends JDialog {
 	//TODO make class abstract
 
 	//action buttons
-	AbstractButton endButton;
-	AbstractButton resignButton;
-	AbstractButton cancelButton;
+	AbstractButton agreeButton;
+	AbstractButton disagreeButton;
 	
 	//labels
 	JLabel infoLabel;
 	
-	public EndMod() {
+	public AgreeMod() {
 		
 		//info label
 		infoLabel = new InfoLabel(STR_INFO, DIM_INFO);
 		
 		//end button
-		endButton = new ActionButton(STR_END, DIM_END, COL_END) {
+		agreeButton = new ActionButton(STR_AGREE, DIM_AGREE, COL_AGREE) {
 			@Override
 			public void action() {
-				end();
+				agree();
 			}
 		};
 		
 		//resign button
-		resignButton = new ActionButton(STR_RESIGN, DIM_RESIGN, COL_RESIGN) {
+		disagreeButton = new ActionButton(STR_DISAGREE, DIM_DISAGREE, COL_DISAGREE) {
 			@Override
 			public void action() {
-				resign();
-			}
-		};
-		
-		//cancel button
-		cancelButton = new ActionButton(STR_CANCEL, DIM_CANCEL, COL_CANCEL) {
-			@Override
-			public void action() {
-				cancel();
+				disagree();
 			}
 		};
 		
@@ -69,7 +60,7 @@ public class EndMod extends JDialog {
 		//info
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		gbc.gridwidth = 3;
+		gbc.gridwidth = 2;
 		gbc.insets = new Insets(5, 5, 5, 5);
 		add(infoLabel, gbc);
 		
@@ -77,17 +68,12 @@ public class EndMod extends JDialog {
 		gbc.gridx = 0;
 		gbc.gridy = 1;
 		gbc.gridwidth = 1;
-		add(endButton, gbc);
+		add(agreeButton, gbc);
 		
 		//resign
 		gbc.gridx = 1;
 		gbc.gridy = 1;
-		add(resignButton, gbc);
-		
-		//cancel
-		gbc.gridx = 2;
-		gbc.gridy = 1;
-		add(cancelButton, gbc);
+		add(disagreeButton, gbc);
 		
 		setTitle(STR_TITLE);
 		setResizable(false);
@@ -96,26 +82,21 @@ public class EndMod extends JDialog {
 		setVisible(true);
 	}
 	
-	/** Giving up, must be override by parent. */
-	public void resign() {
+	/** Agree to end the game. */
+	public void agree() {
 		//TODO make this abstract
-		System.out.println("Resign!");
+		System.out.println("Agree!");
 	}
 	
-	/** Proposing end, must be override by parent. */
-	public void end() {
+	/** Disagree to end the game. */
+	public void disagree() {
 		//TODO make this abstract
-		System.out.println("End!");
-	}
-	
-	/** Cancel method, close the window. */
-	public void cancel() {
-		dispose();
+		System.out.println("Disagree!");
 	}
 	
     public static void main( String[] args ) {
     	//TODO delete main method
-		new EndMod();
+		new AgreeMod();
     }
     
     /*

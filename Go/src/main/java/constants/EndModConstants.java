@@ -2,7 +2,6 @@ package constants;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 
 
 public final class EndModConstants extends Constants{
@@ -19,7 +18,6 @@ public final class EndModConstants extends Constants{
 	public final static Dimension DIM_RESIGN = new Dimension(250,150);
 	public final static Dimension DIM_CANCEL = new Dimension(250,150);
 	public final static Dimension DIM_INFO = new Dimension(600,90);
-	public final static Dimension DIM_DIALOG = new Dimension(800,300);
 	
 	//colors
 	public final static Color COL_END = Color.GREEN;

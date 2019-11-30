@@ -12,9 +12,7 @@ public abstract class Constants {
 	public static String STR_INFO;
 	public static String STR_TITLE;
 	
-	//dimensions
-	public static Dimension DIM_DIALOG;
-	
 	//fonts
 	public final static Font FONT = new Font("Helvetica", Font.PLAIN, 18);
+	
 }

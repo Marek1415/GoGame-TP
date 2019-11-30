@@ -22,6 +22,7 @@ import static constants.SizeModConstants.*;
  */
 @SuppressWarnings("serial")
 public class SizeMod extends JDialog {
+	//TODO make class abstract
 	
 	//buttons
 	AbstractButton sizeButton;
@@ -78,6 +79,7 @@ public class SizeMod extends JDialog {
 	}
 	
     public static void main( String[] args ) {
+    	//TODO delete main method
 		new SizeMod(new int[] {7,9,13, 25, 253});
     }
     
