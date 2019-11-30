@@ -97,14 +97,16 @@ public class EndMod extends JDialog {
 		setVisible(true);
 	}
 	
-	/** Resign method, must be override by parent. */
+	/** Giving up, must be override by parent. */
 	public void resign() {
-		System.out.println("Resign!");							//<make this abstract
+		//TODO make this abstract
+		System.out.println("Resign!");
 	}
 	
-	/** End method, must be override by parent. */
+	/** Proposing end, must be override by parent. */
 	public void end() {
-		System.out.println("End!");								//<this one too
+		//TODO make this abstract
+		System.out.println("End!");
 	}
 	
 	/** Cancel method, close the window. */
@@ -120,7 +122,7 @@ public class EndMod extends JDialog {
      * Action Button for performing action on parent.
      */
     @SuppressWarnings("serial")
-	private class ActionButton extends JButton {
+	private abstract class ActionButton extends JButton {
     	
     	/*
     	 * constructor
@@ -144,11 +146,12 @@ public class EndMod extends JDialog {
     	/*
     	 * action method, must be override by parent
     	 */
-    	public void action() {															//< make this abstract
-    		//override
-    	}
+    	public abstract void action();
     }
     
+    /*
+     * Label for displaying info about dialog.
+     */
     private class InfoLabel extends JLabel {
     	
     	private InfoLabel(String text, Dimension dim) {

@@ -13,43 +13,26 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 
-import static constants.StartModConstants.*;
+import static constants.SizeModConstants.*;
 
 
 /**
  * @author gumises
- * Start dialog, client chooses the game mode.
+ * Size dialog, client chooses the board size.
  */
 @SuppressWarnings("serial")
-public class StartMod extends JDialog {
-
-	//action buttons
-	AbstractButton playerButton;
-	AbstractButton botButton;
+public class SizeMod extends JDialog {
+	
+	//buttons
+	AbstractButton sizeButton;
 	
 	//labels
 	JLabel infoLabel;
 	
-	public StartMod() {
+	public SizeMod(final int [] sizes) {
 		
 		//info label
 		infoLabel = new InfoLabel(STR_INFO, DIM_INFO);
-		
-		//end button
-		playerButton = new ActionButton(STR_PLAYER, DIM_PLAYER, COL_PLAYER) {
-			@Override
-			public void action() {
-				player();
-			}
-		};
-		
-		//resign button
-		botButton = new ActionButton(STR_BOT, DIM_BOT, COL_BOT) {
-			@Override
-			public void action() {
-				bot();
-			}
-		};
 		
 		//gridBagLayout, gridBagConstraint
 		GridBagLayout layout = new GridBagLayout(); 
@@ -59,61 +42,65 @@ public class StartMod extends JDialog {
 		//info
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		gbc.gridwidth = 2;
+		gbc.gridwidth = 3;
 		gbc.insets = new Insets(5, 5, 5, 5);
 		add(infoLabel, gbc);
 		
-		//end
-		gbc.gridx = 0;
-		gbc.gridy = 1;
 		gbc.gridwidth = 1;
-		add(playerButton, gbc);
 		
-		//resign
-		gbc.gridx = 1;
-		gbc.gridy = 1;
-		add(botButton, gbc);
+		for(int i = 0; i < sizes.length; i++) {
+			
+			sizeButton = new ActionButton(DIM_BUTTON, COL_BUTTON, sizes[i]) {
+				
+				@Override
+				public void action() {
+					boardSize(size);
+				}
+			};
+			
+			gbc.gridx = i%3;
+			gbc.gridy = 1 + i/3;
+			gbc.gridwidth = 1;
+			add(sizeButton, gbc);
+		}
 		
 		setTitle(STR_TITLE);
-		setPreferredSize(DIM_DIALOG);
 		setResizable(false);
 		
 		pack();
 		setVisible(true);
 	}
 	
-	/** Playing with the other player method, must be override by parent. */
-	public void player() {
+	/** Sets the board size, must be override by parent. */
+	public void boardSize(int newSize) {
 		//TODO make this abstract
-		System.out.println("Player!");
-	}
-	
-	/** Playing with bot, must be override by parent. */
-	public void bot() {
-		//TODO make this abstract
-		System.out.println("Bot!");
+		System.out.println(newSize);
 	}
 	
     public static void main( String[] args ) {
-		new StartMod();
+		new SizeMod(new int[] {7,9,13, 25, 253});
     }
     
     /*
      * Action Button for performing action on parent.
      */
-    @SuppressWarnings("serial")
-	private abstract class ActionButton extends JButton {
+    private abstract class ActionButton extends JButton {
+    	
+    	//board size
+    	int size;
     	
     	/*
     	 * constructor
     	 */
-    	private ActionButton(String text, Dimension dim, Color col) {
+    	private ActionButton(Dimension dim, Color col, int newSize) {
     		
-    		super(text);
+    		super();
+    		setText(getName(newSize));
+    		this.size = newSize;
     		setPreferredSize(dim);
     		setBackground(col);
     		setForeground(COL_FOREGROUND);
-    		setFont(FONT);
+    		setFont(FONT_BUTTON);
     		
     		addActionListener(new ActionListener() {
       			public void actionPerformed(ActionEvent event) {
@@ -127,6 +114,16 @@ public class StartMod extends JDialog {
     	 * action method, must be override by parent
     	 */
     	public abstract void action();
+    	
+
+    	/**
+    	 * Calculate the button name by the size.
+    	 * @param size
+    	 * @return name of the button
+    	 */
+    	private String getName(int size) {
+    		return Integer.toString(size) + "x" + Integer.toString(size);
+    	}
     }
     
     /*

@@ -1,4 +1,4 @@
-package client.modules;
+package constants;
 
 import java.awt.Dimension;
 import java.awt.Font;
@@ -8,7 +8,13 @@ import java.awt.Font;
  */
 public abstract class Constants {
 
+	//strings
 	public static String STR_INFO;
-	public static Font FONT;
+	public static String STR_TITLE;
+	
+	//dimensions
 	public static Dimension DIM_DIALOG;
+	
+	//fonts
+	public final static Font FONT = new Font("Helvetica", Font.PLAIN, 18);
 }

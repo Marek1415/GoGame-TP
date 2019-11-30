@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 
-import client.modules.Constants;
-
 
 public final class EndModConstants extends Constants{
 	
@@ -23,12 +21,11 @@ public final class EndModConstants extends Constants{
 	public final static Dimension DIM_INFO = new Dimension(600,90);
 	public final static Dimension DIM_DIALOG = new Dimension(800,300);
 	
-	//font
-	public final static Font FONT = new Font("Helvetica", Font.PLAIN, 18);
-	
 	//colors
 	public final static Color COL_END = Color.GREEN;
 	public final static Color COL_RESIGN = Color.RED;
 	public final static Color COL_CANCEL = Color.DARK_GRAY;
 	public final static Color COL_FOREGROUND = Color.WHITE;
+	
+	private EndModConstants() {}
 }
