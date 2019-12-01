@@ -4,7 +4,10 @@ import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
+import javax.swing.OverlayLayout;
+
 import static constants.PanelsConstants.*;
 
 import java.awt.Color;
@@ -14,8 +17,11 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /*
  * Panel for displaying board.
@@ -24,16 +30,17 @@ public class BoardPanel extends JFrame {
 	//TODO make class abstract
 
 	//components
-	private LayerGrid layerGrid;
-	private LayerButtons layerButtons;
+	private Board board;
 	private XAxis xAxis;
 	private YAxis yAxis;
 	
 	public BoardPanel() {
+		
 		super();
 		//setPreferredSize(DIM_BOARDINIT);
 		setBackground(COL_BOARDINIT);
 		setVisible(true);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 	
 	/** Initializes the board panel.*/
@@ -42,8 +49,7 @@ public class BoardPanel extends JFrame {
 		//components
 		xAxis = new XAxis(size);
 		yAxis = new YAxis(size);
-		layerButtons = new LayerButtons(size);
-		layerGrid = new LayerGrid(size);
+		board = new Board(size);
 		
 		//gridBagLayout, gridBagConstraint
 		GridBagLayout layout = new GridBagLayout(); 
@@ -71,20 +77,13 @@ public class BoardPanel extends JFrame {
 		gbc.weightx = 0.5;
 		gbc.weighty = size;
 		add(yAxis, gbc);
-
-		//layer buttons
-		//bc.gridx = 1;
-		//gbc.gridy = 1;
-		//gbc.weightx = size;
-		//gbc.weighty = size;
-		//add(layerButtons, gbc);
 		
-		//layer grid
+		//board
 		gbc.gridx = 1;
 		gbc.gridy = 1;
 		gbc.weightx = size;
 		gbc.weighty = size;
-		add(layerGrid, gbc);
+		add(board, gbc);
 		
 		setVisible(true);
 		setBackground(Color.WHITE);
@@ -101,6 +100,35 @@ public class BoardPanel extends JFrame {
 		System.out.println("Pressed :" + number);
 	}
 	
+	public void repaintNow(Rectangle rec) {
+		board.repaintNow(rec);
+	}
+	
+	/*
+	 * Panel with layers of buttons and grid
+	 */
+	private class Board extends JLayeredPane {
+		
+		//components
+		private LayerGrid layerGrid;
+		private LayerButtons layerButtons;
+		
+		public Board(int size) {
+			super();
+			
+			//components
+			layerButtons = new LayerButtons(size);
+			layerGrid = new LayerGrid(size);
+			
+			setLayout(new OverlayLayout(this));
+			add(layerGrid, 0);
+			add(layerButtons, 1);
+		}
+		
+		public void repaintNow(Rectangle rec) {
+			layerGrid.repaint(rec);
+		}
+	}
 	/*
 	 * Panel for displaying buttons.
 	 */
@@ -111,6 +139,7 @@ public class BoardPanel extends JFrame {
 		public LayerButtons(int size) {
 			
 			buttons = new BoardButton[size][size];
+			
 			setLayout(new GridLayout(size,size));
 			//setPreferredSize(DIM_BOARD);
 			
@@ -121,7 +150,13 @@ public class BoardPanel extends JFrame {
 					add(buttons[i][j]);
 					k++;
 				}
-				
+		}
+		
+		public void repaintButtons( ) {
+			for(int i = 0; i < 7; i++)
+				for(int j = 0; j < 7; j++) {
+					buttons[i][j].repaint();
+				}
 		}
 	}
 	
@@ -168,11 +203,31 @@ public class BoardPanel extends JFrame {
 		public BoardButton(final int number) {
 			super();
 			this.number =  number;
+			//setOpaque(false);
+			//setContentAreaFilled(false);
+			setBorderPainted(false);
+			setVisible(true);
+			//setBackground(new Color(0,0,0,125));
 			
     		addActionListener(new ActionListener() {
       			public void actionPerformed(ActionEvent event) {
         			buttonPressed(number);
       			}
+    		});
+    		
+    		addMouseListener(new MouseAdapter() {
+    			
+    			@Override
+    			public void mouseEntered(MouseEvent e) {
+    				setBackground(Color.YELLOW);
+    			}
+    			
+    			@Override
+    			public void mouseExited(MouseEvent e) {
+    				setBackground(new Color(0,0,0,0));
+    				//repaint();
+    				repaintNow(getBounds());
+    			}
     		});
 		}
 	}
