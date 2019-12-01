@@ -33,6 +33,7 @@ implements AgreeMethod, EndMethod, RoomMethod, SizeMethod, StartMethod, ModInits
 	public Client() {
 		
 		boardPanel = new BoardPanel();
+		boardPanel.init(7);
 		
 		//action panel
 		actionPanel = new ActionPanel() {
