@@ -10,21 +10,22 @@ import java.io.*;
 
 class SocketServer
 {
+	int game[][] = new int[13][13];
 	ServerSocket server = null;
 	Socket client = null;
 	Scanner in = null;
 	PrintWriter out = null;
 	String line = "";
-	int port_number = 4444;
+	int portNumber = 4444;
 	SocketServer()
 	{
 		try
 			{
-				server = new ServerSocket(port_number);
+				server = new ServerSocket(portNumber);
 			}
 		catch(IOException e)
 			{
-				System.out.println("Nie można utworzyć serwera na porcie " + port_number);
+				System.out.println("Nie można utworzyć serwera na porcie " + portNumber);
 				System.exit(-1);
 			}
 	}
@@ -46,7 +47,7 @@ class SocketServer
 			}
 		catch(IOException e)
 			{
-				System.out.println("Accept failed: 4444");
+				System.out.println("Accept failed: " + portNumber);
 				System.exit(-1);
 			}
 		while(line != null)
@@ -58,7 +59,7 @@ class SocketServer
 								break;
 							}
 						line = in.nextLine();
-						System.out.println(line);
+						out.println("ok");
 					}
 				catch(Exception e)
 					{
