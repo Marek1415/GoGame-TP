@@ -194,18 +194,19 @@ implements PawnOperations {
 		implements PawnOperations {
 			
 			AbstractButton[][] buttons;
-			//int size;
+			int size;
 			
-			//final ImageIcon WHITE;
-			//final ImageIcon BLACK;
+			final ImageIcon WHITE;
+			final ImageIcon BLACK;
 			
 			public LayerButtons(int size) {
 				
 				buttons = new BoardButton[size][size];
-				//this.size = size;
+				setLayout(new GridLayout(size,size));
+				this.size = size;
 				
-				//WHITE = getScaledImage("/Go/images/white.png");
-				//BLACK = getScaledImage("/Go/images/black.png");
+				WHITE = getScaledImage("/Go/images/white.png");
+				BLACK = getScaledImage("/Go/images/black.png");
 				
 				//setPreferredSize(DIM_BOARD);
 				
@@ -239,12 +240,12 @@ implements PawnOperations {
 			}
 			
 			/** Return scaled icon.*/
-			//public ImageIcon getScaledImage(String path) {
-			//	ImageIcon imageIcon = new ImageIcon(path);
-			//	Image image = imageIcon.getImage();
-			//	Image newimg = image.getScaledInstance(10, 10,  java.awt.Image.SCALE_SMOOTH);
-			//	return new ImageIcon(newimg);
-			//}
+			public ImageIcon getScaledImage(String path) {
+				ImageIcon imageIcon = new ImageIcon(path);
+				Image image = imageIcon.getImage();
+				Image newimg = image.getScaledInstance(10, 10,  java.awt.Image.SCALE_SMOOTH);
+				return new ImageIcon(newimg);
+			}
 		}
 		
 		/*
