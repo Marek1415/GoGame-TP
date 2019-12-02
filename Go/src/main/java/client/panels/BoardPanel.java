@@ -275,6 +275,7 @@ implements PawnOperations {
 				//setContentAreaFilled(false);
 				setBorderPainted(false);
 				setVisible(true);
+				setPreferredSize(new Dimension(10,10));
 				//setBackground(new Color(0,0,0,125));
 	    		
 	    		addMouseListener(new MouseAdapter() {
@@ -341,6 +342,7 @@ implements PawnOperations {
 			setVerticalAlignment(CENTER);
 			setFont(FONT_AXIS);
 			setForeground(COL_AXIS);
+			//getInsets(new Insets(0,0,0,0));
 			setPreferredSize(new Dimension(1,1));
 		}
 	}
