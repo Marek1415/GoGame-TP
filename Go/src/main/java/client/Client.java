@@ -4,18 +4,24 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.Scanner;
 
 import javax.swing.JFrame;
 
-import client.interfaces.AgreeMethod;
-import client.interfaces.EndMethod;
-import client.interfaces.ModInits;
-import client.interfaces.RoomMethod;
-import client.interfaces.SizeMethod;
-import client.interfaces.StartMethod;
-import client.panels.ActionPanel;
-import client.panels.BoardPanel;
-import client.panels.MessengerPanel;
+import client_interfaces.AgreeMethod;
+import client_interfaces.EndMethod;
+import client_interfaces.ModInits;
+import client_interfaces.RoomMethod;
+import client_interfaces.SizeMethod;
+import client_interfaces.StartMethod;
+import client_panels.ActionPanel;
+import client_panels.BoardPanel;
+import client_panels.MessengerPanel;
 
 /**
  * @author gumises
@@ -28,7 +34,9 @@ implements AgreeMethod, EndMethod, RoomMethod, SizeMethod, StartMethod, ModInits
 	private BoardPanel boardPanel;
 	private ActionPanel actionPanel;
 	//private MessengerPanel messengerPanel;
-	
+	Socket socket = null;
+	PrintWriter out = null;
+	Scanner in = null;
 	/** Public constructor. */
 	public Client() {
 		
@@ -84,9 +92,10 @@ implements AgreeMethod, EndMethod, RoomMethod, SizeMethod, StartMethod, ModInits
 		//gbc.gridy = 1;
 		//gbc.gridheight = 1;
 		//add(messengerPanel, gbc);
-		
+		listen();
 		pack();
 		setVisible(true);
+		out.println("checking");
 	}
 	
 	public void readyInit() {
@@ -131,9 +140,29 @@ implements AgreeMethod, EndMethod, RoomMethod, SizeMethod, StartMethod, ModInits
 
 	}
 
+	public void listen()
+	{
+		try
+			{
+				socket = new Socket("localhost", 4444);
+				out = new PrintWriter(socket.getOutputStream(), true);
+				in = new Scanner(new InputStreamReader(socket.getInputStream()));
+			}
+		catch(UnknownHostException e)
+			{
+				System.out.println("Nieznany host");
+				System.exit(1);
+			}
+		catch(IOException e)
+			{
+				System.out.println("Brak I/O");
+				System.exit(1);
+			}
+	}
+
 	/** Creating new Client. */
 	public static void main(String[] args) {
-		new Client();
+		Client client = new Client();
 	}
 
 }
