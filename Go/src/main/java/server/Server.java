@@ -23,7 +23,6 @@ class SocketServer
 	SocketServer()
 	{
 		serverThreads = new ArrayList<ServerThread>();
-		Arrays.fill(game, 0);
 		try
 			{
 				server = new ServerSocket(portNumber);
@@ -80,9 +79,33 @@ class SocketServer
 		  System.exit(-1);
 		  }
 		  }*/
-		while(serverThreads.size() < 2)
+		while(true)
 			{
-				//Socket server = ;
+			Socket socket = null;
+				try
+					{
+						socket = server.accept();
+					}
+				catch(Exception e)
+					{
+						System.out.println("Błąd przy tworzeniu wątku");
+						System.exit(-1);
+					}
+				int color;
+				if(serverThreads.size() < 3)
+				{
+					if(serverThreads.size() == 0)
+					{
+						color = 1;
+					}
+					else
+					{
+						color = -1;
+					}
+					ServerThread serverThread = new ServerThread(socket, color);
+					serverThreads.add(serverThread);
+					serverThread.run();
+				}
 			}
 	}
 	
@@ -128,6 +151,7 @@ class ServerThread extends Thread
 		
 	public void run()
 	{
+		System.out.println(this.color + "wątek zadziałał");
 		while(true)
 			{
 				try

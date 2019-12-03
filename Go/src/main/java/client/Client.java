@@ -29,7 +29,8 @@ import client_panels.MessengerPanel;
  * @author gumises
  * Client GUI, displays Board, action Buttons, ... TODO add more
  */
-public class Client extends JFrame {
+public class Client extends JFrame
+{
 	//implements AgreeMethod, EndMethod, RoomMethod, SizeMethod, StartMethod, ModInits {
 	SimpleGuiForTest myPanel;
 	//components
@@ -42,7 +43,8 @@ public class Client extends JFrame {
 	Scanner in = null;
 	
 	/** Public constructor. */
-	public Client() {
+	public Client()
+	{
 		myPanel = new SimpleGuiForTest();
 		add(myPanel);
 		/*boardPanel = new BoardPanel();
