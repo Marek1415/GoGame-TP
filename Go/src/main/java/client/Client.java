@@ -11,7 +11,9 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
-import javax.swing.JFrame;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 
 import client_interfaces.AgreeMethod;
 import client_interfaces.EndMethod;
@@ -27,75 +29,79 @@ import client_panels.MessengerPanel;
  * @author gumises
  * Client GUI, displays Board, action Buttons, ... TODO add more
  */
-public class Client extends JFrame 
-implements AgreeMethod, EndMethod, RoomMethod, SizeMethod, StartMethod, ModInits {
-
+public class Client extends JFrame {
+	//implements AgreeMethod, EndMethod, RoomMethod, SizeMethod, StartMethod, ModInits {
+	SimpleGuiForTest myPanel;
 	//components
+	int Game[][] = new int[13][13];
 	private BoardPanel boardPanel;
 	private ActionPanel actionPanel;
 	//private MessengerPanel messengerPanel;
 	Socket socket = null;
 	PrintWriter out = null;
 	Scanner in = null;
+	
 	/** Public constructor. */
 	public Client() {
+		myPanel = new SimpleGuiForTest();
+		add(myPanel);
+		/*boardPanel = new BoardPanel();
+		  boardPanel.init(7);
 		
-		boardPanel = new BoardPanel();
-		boardPanel.init(7);
-		
-		//action panel
-		actionPanel = new ActionPanel() {
+		  //action panel
+		  actionPanel = new ActionPanel() {
 			
-			@Override
-			public void ready() {
-				readyInit();
-			}
+		  @Override
+		  public void ready() {
+		  readyInit();
+		  }
 			
-			@Override
-			public void check() {
-				checkInit();
-			}
+		  @Override
+		  public void check() {
+		  checkInit();
+		  }
 			
-			@Override
-			public void end() {
-				endInit();
-			}
-		};
+		  @Override
+		  public void end() {
+		  endInit();
+		  }
+		  };
 		
-		//messengerPanel = new MessengerPanel();
+		  //messengerPanel = new MessengerPanel();
 		
-		//gridBagLayout, gridBagConstraint
-		GridBagLayout layout = new GridBagLayout(); 
-		GridBagConstraints gbc = new GridBagConstraints();
-		setLayout(layout);
+		  //gridBagLayout, gridBagConstraint
+		  GridBagLayout layout = new GridBagLayout(); 
+		  GridBagConstraints gbc = new GridBagConstraints();
+		  setLayout(layout);
 		
 		
-		//gbc init
-		gbc.insets = new Insets(5, 5, 5, 5);
-		gbc.weightx = 1;
-		gbc.weighty = 1;
-		gbc.fill = GridBagConstraints.BOTH;
+		  //gbc init
+		  gbc.insets = new Insets(5, 5, 5, 5);
+		  gbc.weightx = 1;
+		  gbc.weighty = 1;
+		  gbc.fill = GridBagConstraints.BOTH;
 		
-		//board panel
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		add(boardPanel, gbc);
+		  //board panel
+		  gbc.gridx = 0;
+		  gbc.gridy = 0;
+		  add(boardPanel, gbc);
 		
-		//action panel
-		gbc.gridx = 1;
-		gbc.gridy = 0;
-		gbc.gridheight = 1;
-		add(actionPanel, gbc);
+		  //action panel
+		  gbc.gridx = 1;
+		  gbc.gridy = 0;
+		  gbc.gridheight = 1;
+		  add(actionPanel, gbc);
 		
-		//messenger panel
-		//gbc.gridx = 0;
-		//gbc.gridy = 1;
-		//gbc.gridheight = 1;
-		//add(messengerPanel, gbc);
+		  //messenger panel
+		  //gbc.gridx = 0;
+		  //gbc.gridy = 1;
+		  //gbc.gridheight = 1;
+		  //add(messengerPanel, gbc);*/
+		setBounds(100, 100, 800, 800); 
 		listen();
-		pack();
+		//pack();
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
 		setVisible(true);
-		out.println("checking");
 	}
 	
 	public void readyInit() {
@@ -109,37 +115,90 @@ implements AgreeMethod, EndMethod, RoomMethod, SizeMethod, StartMethod, ModInits
 	public void endInit() {
 		System.out.println("End!");
 	}
-	
-	public void startMode(int mode) {
-		// TODO Auto-generated method stub
+
+	class ButtonsListener implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e)
+		{
+			Button button = (Button)e.getSource();
+			String command = button.getActionCommand();
+			out.println(command);
+			try
+				{
+					int dimensionsX;
+					int dimensionsY;
+					String data = in.nextLine();
+					try
+					{
+						String splitString[] = command.split("X|Y");
+						dimensionsX = Integer.parseInt(splitString[1]);
+						dimensionsY = Integer.parseInt(splitString[2]);
+						if(data.equals("ok"))
+							{
+								myPanel.panelButtons[dimensionsX][dimensionsY].setBackground(Color.BLACK);
+								repaint();
+							}
+					}
+					catch(Exception ex)
+					{
+						System.out.println("Error parsing int");
+					}
+				}
+			catch(Exception ex)
+				{
+					System.out.println("Error");
+					System.exit(1);
+				}
+		}
+	}
+	/*public void startMode(int mode) {
+	// TODO Auto-generated method stub
 
 	}
 
 	public void sizeBoard(int size) {
-		// TODO Auto-generated method stub
+	// TODO Auto-generated method stub
 
 	}
 
 	public void roomNoumber(int roomNoumber) {
-		// TODO Auto-generated method stub
+	// TODO Auto-generated method stub
 
 	}
 
 	public void roomNew() {
-		// TODO Auto-generated method stub
+	// TODO Auto-generated method stub
 
 	}
 
 	public void endMode(int mode) {
-		// TODO Auto-generated method stub
+	// TODO Auto-generated method stub
 
 	}
 
 	public void agreeMode(int mode) {
-		// TODO Auto-generated method stub
+	// TODO Auto-generated method stub
 
+	}*/
+	
+	public class SimpleGuiForTest extends JPanel{
+		Button panelButtons[][];
+		SimpleGuiForTest()
+		{
+			panelButtons = new Button[13][13];
+			setLayout(new GridLayout(13, 13));
+			panelButtons = new Button[13][13];
+			for(int i = 0; i < 13; i++)
+				{
+					for(int j = 0; j < 13; j++)
+						{
+							panelButtons[i][j] = new Button("X" + i + "Y" + j);
+							panelButtons[i][j].addActionListener(new ButtonsListener());
+							add(panelButtons[i][j]);
+						}
+				}
+		}
 	}
-
 	public void listen()
 	{
 		try
