@@ -31,6 +31,7 @@ import client_panels.MessengerPanel;
  */
 public class Client extends JFrame
 {
+	boolean wait;
 	Color color, enemyColor;
 	//implements AgreeMethod, EndMethod, RoomMethod, SizeMethod, StartMethod, ModInits {
 	SimpleGuiForTest myPanel;
@@ -100,23 +101,35 @@ public class Client extends JFrame
 		  //gbc.gridy = 1;
 		  //gbc.gridheight = 1;
 		  //add(messengerPanel, gbc);*/
-		listen();
 		setBounds(100, 100, 800, 800); 
-		System.out.println("Czekam na kolor");
-		if(in.nextLine().equals("black"))
+		//pack();
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+		setVisible(true);
+		listen();
+		String data = in.nextLine();
+		if(data.equals("black"))
 		{
 			color = Color.BLACK;
 			enemyColor = Color.GREEN;
+			System.out.println("black");
+			String splitString[];
+			int dimensionsX, dimensionsY;
+				if(in.hasNextLine())
+				{
+					data = in.nextLine();
+					System.out.println(data);
+					splitString = data.split("X|Y");
+					dimensionsX = Integer.parseInt(splitString[1]);
+					dimensionsY = Integer.parseInt(splitString[2]);
+					myPanel.panelButtons[dimensionsX][dimensionsY].setBackground(enemyColor);
+					repaint();
+				}
 		}
-		else
+		else if(data.equals("green"))
 		{
 			color = Color.GREEN;
 			enemyColor = Color.BLACK;
 		}
-		System.out.println("Mam kolor" + color);
-		//pack();
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
-		setVisible(true);
 	}
 	
 	public void readyInit() {
@@ -136,20 +149,17 @@ public class Client extends JFrame
 		public void actionPerformed(ActionEvent e)
 		{
 			String data;
+			
 			String splitString[];
 			int dimensionsX, dimensionsY;
-			data = in.nextLine();
-			splitString = data.split("X|Y");
-			dimensionsX = Integer.parseInt(splitString[1]);
-			dimensionsY = Integer.parseInt(splitString[2]);
-			myPanel.panelButtons[dimensionsX][dimensionsY].setBackground(enemyColor);
-			repaint();
+			System.out.println("Sukces");
 			Button button = (Button)e.getSource();
 			String command = button.getActionCommand();
 			out.println(command);
 			try
 				{
 					data = in.nextLine();
+					System.out.println("data " + data);
 					try
 					{
 						splitString = command.split("X|Y");
@@ -160,6 +170,16 @@ public class Client extends JFrame
 								myPanel.panelButtons[dimensionsX][dimensionsY].setBackground(color);
 								repaint();
 							}
+						if(in.hasNextLine())
+						{
+							data = in.nextLine();
+							System.out.println(data);
+							splitString = data.split("X|Y");
+							dimensionsX = Integer.parseInt(splitString[1]);
+							dimensionsY = Integer.parseInt(splitString[2]);
+							myPanel.panelButtons[dimensionsX][dimensionsY].setBackground(enemyColor);
+							repaint();
+						}
 					}
 					catch(Exception ex)
 					{
@@ -239,7 +259,7 @@ public class Client extends JFrame
 				System.out.println("Brak I/O");
 				System.exit(1);
 			}
-	}
+		}
 
 	/** Creating new Client. */
 	public static void main(String[] args) {

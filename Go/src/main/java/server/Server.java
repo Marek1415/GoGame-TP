@@ -166,6 +166,7 @@ class ServerThread extends Thread
 			opponent = SocketServer.serverThreads.get(0);
 		}
 		System.out.println(this.color + " wątek zadziałał");
+		System.out.println(opponent + " to mój przeciwnik");
 		if(color == 1)
 			{
 				threadOut.println("black");
