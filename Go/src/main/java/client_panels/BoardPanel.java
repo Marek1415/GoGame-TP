@@ -47,6 +47,7 @@ implements PawnOperations {
 		setBackground(COL_BOARDINIT);
 		setVisible(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setResizable(false);
 	}
 	
 	/** Initializes the board panel.*/
