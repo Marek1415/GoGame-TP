@@ -103,7 +103,13 @@ class SocketServer
 					}
 					ServerThread serverThread = new ServerThread(socket, color);
 					serverThreads.add(serverThread);
-					serverThread.start();
+				}
+				if(serverThreads.size() == 2)
+				{
+					for(ServerThread t: serverThreads)
+					{
+						t.start();
+					}
 				}
 			}
 	}
@@ -131,6 +137,7 @@ class ServerThread extends Thread
 	PrintWriter threadOut = null;
 	Socket socket = null;
 	String line;
+	ServerThread opponent;
 	int color;
 	ServerThread(Socket socket, int color)
 	{
@@ -150,6 +157,14 @@ class ServerThread extends Thread
 		
 	public void run()
 	{
+		if(color == 1)
+		{
+			opponent = SocketServer.serverThreads.get(1);
+		}
+		else
+		{
+			opponent = SocketServer.serverThreads.get(0);
+		}
 		System.out.println(this.color + " wątek zadziałał");
 		if(color == 1)
 			{
@@ -177,6 +192,7 @@ class ServerThread extends Thread
 									{
 										SocketServer.game[dimensionsX][dimensionsY] = color;
 										threadOut.println("ok");
+										opponent.threadOut.println(line);
 									}
 							}
 						catch(Exception e)

@@ -102,7 +102,18 @@ public class Client extends JFrame
 		  //add(messengerPanel, gbc);*/
 		listen();
 		setBounds(100, 100, 800, 800); 
-		
+		System.out.println("Czekam na kolor");
+		if(in.nextLine().equals("black"))
+		{
+			color = Color.BLACK;
+			enemyColor = Color.GREEN;
+		}
+		else
+		{
+			color = Color.GREEN;
+			enemyColor = Color.BLACK;
+		}
+		System.out.println("Mam kolor" + color);
 		//pack();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
 		setVisible(true);
@@ -124,20 +135,13 @@ public class Client extends JFrame
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-			if(in.nextLine().equals("black"))
-			{
-				color = Color.BLACK;
-				enemyColor = Color.GREEN;
-			}
-			else
-			{
-				color = Color.GREEN;
-				enemyColor = Color.BLACK;
-			}
-			String data = in.nextLine();
-			String splitString[] = data.split("X|Y");
-			int dimensionsX = Integer.parseInt(splitString[1]);
-			int dimensionsY = Integer.parseInt(splitString[2]);
+			String data;
+			String splitString[];
+			int dimensionsX, dimensionsY;
+			data = in.nextLine();
+			splitString = data.split("X|Y");
+			dimensionsX = Integer.parseInt(splitString[1]);
+			dimensionsY = Integer.parseInt(splitString[2]);
 			myPanel.panelButtons[dimensionsX][dimensionsY].setBackground(enemyColor);
 			repaint();
 			Button button = (Button)e.getSource();
