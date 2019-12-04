@@ -31,8 +31,7 @@ import client_interfaces.*;
  * Panel for displaying board.
  */
 @SuppressWarnings("serial")
-public class BoardPanel extends JFrame
-implements PawnOperations {
+public class BoardPanel extends JFrame implements PawnOperations {
 	//TODO make class abstract
 
 	//components
@@ -100,7 +99,7 @@ implements PawnOperations {
 	public static void main(String [] args) {
 		//TODO delete main method
 		BoardPanel boardPanel = new BoardPanel();
-		boardPanel.init(7);
+		boardPanel.init(50);
 		boardPanel.addPawn(5, PAWN_WHITE);
 		boardPanel.addPawn(15, PAWN_WHITE);
 		boardPanel.addPawn(24, PAWN_BLACK);
