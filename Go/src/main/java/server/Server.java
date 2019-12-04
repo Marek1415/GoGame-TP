@@ -14,7 +14,7 @@ class SocketServer
 {
 	static int game[][] = new int[13][13];
 	ServerSocket server = null;
-	Socket client = null;
+	Socket socket = null;
 	Scanner in = null;
 	PrintWriter out = null;
 	String line = "";
@@ -81,7 +81,6 @@ class SocketServer
 		  }*/
 		while(true)
 			{
-			Socket socket = null;
 				try
 					{
 						socket = server.accept();
@@ -104,7 +103,7 @@ class SocketServer
 					}
 					ServerThread serverThread = new ServerThread(socket, color);
 					serverThreads.add(serverThread);
-					serverThread.run();
+					serverThread.start();
 				}
 			}
 	}
@@ -115,7 +114,7 @@ class SocketServer
 			{
 				in.close();
 				out.close();
-				client.close();
+				socket.close();
 				server.close();
 			}
 		catch(IOException e)
@@ -151,7 +150,15 @@ class ServerThread extends Thread
 		
 	public void run()
 	{
-		System.out.println(this.color + "wątek zadziałał");
+		System.out.println(this.color + " wątek zadziałał");
+		if(color == 1)
+			{
+				threadOut.println("black");
+			}
+		else
+			{
+				threadOut.println("green");
+			}
 		while(true)
 			{
 				try

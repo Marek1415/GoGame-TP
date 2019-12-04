@@ -31,6 +31,7 @@ import client_panels.MessengerPanel;
  */
 public class Client extends JFrame
 {
+	Color color, enemyColor;
 	//implements AgreeMethod, EndMethod, RoomMethod, SizeMethod, StartMethod, ModInits {
 	SimpleGuiForTest myPanel;
 	//components
@@ -99,8 +100,9 @@ public class Client extends JFrame
 		  //gbc.gridy = 1;
 		  //gbc.gridheight = 1;
 		  //add(messengerPanel, gbc);*/
-		setBounds(100, 100, 800, 800); 
 		listen();
+		setBounds(100, 100, 800, 800); 
+		
 		//pack();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
 		setVisible(true);
@@ -122,22 +124,36 @@ public class Client extends JFrame
 	{
 		public void actionPerformed(ActionEvent e)
 		{
+			if(in.nextLine().equals("black"))
+			{
+				color = Color.BLACK;
+				enemyColor = Color.GREEN;
+			}
+			else
+			{
+				color = Color.GREEN;
+				enemyColor = Color.BLACK;
+			}
+			String data = in.nextLine();
+			String splitString[] = data.split("X|Y");
+			int dimensionsX = Integer.parseInt(splitString[1]);
+			int dimensionsY = Integer.parseInt(splitString[2]);
+			myPanel.panelButtons[dimensionsX][dimensionsY].setBackground(enemyColor);
+			repaint();
 			Button button = (Button)e.getSource();
 			String command = button.getActionCommand();
 			out.println(command);
 			try
 				{
-					int dimensionsX;
-					int dimensionsY;
-					String data = in.nextLine();
+					data = in.nextLine();
 					try
 					{
-						String splitString[] = command.split("X|Y");
+						splitString = command.split("X|Y");
 						dimensionsX = Integer.parseInt(splitString[1]);
 						dimensionsY = Integer.parseInt(splitString[2]);
 						if(data.equals("ok"))
 							{
-								myPanel.panelButtons[dimensionsX][dimensionsY].setBackground(Color.BLACK);
+								myPanel.panelButtons[dimensionsX][dimensionsY].setBackground(color);
 								repaint();
 							}
 					}
