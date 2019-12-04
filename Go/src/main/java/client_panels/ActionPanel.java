@@ -19,7 +19,7 @@ import java.awt.event.ActionListener;
 /*
  * Panel for displaying board.
  */
-public abstract class ActionPanel extends JPanel {
+public class ActionPanel extends JFrame {
 
 	//components
 	private AbstractButton readyButton;
@@ -89,18 +89,30 @@ public abstract class ActionPanel extends JPanel {
 		gbc.gridy = 3;
 		add(endButton, gbc);
 	
+		pack();
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 		
 	}
 	
 	/** Runs after pressing ready button.*/
-	public abstract void ready();
+	public void ready() {
+		System.out.println("Ready!");
+	}
 	
 	/** Runs after pressing check button.*/
-	public abstract void check();
+	public void check() {
+		System.out.println("Check!");
+	}
 	
 	/** Runs after pressing end button.*/
-	public abstract void end();
+	public void end() {
+		System.out.println("End!");
+	}
+	
+	public static void main(String [] args) {
+		new ActionPanel();
+	}
 	
 	/** Button for performing action on parent.*/
 	@SuppressWarnings("serial")

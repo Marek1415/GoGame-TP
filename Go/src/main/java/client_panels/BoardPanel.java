@@ -99,7 +99,7 @@ public class BoardPanel extends JFrame implements PawnOperations {
 	public static void main(String [] args) {
 		//TODO delete main method
 		BoardPanel boardPanel = new BoardPanel();
-		boardPanel.init(50);
+		boardPanel.init(20);
 		boardPanel.addPawn(5, PAWN_WHITE);
 		boardPanel.addPawn(15, PAWN_WHITE);
 		boardPanel.addPawn(24, PAWN_BLACK);
