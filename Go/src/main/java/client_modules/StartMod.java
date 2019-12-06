@@ -18,11 +18,9 @@ import static constants.StartModConstants.*;
 
 /**
  * @author gumises
- * Start dialog, client chooses the game mode.
+ * Player chooses the game mode and board size.
  */
-@SuppressWarnings("serial")
 public class StartMod extends JDialog {
-	//TODO make class abstract
 
 	//action buttons
 	AbstractButton playerButton;

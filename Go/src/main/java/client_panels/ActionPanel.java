@@ -6,7 +6,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import client_interfaces.SignalSender;
+import client_modules.EndMod;
+
 import static constants.PanelsConstants.*;
+import static constants.Signals.*;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -19,7 +23,7 @@ import java.awt.event.ActionListener;
 /*
  * Panel for displaying board.
  */
-public class ActionPanel extends JFrame {
+public class ActionPanel extends JPanel implements SignalSender {
 
 	//components
 	private AbstractButton readyButton;
@@ -27,15 +31,26 @@ public class ActionPanel extends JFrame {
 	private AbstractButton endButton;
 	private JTextArea infoArea;
 	
+	//modules
+	private EndMod endModule;
+	
 	/** Constructor.*/
 	public ActionPanel() {
-		//super();
+		super();
+		
+		//end module
+		endModule = new EndMod() {
+			@Override
+			public void sendSignal(String signal) {
+				getMe().sendSignal(signal);
+			}
+		};
 		
 		//ready Button
 		readyButton = new ActionButton(STR_READY, DIM_BUTTON, COL_READY) {
 			@Override
 			public void action() {
-				ready();
+				sendSignal(CL_READY);
 			}
 		};
 		
@@ -43,7 +58,7 @@ public class ActionPanel extends JFrame {
 		checkButton = new ActionButton(STR_CHECK, DIM_BUTTON, COL_CHECK) {
 			@Override
 			public void action() {
-				check();
+				sendSignal(CL_CHECK);
 			}
 		};
 		
@@ -51,7 +66,7 @@ public class ActionPanel extends JFrame {
 		endButton = new ActionButton(STR_END, DIM_BUTTON, COL_END) {
 			@Override
 			public void action() {
-				end();
+				endModule.init();
 			}
 		};
 		
@@ -89,25 +104,20 @@ public class ActionPanel extends JFrame {
 		gbc.gridy = 3;
 		add(endButton, gbc);
 	
-		pack();
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		//pack();
+		//setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 		
 	}
 	
-	/** Runs after pressing ready button.*/
-	public void ready() {
-		System.out.println("Ready!");
+	/** Gets the instance of this object.*/
+	public ActionPanel getMe() {
+		return this;
 	}
 	
-	/** Runs after pressing check button.*/
-	public void check() {
-		System.out.println("Check!");
-	}
-	
-	/** Runs after pressing end button.*/
-	public void end() {
-		System.out.println("End!");
+	/** Sends the signal to the frame.*/
+	public void sendSignal(String signal) {
+		//System.out.println("[SIGNAL]  " + signal);
 	}
 	
 	public static void main(String [] args) {
@@ -115,7 +125,6 @@ public class ActionPanel extends JFrame {
 	}
 	
 	/** Button for performing action on parent.*/
-	@SuppressWarnings("serial")
 	private abstract class ActionButton extends JButton {
     	
     	/*
@@ -144,7 +153,6 @@ public class ActionPanel extends JFrame {
     }
 	
 	/** TextArea for displaying current game info.*/
-	@SuppressWarnings("serial")
 	private class InfoArea extends JTextArea {
 		
 		private InfoArea() {

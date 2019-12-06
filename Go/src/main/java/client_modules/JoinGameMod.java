@@ -13,33 +13,32 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 
-import static constants.RoomModConstants.*;
-import static constants.StartModConstants.STR_TITLE;
+import client_interfaces.SignalSender;
 
+import static constants.JoinGameModConstants.*;
+import static constants.Signals.*;
 
 /**
  * @author gumises
- * Room dialog, client chooses the room or creates new.
+ * Player chooses the room to join.
  */
-@SuppressWarnings("serial")
-public class RoomMod extends JDialog {
+public class JoinGameMod extends JDialog 
+implements SignalSender{
 	
 	//buttons
 	AbstractButton roomButton;
-	AbstractButton newRoomButton;
 	
 	//labels
 	JLabel infoLabel;
 	JLabel roomLabel;
 	
-	
-	public RoomMod() {
+	public JoinGameMod() {
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setTitle(STR_TITLE);
 		setResizable(false);
 	}
 	
-	public RoomMod(final String [] rooms) {
+	public void init(final String [] rooms) {
 		
 		//info label
 		infoLabel = new InfoLabel(STR_INFO, DIM_INFO);
@@ -56,18 +55,17 @@ public class RoomMod extends JDialog {
 		gbc.insets = new Insets(5, 5, 5, 5);
 		add(infoLabel, gbc);
 		
-		gbc.gridwidth = 1;
-		
 		//rooms
-		int i;
-		for(i = 0; i < rooms.length; i++) {
+		gbc.gridwidth = 1;
+		for(int i = 0; i < rooms.length; i++) {
 			
 			roomLabel = new RoomLabel(i, DIM_LABEL);
 			roomButton = new ActionButton(DIM_BUTTON, COL_BUTTON, i, rooms[i]) {
 				
 				@Override
-				public void action() {
-					room(room);
+				public void action(String signal) {
+					sendSignal(signal);
+					dispose();
 				}
 			};
 			
@@ -84,50 +82,22 @@ public class RoomMod extends JDialog {
 			add(roomLabel, gbc);
 		}
 		
-		//new room
-		newRoomButton = new ActionButton(DIM_BUTTON, COL_NEWROOM, i, STR_NEWROOM) {
-			
-			@Override
-			public void action() {
-				newRoom();
-			}
-		};
-		
-		//new room
-		gbc.gridx = i%3;
-		gbc.gridy = 1 + 2*(i/3);
-		gbc.insets = new Insets(5, 5, 0, 5);
-		add(newRoomButton, gbc);
-		
-		setTitle(STR_TITLE);
-		setResizable(false);
-		
 		pack();
 		setVisible(true);
-		
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
 	
-	/** Sets the room, must be override by parent. */
-	public void room(int newRoom) {
-		//TODO make this abstract
-		System.out.println(newRoom);
-	}
-	
-	/** Sets the board size, must be override by parent. */
-	public void newRoom() {
-		//TODO make this abstract
-		System.out.println("newRoom");
+	/** Sends the signal to the panel.*/
+	public void sendSignal(String signal) {
+		//System.out.println("[SIGNAL]  " + signal);
 	}
 	
     public static void main( String[] args ) {
     	//TODO delete main method
-		new RoomMod(new String[] {"pierwszy", "drugi", "trzeci", "czwarte"});
+		JoinGameMod joinGameMod = new JoinGameMod();
+		joinGameMod.init(new String[] {"pierwszy", "drugi", "trzeci", "czwarte"});
     }
     
-    /*
-     * Action Button for performing action on parent.
-     */
+    /** Action Button for performing action on parent.*/
     private abstract class ActionButton extends JButton {
     	
     	//room noumber
@@ -136,7 +106,7 @@ public class RoomMod extends JDialog {
     	/*
     	 * constructor
     	 */
-    	private ActionButton(Dimension dim, Color col, int newRoom, String newRoomName) {
+    	private ActionButton(Dimension dim, Color col, int newRoom, final String newRoomName) {
     		
     		super();
     		setText(newRoomName);
@@ -148,22 +118,17 @@ public class RoomMod extends JDialog {
     		
     		addActionListener(new ActionListener() {
       			public void actionPerformed(ActionEvent event) {
-        			action();
+        			action(CL_ROOMSET + " " + newRoomName);
       			}
     		});
     		
     	}
     	
-    	/*
-    	 * action method, must be override by parent
-    	 */
-    	public abstract void action();
-    	
+    	/** Action method, must be override by parent. */
+    	public abstract void action(String signal);
     }
     
-    /*
-     * Label for displaying info about dialog.
-     */
+    /** Label for displaying info about dialog. */
     private class InfoLabel extends JLabel {
     	
     	private InfoLabel(String text, Dimension dim) {
@@ -175,9 +140,7 @@ public class RoomMod extends JDialog {
     	}
     }
     
-    /*
-     * Label for displaying room number.
-     */
+    /** Label for displaying room number.*/
     private class RoomLabel extends JLabel {
     	
     	private RoomLabel(int number, Dimension dim) {

@@ -15,53 +15,50 @@ import javax.swing.JLabel;
 
 import client_interfaces.SignalSender;
 
-import static constants.EndModConstants.*;
+import static constants.StartModConstants.*;
 import static constants.Signals.*;
 
 
 /**
  * @author gumises
- * Displays option for game ending.
+ * Player chooses the game mode.
  */
-public class EndMod extends JDialog implements SignalSender {
-	//TODO make class abstract
+public class StartMod2 extends JDialog {
 
 	//action buttons
-	AbstractButton endButton;
-	AbstractButton resignButton;
-	AbstractButton cancelButton;
+	AbstractButton newGameButton;
+	AbstractButton joinGameButton;
 	
 	//labels
 	JLabel infoLabel;
 	
+	public StartMod2() {
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		setTitle(STR_TITLE);
+		setResizable(false);
+	}
+	
 	/** Initialize the dialog window.*/
-	public EndMod() {
+	public void init() {
 		
 		//info label
 		infoLabel = new InfoLabel(STR_INFO, DIM_INFO);
 		
 		//end button
-		endButton = new ActionButton(STR_END, DIM_END, COL_END) {
+		newGameButton = new ActionButton(STR_NEW, DIM_NEW, COL_NEW) {
 			@Override
 			public void action() {
-				sendSignal(CL_END);
+				newGame();
+				dispose();
 			}
 		};
 		
 		//resign button
-		resignButton = new ActionButton(STR_RESIGN, DIM_RESIGN, COL_RESIGN) {
+		joinGameButton = new ActionButton(STR_JOIN, DIM_JOIN, COL_JOIN) {
 			@Override
 			public void action() {
-				sendSignal(CL_RESIGN);
-			}
-		};
-		
-		//cancel button
-		cancelButton = new ActionButton(STR_CANCEL, DIM_CANCEL, COL_CANCEL) {
-			@Override
-			public void action() {
-				//dispose();
-				initMe(false);
+				joinGame();
+				dispose();
 			}
 		};
 		
@@ -73,7 +70,7 @@ public class EndMod extends JDialog implements SignalSender {
 		//info
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		gbc.gridwidth = 3;
+		gbc.gridwidth = 2;
 		gbc.insets = new Insets(5, 5, 5, 5);
 		add(infoLabel, gbc);
 		
@@ -81,47 +78,32 @@ public class EndMod extends JDialog implements SignalSender {
 		gbc.gridx = 0;
 		gbc.gridy = 1;
 		gbc.gridwidth = 1;
-		add(endButton, gbc);
+		add(newGameButton, gbc);
 		
 		//resign
 		gbc.gridx = 1;
 		gbc.gridy = 1;
-		add(resignButton, gbc);
-		
-		//cancel
-		gbc.gridx = 2;
-		gbc.gridy = 1;
-		add(cancelButton, gbc);
-		
-		setTitle(STR_TITLE);
-		setResizable(false);
+		add(joinGameButton, gbc);
 		
 		pack();
-		setVisible(false);
-	}
-	
-	/** Sends the signal to the panel.*/
-	public void sendSignal(String signal) {
-		//System.out.println("[SIGNAL]  " + signal);
-	}
-	
-	/** Makes the dialog visible. */
-	public void init() {
 		setVisible(true);
-	}
-	
-	/** Makes the dialog visible or invisible. */
-	public void initMe(boolean isInit) {
-		setVisible(isInit);
 	}
 	
     public static void main( String[] args ) {
     	//TODO delete main method
-		EndMod endMod = new EndMod();
-		endMod.init();
+		StartMod2 startMod = new StartMod2();
+		startMod.init();
     }
     
-    /**Performs action on parent. */
+    /** New game mode, must be override by parent.*/
+    public void newGame() {	
+    }
+    
+    /** Join game mode, must be override by parent.*/
+    public void joinGame() {
+    }
+	
+    /** Action Button for performing action on parent.*/
 	private abstract class ActionButton extends JButton {
     	
     	private ActionButton(String text, Dimension dim, Color col) {
@@ -140,11 +122,11 @@ public class EndMod extends JDialog implements SignalSender {
     		
     	}
     	
-    	/** action method, must be override by parent */
+    	/** Action method, must be override by parent. */
     	public abstract void action();
     }
     
-    /** Displaying info about dialog. */
+    /** Label for displaying info about dialog.*/
     private class InfoLabel extends JLabel {
     	
     	private InfoLabel(String text, Dimension dim) {

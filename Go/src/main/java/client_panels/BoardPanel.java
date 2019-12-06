@@ -27,12 +27,9 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import client_interfaces.*;
-/*
- * Panel for displaying board.
- */
-@SuppressWarnings("serial")
-public class BoardPanel extends JFrame implements PawnOperations {
-	//TODO make class abstract
+
+/** Displays game board. */
+public class BoardPanel extends JPanel implements PawnOperations {
 
 	//components
 	private Board board;
@@ -40,13 +37,13 @@ public class BoardPanel extends JFrame implements PawnOperations {
 	private YAxis yAxis;
 	
 	public BoardPanel() {
-		
 		super();
+		
 		//setPreferredSize(DIM_BOARDINIT);
 		setBackground(COL_BOARDINIT);
 		setVisible(true);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setResizable(false);
+		//setDefaultCloseOperation(EXIT_ON_CLOSE);
+		//setResizable(false);
 	}
 	
 	/** Initializes the board panel.*/
@@ -93,7 +90,7 @@ public class BoardPanel extends JFrame implements PawnOperations {
 		
 		setVisible(true);
 		setBackground(Color.WHITE);
-		pack();
+		//pack();
 	}
 	
 	public static void main(String [] args) {
