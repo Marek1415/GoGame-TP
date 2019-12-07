@@ -23,7 +23,7 @@ public final class MessengerPanelConstants extends Constants{
 	public final static Color COL_BACKGROUND = Color.WHITE;
 	public final static Color COL_FOREGROUND = Color.WHITE;
 	public final static Color COL_FIELD_EMPTY = Color.LIGHT_GRAY;
-	public final static Color COL_BUTTON = Color.DARK_GRAY;
+	public final static Color COL_BUTTON = Color.LIGHT_GRAY;
 	public final static Color COL_FIELD = Color.DARK_GRAY;
 	
 	private MessengerPanelConstants() {}

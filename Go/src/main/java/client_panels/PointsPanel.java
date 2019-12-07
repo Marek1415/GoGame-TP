@@ -148,6 +148,7 @@ public class PointsPanel extends JPanel {
 		public PointsLabel(String text) {
 			super(text);
 			setFont(FONT_LABEL);
+			setForeground(COL_POINTS_LABEL);
 		}
 	}
 	
@@ -155,6 +156,7 @@ public class PointsPanel extends JPanel {
 		public PointsNoumber(String text) {
 			super(text);
 			setFont(FONT_POINTS_NOUMBER);
+			setForeground(COL_POINTS_NUMBER);
 			setPreferredSize(DIM_POINTS);
 		}
 	}

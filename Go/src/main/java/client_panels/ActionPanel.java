@@ -1,6 +1,7 @@
 package client_panels;
 
 import javax.swing.AbstractButton;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -8,7 +9,7 @@ import javax.swing.JPanel;
 import client_interfaces.SignalSender;
 import client_modules.EndMod;
 
-import static constants.PanelsConstants.*;
+import static constants.ActionPanelConstants.*;
 import static constants.Signals.*;
 
 import java.awt.Color;
@@ -20,9 +21,7 @@ import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-/*
- * Panel for displaying board.
- */
+/** Panel for displaying board. */
 public class ActionPanel extends JPanel implements SignalSender {
 
 	//components
@@ -79,34 +78,41 @@ public class ActionPanel extends JPanel implements SignalSender {
 		setLayout(layout);
 		
 		//gbc init
-		gbc.insets = new Insets(5, 5, 5, 5);
-		gbc.weightx = 1;
-		gbc.weighty = 1;
-		//gbc.fill = GridBagConstraints.BOTH;
-		
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.insets = new Insets(0,15,15,0);
+	
 		//ready button
 		gbc.gridx = 0;
 		gbc.gridy = 0;
+		gbc.weightx = 0;
+		gbc.weighty = 0;
 		add(readyButton, gbc);
 		
 		//infoArea
 		gbc.gridx = 0;
 		gbc.gridy = 1;
+		gbc.weightx = 0;
+		gbc.weighty = 1;
 		add(infoArea, gbc);
 		
 		//checkButton
 		gbc.gridx = 0;
 		gbc.gridy = 2;
+		gbc.weightx = 0;
+		gbc.weighty = 0;
 		add(checkButton, gbc);
 		
 		//endButton
 		gbc.gridx = 0;
 		gbc.gridy = 3;
+		gbc.weightx = 0;
+		gbc.weighty = 0;
+		gbc.insets = new Insets(0,15,0,0);
 		add(endButton, gbc);
 	
 		//pack();
 		//setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setBackground(Color.WHITE);
+		setBackground(COL_BACKGROUND);
 		setVisible(true);
 		
 	}
@@ -144,6 +150,7 @@ public class ActionPanel extends JPanel implements SignalSender {
     		setBackground(col);
     		setForeground(COL_FOREGROUND);
     		setFont(FONT_BUTTON);
+    		setBorderPainted(false);
     		
     		addActionListener(new ActionListener() {
       			public void actionPerformed(ActionEvent event) {

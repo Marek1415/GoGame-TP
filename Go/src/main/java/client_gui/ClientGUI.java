@@ -149,22 +149,31 @@ public class ClientGUI extends JFrame implements PawnOperations
 		//points panel
 		gbc.gridx = 0;
 		gbc.gridy = 0;
+		gbc.weightx = 1;
+		gbc.weighty = 0;
 		add(pointsPanel, gbc);
 		
 		//board panel
 		gbc.gridx = 0;
 		gbc.gridy = 1;
+		gbc.weightx = 1;
+		gbc.weighty = 1;
 		add(boardPanel, gbc);
 		
 		//messenger panel
 		gbc.gridx = 0;
 		gbc.gridy = 2;
+		gbc.weightx = 1;
+		gbc.weighty = 0;
 		add(messengerPanel, gbc);
 		
 		//action panel
 		gbc.gridx = 1;
 		gbc.gridy = 0;
 		gbc.gridheight = 3;
+		gbc.weightx = 0;
+		gbc.weighty = 1;
+
 		add(actionPanel, gbc);
 		
 		pack();
@@ -179,8 +188,8 @@ public class ClientGUI extends JFrame implements PawnOperations
 		addPawn(100, PAWN_BLACK);
 		setPoints("100");
 		turnON();
-		turnOFF();
-		
+		//turnOFF();
+		setResizable(false);
 	}
 	
 	/** Deal with received signal from child.*/
