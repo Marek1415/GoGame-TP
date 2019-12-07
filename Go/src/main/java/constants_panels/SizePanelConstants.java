@@ -1,8 +1,10 @@
-package constants;
+package constants_panels;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+
+import constants.Constants;
 
 
 public final class SizePanelConstants extends Constants{

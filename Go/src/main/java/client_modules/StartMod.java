@@ -15,8 +15,8 @@ import javax.swing.JLabel;
 
 import client_interfaces.SignalSender;
 
-import static constants.StartModConstants.*;
 import static constants.Signals.*;
+import static constants_modules.StartModConstants.*;
 
 
 /**

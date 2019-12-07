@@ -6,8 +6,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import static constants.PanelsConstants.LENGTH_BOARD;
-import static constants.PointsPanelConstants.*;
+import static constants_panels.BoardPanelConstants.LENGTH_BOARD;
+import static constants_panels.PointsPanelConstants.*;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;

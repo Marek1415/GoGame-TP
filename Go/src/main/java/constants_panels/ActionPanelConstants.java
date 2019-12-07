@@ -1,4 +1,4 @@
-package constants;
+package constants_panels;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -26,7 +26,7 @@ public class ActionPanelConstants {
 	public final static Color COL_END = Color.BLUE.darker();
 	
 	//fonts
-	public final static Font FONT = new Font("Helvetica", Font.PLAIN, 15);
+	public final static Font FONT_INFO = new Font("Helvetica", Font.PLAIN, 15);
 	public final static Font FONT_BUTTON = new Font("Helvetica", Font.PLAIN, 20);
 	
 	private ActionPanelConstants() {}

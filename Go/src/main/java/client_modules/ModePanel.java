@@ -15,9 +15,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import static constants.ModePanelConstants.*;
 import static constants.BoardSizes.SIZES;
 import static constants.GameModes.*;
+import static constants_panels.ModePanelConstants.*;
 
 
 /**

@@ -11,8 +11,8 @@ import javax.swing.JDialog;
 
 import client_interfaces.SignalSender;
 
-import static constants.NewGameModConstants.*;
 import static constants.Signals.*;
+import static constants_modules.NewGameModConstants.*;
 
 /**
  * @author gumises Player chooses game mode and board size.

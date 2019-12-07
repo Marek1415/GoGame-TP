@@ -8,8 +8,8 @@ import javax.swing.JTextField;
 
 import client_interfaces.SignalSender;
 
-import static constants.MessengerPanelConstants.*;
 import static constants.Signals.*;
+import static constants_panels.MessengerPanelConstants.*;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;

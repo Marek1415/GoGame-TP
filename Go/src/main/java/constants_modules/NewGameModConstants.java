@@ -1,8 +1,10 @@
-package constants;
+package constants_modules;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+
+import constants.Constants;
 
 
 public final class NewGameModConstants extends Constants{

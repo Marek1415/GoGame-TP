@@ -9,8 +9,8 @@ import javax.swing.JPanel;
 import client_interfaces.SignalSender;
 import client_modules.EndMod;
 
-import static constants.ActionPanelConstants.*;
 import static constants.Signals.*;
+import static constants_panels.ActionPanelConstants.*;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -173,7 +173,7 @@ public class ActionPanel extends JPanel implements SignalSender {
 			super("", 10, 20, SCROLLBARS_VERTICAL_ONLY);
 			setPreferredSize(DIM_INFOAREA);
 			setEditable(false);
-			setFont(FONT);
+			setFont(FONT_INFO);
 		}
 	}
 }

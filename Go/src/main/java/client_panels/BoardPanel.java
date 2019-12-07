@@ -10,9 +10,9 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.OverlayLayout;
 
-import static constants.PanelsConstants.*;
 import static constants.PawnColors.*;
 import static constants.Signals.*;
+import static constants_panels.BoardPanelConstants.*;
 
 import java.awt.Color;
 import java.awt.Dimension;

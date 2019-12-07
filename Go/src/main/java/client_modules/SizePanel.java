@@ -15,8 +15,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import static constants.SizePanelConstants.*;
 import static constants.BoardSizes.SIZES;
+import static constants_panels.SizePanelConstants.*;
 
 
 /**
