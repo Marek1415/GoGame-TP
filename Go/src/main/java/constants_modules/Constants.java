@@ -1,4 +1,4 @@
-package constants;
+package constants_modules;
 
 import java.awt.Font;
 

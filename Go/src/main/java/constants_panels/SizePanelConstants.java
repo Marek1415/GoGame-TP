@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 
-import constants.Constants;
+import constants_modules.Constants;
 
 
 public final class SizePanelConstants extends Constants{

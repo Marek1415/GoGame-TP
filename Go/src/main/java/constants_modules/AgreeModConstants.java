@@ -3,8 +3,6 @@ package constants_modules;
 import java.awt.Color;
 import java.awt.Dimension;
 
-import constants.Constants;
-
 
 public final class AgreeModConstants extends Constants{
 	
