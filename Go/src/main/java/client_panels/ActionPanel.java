@@ -4,7 +4,6 @@ import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 
 import client_interfaces.SignalSender;
 import client_modules.EndMod;
@@ -17,6 +16,7 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -29,7 +29,7 @@ public class ActionPanel extends JPanel implements SignalSender {
 	private AbstractButton readyButton;
 	private AbstractButton checkButton;
 	private AbstractButton endButton;
-	private JTextArea infoArea;
+	private TextArea infoArea;
 	
 	//modules
 	private EndMod endModule;
@@ -121,6 +121,12 @@ public class ActionPanel extends JPanel implements SignalSender {
 		//System.out.println("[SIGNAL]  " + signal);
 	}
 	
+	/** Adds message to the message panel.*/
+	public void addMessage(String message) {
+		System.out.println("[MESSAGE] " + message);
+		infoArea.append("\n" + message);
+	}
+	
 	public static void main(String [] args) {
 		new ActionPanel();
 	}
@@ -154,10 +160,10 @@ public class ActionPanel extends JPanel implements SignalSender {
     }
 	
 	/** TextArea for displaying current game info.*/
-	private class InfoArea extends JTextArea {
+	private class InfoArea extends TextArea {
 		
 		private InfoArea() {
-			super("New info area!");
+			super("", 10, 20, SCROLLBARS_VERTICAL_ONLY);
 			setPreferredSize(DIM_INFOAREA);
 			setEditable(false);
 			setFont(FONT);

@@ -2,8 +2,9 @@ package client_gui;
 
 import javax.swing.*;
 
-import static constants.PawnColors.PAWN_WHITE;
+import client_interfaces.PawnOperations;
 
+import static constants.PawnColors.*;
 import java.awt.*;
 
 import client_modules.AgreeMod;
@@ -17,7 +18,7 @@ import client_panels.BoardPanel;
  * @author gumises
  * Client GUI, displays Board, action Buttons, ... TODO add more
  */
-public class ClientGUI extends JFrame
+public class ClientGUI extends JFrame implements PawnOperations
 {
 	//panels
 	private BoardPanel boardPanel;
@@ -98,7 +99,7 @@ public class ClientGUI extends JFrame
 		//initStartModule();
 		//initJoinGameModule();
 		//initAgreeModule();
-		initGame();
+		//initGame();
 	}
 	
 	/** Initialize the start module.*/
@@ -111,7 +112,7 @@ public class ClientGUI extends JFrame
 	}
 	
 	public void initJoinGameModule() {
-		joinGameMod.init(new String[] {"pierwszy", "drugi", "trzeci", "czwarte"});
+		joinGameMod.init(new int[] {0, 1, 4, 5, 67});
 	}
 	
 	/** Initialize the agree module.*/
@@ -120,10 +121,8 @@ public class ClientGUI extends JFrame
 	}
 	
 	/** Displays the main game frame.*/
-	public void initGame() {
-		boardPanel.init(7);
-		startMod.init();
-		boardPanel.addPawn(5, PAWN_WHITE);
+	public void initGame(int size) {
+		boardPanel.init(size);
 		
 		//gridBagLayout, gridBagConstraint
 		GridBagLayout layout = new GridBagLayout(); 
@@ -158,17 +157,38 @@ public class ClientGUI extends JFrame
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBackground(Color.YELLOW);
 		setVisible(true);
+		
+		addMessage("QWERTYUIOP");
+		for(int i = 0; i < 20; i ++)
+			addMessage(Integer.toString(i));
 	}
 	
 	/** Deal with received signal from child.*/
 	public void recSignal(String signal) {
 		System.out.println("[SIGNAL]  " + signal);
 	}
+	
+	/** Adds a pawn with specific color on specific position.*/
+	public void addPawn(int number, int color) {
+		boardPanel.addPawn(number, color);
+	}
+	
+	/** Remove a pawn from specific position.*/
+	public void removePawn(int number) {
+		boardPanel.removePawn(number);
+	}
+	
+	/** Adds message to the message panel.*/
+	public void addMessage(String message) {
+		actionPanel.addMessage(message);
+	}
 
 	/** Creating ClientGUI for test. */
 	public static void main(String[] args) {
 		//TODO delete main method
-		new ClientGUI();
+		ClientGUI clientGUI = new ClientGUI();
+		//clientGUI.initStartModule();
+		clientGUI.initGame(20);
 	}
 
 }

@@ -26,7 +26,7 @@ public class JoinGameMod extends JDialog
 implements SignalSender{
 	
 	//buttons
-	AbstractButton roomButton;
+	JButton roomButton;
 	
 	//labels
 	JLabel infoLabel;
@@ -38,7 +38,7 @@ implements SignalSender{
 		setResizable(false);
 	}
 	
-	public void init(final String [] rooms) {
+	public void init(final int [] rooms) {
 		
 		//info label
 		infoLabel = new InfoLabel(STR_INFO, DIM_INFO);
@@ -59,8 +59,7 @@ implements SignalSender{
 		gbc.gridwidth = 1;
 		for(int i = 0; i < rooms.length; i++) {
 			
-			roomLabel = new RoomLabel(i, DIM_LABEL);
-			roomButton = new ActionButton(DIM_BUTTON, COL_BUTTON, i, rooms[i]) {
+			roomButton = new ActionButton(DIM_BUTTON, COL_BUTTON, rooms[i]) {
 				
 				@Override
 				public void action(String signal) {
@@ -71,15 +70,9 @@ implements SignalSender{
 			
 			//button
 			gbc.gridx = i%3;
-			gbc.gridy = 1 + 2*(i/3);
-			gbc.insets = new Insets(5, 5, 0, 5);
+			gbc.gridy = 1 + i/3;
+			gbc.insets = new Insets(5, 5, 5, 5);
 			add(roomButton, gbc);
-			
-			//label
-			gbc.gridx = i%3;
-			gbc.gridy = 2 + 2*(i/3);
-			gbc.insets = new Insets(0, 5, 5, 5);
-			add(roomLabel, gbc);
 		}
 		
 		pack();
@@ -94,23 +87,16 @@ implements SignalSender{
     public static void main( String[] args ) {
     	//TODO delete main method
 		JoinGameMod joinGameMod = new JoinGameMod();
-		joinGameMod.init(new String[] {"pierwszy", "drugi", "trzeci", "czwarte"});
+		joinGameMod.init(new int[] {0, 1, 2, 3, 4, 5, 6, 7});
     }
     
     /** Action Button for performing action on parent.*/
     private abstract class ActionButton extends JButton {
     	
-    	//room noumber
-    	int room;
-    	
-    	/*
-    	 * constructor
-    	 */
-    	private ActionButton(Dimension dim, Color col, int newRoom, final String newRoomName) {
+    	private ActionButton(Dimension dim, Color col, final int newRoom) {
     		
     		super();
-    		setText(newRoomName);
-    		this.room = newRoom;
+    		setText(Integer.toString(newRoom));
     		setPreferredSize(dim);
     		setBackground(col);
     		setForeground(COL_FOREGROUND);
@@ -118,7 +104,7 @@ implements SignalSender{
     		
     		addActionListener(new ActionListener() {
       			public void actionPerformed(ActionEvent event) {
-        			action(CL_ROOMSET + " " + newRoomName);
+        			action(CL_ROOMSET + " " + newRoom);
       			}
     		});
     		
@@ -137,28 +123,6 @@ implements SignalSender{
     		setPreferredSize(dim);
     		setHorizontalAlignment(JLabel.CENTER);
     	    setVerticalAlignment(JLabel.CENTER);
-    	}
-    }
-    
-    /** Label for displaying room number.*/
-    private class RoomLabel extends JLabel {
-    	
-    	private RoomLabel(int number, Dimension dim) {
-    		super();
-    		setText(getName(number));
-    		setFont(FONT);
-    		setPreferredSize(dim);
-    		setHorizontalAlignment(JLabel.CENTER);
-    	    setVerticalAlignment(JLabel.CENTER);
-    	}
-    	
-    	/**
-    	 * Calculate the label text by the number.
-    	 * @param number
-    	 * @return text for the button
-    	 */
-    	private String getName(int number) {
-    		return STR_LABEL + " " + Integer.toString(number+1);
     	}
     }
 }

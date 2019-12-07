@@ -43,7 +43,7 @@ public class PanelsConstants {
 	public final static Color COL_GRID = Color.DARK_GRAY;
 	
 	//fonts
-	public final static Font FONT = new Font("Helvetica", Font.PLAIN, 18);
+	public final static Font FONT = new Font("Helvetica", Font.PLAIN, 15);
 	public final static Font FONT_AXIS = new Font("Helvetica", Font.BOLD, 12);
 	
 	private PanelsConstants() {}
