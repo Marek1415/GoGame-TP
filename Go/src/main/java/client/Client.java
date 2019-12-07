@@ -15,12 +15,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-import client_interfaces.AgreeMethod;
-import client_interfaces.EndMethod;
-import client_interfaces.ModInits;
-import client_interfaces.RoomMethod;
-import client_interfaces.SizeMethod;
-import client_interfaces.StartMethod;
 import client_panels.ActionPanel;
 import client_panels.BoardPanel;
 import client_panels.MessengerPanel;
