@@ -13,6 +13,7 @@ import client_modules.NewGameMod;
 import client_modules.StartMod;
 import client_panels.ActionPanel;
 import client_panels.BoardPanel;
+import client_panels.MessengerPanel;
 import client_panels.PointsPanel;
 
 /**
@@ -25,7 +26,7 @@ public class ClientGUI extends JFrame implements PawnOperations
 	private BoardPanel boardPanel;
 	private ActionPanel actionPanel;
 	private PointsPanel pointsPanel;
-	//private MessengerPanel messengerPanel;
+	private MessengerPanel messengerPanel;
 	
 	//modules
 	private StartMod startMod;
@@ -99,7 +100,12 @@ public class ClientGUI extends JFrame implements PawnOperations
 		pointsPanel = new PointsPanel();
 		
 		//messenger panel
-		//messengerPanel = new MessengerPanel();
+		messengerPanel = new MessengerPanel() {
+			@Override
+			public void sendSignal(String signal) {
+				recSignal(signal);
+			}
+		};
 		
 		//initStartModule();
 		//initJoinGameModule();
@@ -150,18 +156,16 @@ public class ClientGUI extends JFrame implements PawnOperations
 		gbc.gridy = 1;
 		add(boardPanel, gbc);
 		
+		//messenger panel
+		gbc.gridx = 0;
+		gbc.gridy = 2;
+		add(messengerPanel, gbc);
+		
 		//action panel
 		gbc.gridx = 1;
 		gbc.gridy = 0;
-		gbc.gridheight = 2;
+		gbc.gridheight = 3;
 		add(actionPanel, gbc);
-		
-		//messenger panel
-		//gbc.gridx = 0;
-		//gbc.gridy = 1;
-		//gbc.gridheight = 1;
-		//add(messengerPanel, gbc);*/
-		//setBorder(BorderFactory.createTitledBorder("hahaha"));
 		
 		pack();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

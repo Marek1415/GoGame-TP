@@ -26,7 +26,7 @@ public final class Signals {
 	public final static String SE_PUTNO = "SE_PUTNO";
 	public final static String CL_TIMEUP = "CL_TIMEUP";
 	public final static String CL_CHECK = "CL_CHECK";
-	public final static String CL_MESSSEND = "CL_MESSSEND";
+	public final static String CL_MESSEND = "CL_MESSEND";
 	public final static String SE_MESSREC = "SE_MESSREC";
 	
 	//end game
