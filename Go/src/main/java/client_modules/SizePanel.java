@@ -11,29 +11,30 @@ import java.awt.event.ActionListener;
 import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
-import static constants.SizeModConstants.*;
+import static constants.SizePanelConstants.*;
+import static constants.BoardSizes.SIZES;
 
 
 /**
  * @author gumises
- * Size dialog, client chooses the board size.
+ * Chooses the board size.
  */
-@SuppressWarnings("serial")
-public class SizeMod extends JDialog {
-	//TODO make class abstract
+public class SizePanel extends JPanel {
 	
-	//buttons
-	AbstractButton sizeButton;
-	
-	//labels
+	//components
+	ActionButton[] sizeButton;
 	JLabel infoLabel;
+	int currentSize;
 	
-	public SizeMod(final int [] sizes) {
+	public SizePanel() {
 		
 		//info label
 		infoLabel = new InfoLabel(STR_INFO, DIM_INFO);
+		sizeButton = new ActionButton[SIZES.length];
 		
 		//gridBagLayout, gridBagConstraint
 		GridBagLayout layout = new GridBagLayout(); 
@@ -49,74 +50,81 @@ public class SizeMod extends JDialog {
 		
 		gbc.gridwidth = 1;
 		
-		for(int i = 0; i < sizes.length; i++) {
+		for(int i = 0; i < SIZES.length; i++) {
 			
-			sizeButton = new ActionButton(DIM_BUTTON, COL_BUTTON, sizes[i]) {
-				
-				@Override
-				public void action() {
-					boardSize(size);
-				}
-			};
+			sizeButton[i] = new ActionButton(DIM_BUTTON, COL_BUTTON, SIZES[i]);
 			
 			gbc.gridx = i%3;
 			gbc.gridy = 1 + i/3;
-			add(sizeButton, gbc);
+			add(sizeButton[i], gbc);
 		}
 		
-		setTitle(STR_TITLE);
-		setResizable(false);
+		sizeButton[0].setPressed();
 		
-		pack();
 		setVisible(true);
-	}
-	
-	/** Sets the board size, must be override by parent. */
-	public void boardSize(int newSize) {
-		//TODO make this abstract
-		System.out.println(newSize);
 	}
 	
     public static void main( String[] args ) {
     	//TODO delete main method
-		new SizeMod(new int[] {7,9,13, 25, 253});
+		new SizePanel();
     }
     
-    /*
-     * Action Button for performing action on parent.
-     */
-    private abstract class ActionButton extends JButton {
+    /** Returns the value of current size. */
+    public int getCurrentSize() {
+    	return currentSize;
+    }
+    
+    /** Sets the value of current size. */
+    public void setCurrentSize(int newSize) {
+    	currentSize = newSize;
+    }
+    
+    /** Sets no pressed mode on all buttons. */
+    public void setNoPressedOthers() {
+    	for(int i = 0; i < SIZES.length; i++)
+    		sizeButton[i].setNoPressed();
+    }
+    
+    /** Action Button for performing action on parent. */
+    private class ActionButton extends JButton {
     	
-    	//board size
     	int size;
+    	Color colorPressed;
+    	Color colorNotPressed;
     	
-    	/*
-    	 * constructor
-    	 */
     	private ActionButton(Dimension dim, Color col, int newSize) {
     		
     		super();
-    		setText(getName(newSize));
     		this.size = newSize;
+    		this.colorPressed = col.darker();
+    		this.colorNotPressed = col.brighter();
+    		setNoPressed();
+    		setText(getName(newSize));
     		setPreferredSize(dim);
-    		setBackground(col);
     		setForeground(COL_FOREGROUND);
     		setFont(FONT_BUTTON);
     		
     		addActionListener(new ActionListener() {
       			public void actionPerformed(ActionEvent event) {
-        			action();
+        			setPressed();
       			}
     		});
     		
     	}
     	
-    	/*
-    	 * action method, must be override by parent
-    	 */
-    	public abstract void action();
+    	/** Make the button pressed mode. */
+    	public void setPressed() {
+    		System.out.println("Now pressed!");
+			setCurrentSize(size);
+			setNoPressedOthers();
+    		setBackground(colorPressed);
+    	}
     	
-
+    	/** Make the button not pressed mode. */
+    	public void setNoPressed() {
+    		setBackground(colorNotPressed);
+    	}
+    	
     	/**
     	 * Calculate the button text by the size.
     	 * @param size
@@ -125,11 +133,10 @@ public class SizeMod extends JDialog {
     	private String getName(int size) {
     		return Integer.toString(size) + "x" + Integer.toString(size);
     	}
+    	
     }
     
-    /*
-     * Label for displaying info about dialog.
-     */
+    /** Label for displaying info about dialog.*/
     private class InfoLabel extends JLabel {
     	
     	private InfoLabel(String text, Dimension dim) {

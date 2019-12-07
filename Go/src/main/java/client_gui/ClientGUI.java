@@ -1,31 +1,17 @@
 package client_gui;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.Scanner;
-
 import javax.swing.*;
 
 import static constants.PawnColors.PAWN_WHITE;
-import static constants.Signals.*;
 
 import java.awt.*;
-import java.awt.event.*;
 
-import client_interfaces.AgreeMethod;
-import client_interfaces.EndMethod;
-import client_interfaces.ModInits;
-import client_interfaces.RoomMethod;
-import client_interfaces.SizeMethod;
-import client_interfaces.StartMethod;
+import client_modules.AgreeMod;
 import client_modules.JoinGameMod;
-import client_modules.StartMod2;
+import client_modules.NewGameMod;
+import client_modules.StartMod;
 import client_panels.ActionPanel;
 import client_panels.BoardPanel;
-import client_panels.MessengerPanel;
 
 /**
  * @author gumises
@@ -39,8 +25,10 @@ public class ClientGUI extends JFrame
 	//private MessengerPanel messengerPanel;
 	
 	//modules
-	private StartMod2 startMod;
+	private StartMod startMod;
 	private JoinGameMod joinGameMod;
+	private NewGameMod newGameMod;
+	private AgreeMod agreeMod;
 	
 	/** Public constructor. */
 	public ClientGUI()
@@ -49,7 +37,7 @@ public class ClientGUI extends JFrame
 		//MODULES
 		
 		//start module
-		startMod = new StartMod2() {
+		startMod = new StartMod() {
 			@Override
 			public void newGame() {
 				initNewGameModule();
@@ -69,11 +57,32 @@ public class ClientGUI extends JFrame
 			}
 		};
 		
+		//new game module
+		newGameMod = new NewGameMod() {
+			@Override
+			public void sendSignal(String signal) {
+				recSignal(signal);
+			}
+		};
+		
+		//agree module
+		agreeMod = new AgreeMod() {
+			@Override
+			public void sendSignal(String signal) {
+				recSignal(signal);
+			}
+		};
+		
 		
 		//PANELS
 		
 		//board panel
-		boardPanel = new BoardPanel();
+		boardPanel = new BoardPanel() {
+			@Override
+			public void sendSignal(String signal) {
+				recSignal(signal);
+			}
+		};
 		
 		//action panel
 		actionPanel = new ActionPanel() {
@@ -86,22 +95,28 @@ public class ClientGUI extends JFrame
 		//messenger panel
 		//messengerPanel = new MessengerPanel();
 		
-		initStartModule();
+		//initStartModule();
 		//initJoinGameModule();
-		
+		//initAgreeModule();
+		initGame();
 	}
 	
-	/** Displays the start screen.*/
+	/** Initialize the start module.*/
 	public void initStartModule() {
 		startMod.init();
 	}
 	
 	public void initNewGameModule() {
-		
+		newGameMod.init();
 	}
 	
 	public void initJoinGameModule() {
 		joinGameMod.init(new String[] {"pierwszy", "drugi", "trzeci", "czwarte"});
+	}
+	
+	/** Initialize the agree module.*/
+	public void initAgreeModule() {
+		agreeMod.init();
 	}
 	
 	/** Displays the main game frame.*/
@@ -116,7 +131,7 @@ public class ClientGUI extends JFrame
 		setLayout(layout);
 		
 		//gbc init
-		gbc.insets = new Insets(5, 5, 5, 5);
+		gbc.insets = new Insets(0,0,0,0);
 		gbc.weightx = 1;
 		gbc.weighty = 1;
 		gbc.fill = GridBagConstraints.BOTH;
@@ -140,8 +155,9 @@ public class ClientGUI extends JFrame
 		//setBorder(BorderFactory.createTitledBorder("hahaha"));
 		
 		pack();
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
-		//setVisible(true);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBackground(Color.YELLOW);
+		setVisible(true);
 	}
 	
 	/** Deal with received signal from child.*/

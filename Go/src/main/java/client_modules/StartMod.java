@@ -13,40 +13,52 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 
+import client_interfaces.SignalSender;
+
 import static constants.StartModConstants.*;
+import static constants.Signals.*;
 
 
 /**
  * @author gumises
- * Player chooses the game mode and board size.
+ * Player chooses the game mode.
  */
 public class StartMod extends JDialog {
 
 	//action buttons
-	AbstractButton playerButton;
-	AbstractButton botButton;
+	AbstractButton newGameButton;
+	AbstractButton joinGameButton;
 	
 	//labels
 	JLabel infoLabel;
 	
 	public StartMod() {
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		setTitle(STR_TITLE);
+		setResizable(false);
+	}
+	
+	/** Initialize the dialog window.*/
+	public void init() {
 		
 		//info label
 		infoLabel = new InfoLabel(STR_INFO, DIM_INFO);
 		
 		//end button
-		playerButton = new ActionButton(STR_PLAYER, DIM_PLAYER, COL_PLAYER) {
+		newGameButton = new ActionButton(STR_NEW, DIM_NEW, COL_NEW) {
 			@Override
 			public void action() {
-				player();
+				newGame();
+				dispose();
 			}
 		};
 		
 		//resign button
-		botButton = new ActionButton(STR_BOT, DIM_BOT, COL_BOT) {
+		joinGameButton = new ActionButton(STR_JOIN, DIM_JOIN, COL_JOIN) {
 			@Override
 			public void action() {
-				bot();
+				joinGame();
+				dispose();
 			}
 		};
 		
@@ -66,46 +78,34 @@ public class StartMod extends JDialog {
 		gbc.gridx = 0;
 		gbc.gridy = 1;
 		gbc.gridwidth = 1;
-		add(playerButton, gbc);
+		add(newGameButton, gbc);
 		
 		//resign
 		gbc.gridx = 1;
 		gbc.gridy = 1;
-		add(botButton, gbc);
-		
-		setTitle(STR_TITLE);
-		setResizable(false);
+		add(joinGameButton, gbc);
 		
 		pack();
 		setVisible(true);
 	}
 	
-	/** Playing with the other player method, must be override by parent. */
-	public void player() {
-		//TODO make this abstract
-		System.out.println("Player!");
-	}
-	
-	/** Playing with bot, must be override by parent. */
-	public void bot() {
-		//TODO make this abstract
-		System.out.println("Bot!");
-	}
-	
     public static void main( String[] args ) {
     	//TODO delete main method
-		new StartMod();
+		StartMod startMod = new StartMod();
+		startMod.init();
     }
     
-    /*
-     * Action Button for performing action on parent.
-     */
-    @SuppressWarnings("serial")
+    /** New game mode, must be override by parent.*/
+    public void newGame() {	
+    }
+    
+    /** Join game mode, must be override by parent.*/
+    public void joinGame() {
+    }
+	
+    /** Action Button for performing action on parent.*/
 	private abstract class ActionButton extends JButton {
     	
-    	/*
-    	 * constructor
-    	 */
     	private ActionButton(String text, Dimension dim, Color col) {
     		
     		super(text);
@@ -122,15 +122,11 @@ public class StartMod extends JDialog {
     		
     	}
     	
-    	/*
-    	 * action method, must be override by parent
-    	 */
+    	/** Action method, must be override by parent. */
     	public abstract void action();
     }
     
-    /*
-     * Label for displaying info about dialog.
-     */
+    /** Label for displaying info about dialog.*/
     private class InfoLabel extends JLabel {
     	
     	private InfoLabel(String text, Dimension dim) {

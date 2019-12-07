@@ -45,6 +45,7 @@ public class EndMod extends JDialog implements SignalSender {
 			@Override
 			public void action() {
 				sendSignal(CL_END);
+				initMe(false);
 			}
 		};
 		
@@ -53,6 +54,7 @@ public class EndMod extends JDialog implements SignalSender {
 			@Override
 			public void action() {
 				sendSignal(CL_RESIGN);
+				initMe(false);
 			}
 		};
 		
@@ -60,7 +62,6 @@ public class EndMod extends JDialog implements SignalSender {
 		cancelButton = new ActionButton(STR_CANCEL, DIM_CANCEL, COL_CANCEL) {
 			@Override
 			public void action() {
-				//dispose();
 				initMe(false);
 			}
 		};

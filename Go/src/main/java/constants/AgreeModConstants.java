@@ -10,7 +10,7 @@ public final class AgreeModConstants extends Constants{
 	public final static String STR_AGREE = "Koniec";
 	public final static String STR_DISAGREE = "Graj dalej";
 	public final static String STR_TITLE = "Propozycja zakończenia rozgrywki";
-	public final static String STR_INFO = "Przeciwnik proponuje zakończenia rozgrywki.";
+	public final static String STR_INFO = "Przeciwnik proponuje zakończenie rozgrywki.";
 	
 	//dimensions
 	public final static Dimension DIM_AGREE = new Dimension(250,150);

@@ -12,6 +12,7 @@ import javax.swing.OverlayLayout;
 
 import static constants.PanelsConstants.*;
 import static constants.PawnColors.*;
+import static constants.Signals.*;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -29,7 +30,7 @@ import java.io.IOException;
 import client_interfaces.*;
 
 /** Displays game board. */
-public class BoardPanel extends JPanel implements PawnOperations {
+public class BoardPanel extends JPanel implements PawnOperations, SignalSender{
 
 	//components
 	private Board board;
@@ -91,6 +92,7 @@ public class BoardPanel extends JPanel implements PawnOperations {
 		setVisible(true);
 		setBackground(Color.WHITE);
 		//pack();
+		//setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 	
 	public static void main(String [] args) {
@@ -103,6 +105,9 @@ public class BoardPanel extends JPanel implements PawnOperations {
 		boardPanel.removePawn(5);
 	}
 	
+	public void sendSignal(String signal) {
+		System.out.println(signal);
+	}
 	/** Returns the number of pressed button, must by override by parent*/
 	public void buttonPressed(int number) {
 		//TODO make this abstract
@@ -133,12 +138,13 @@ public class BoardPanel extends JPanel implements PawnOperations {
 			super();
 			
 			//components
-			layerButtons = new LayerButtons(size);
 			layerGrid = new LayerGrid(size);
+			layerButtons = new LayerButtons(size);
 			
 			setLayout(new OverlayLayout(this));
 			add(layerGrid, 0);
 			add(layerButtons, 1);
+			
 		}
 		
 		public void repaintNow(Rectangle rec) {
@@ -155,9 +161,7 @@ public class BoardPanel extends JPanel implements PawnOperations {
 			layerGrid.removePawn(number);
 		}
 		
-		/*
-		 * Panel for board grid.
-		 */
+		/** Panel for board grid. */
 		private class LayerGrid extends JPanel
 		implements PawnOperations {
 			
@@ -175,7 +179,7 @@ public class BoardPanel extends JPanel implements PawnOperations {
 				WHITE = getImage("images/white.png");
 				BLACK = getImage("images/black.png");
 				
-				setBackground(Color.RED);
+				setBackground(Color.WHITE);
 				repaint();
 			}
 			
@@ -266,11 +270,17 @@ public class BoardPanel extends JPanel implements PawnOperations {
 			
 			public BoardButton(final int number) {
 				super();
+
+				setBorderPainted(false);
+				setPreferredSize(new Dimension(10,10));
+				setBackground(new Color(0,0,0,0));
+				repaintNow(getBounds());
+				repaint();
+				
 				//setOpaque(false);
 				//setContentAreaFilled(false);
-				setBorderPainted(false);
-				setVisible(true);
-				setPreferredSize(new Dimension(10,10));
+				//setVisible(false);
+				//repaintNow(getBounds());
 				//setBackground(new Color(0,0,0,125));
 	    		
 	    		addMouseListener(new MouseAdapter() {
@@ -289,7 +299,7 @@ public class BoardPanel extends JPanel implements PawnOperations {
 	    			
 	    			@Override
 	    			public void mouseClicked(MouseEvent e) {
-	    				buttonPressed(number);
+	    				sendSignal(CL_PUT + " " + number);
 	    			}
 	    		});
 			}
@@ -305,6 +315,7 @@ public class BoardPanel extends JPanel implements PawnOperations {
 			
 			setLayout(new GridLayout(1,0));
 			setPreferredSize(DIM_XAXIS);
+			setBackground(COL_AXIS_BACKGROUND);
 			
 			for(int i = 0; i < size; i++)
 				add(new BoardLabel(i+1));
@@ -320,6 +331,7 @@ public class BoardPanel extends JPanel implements PawnOperations {
 			
 			setLayout(new GridLayout(0,1));
 			setPreferredSize(DIM_YAXIS);
+			setBackground(COL_AXIS_BACKGROUND);
 			
 			for(int i = 0; i < size; i++)
 				add(new BoardLabel(i+1));

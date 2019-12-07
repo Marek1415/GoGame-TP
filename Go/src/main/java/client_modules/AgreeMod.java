@@ -13,134 +13,124 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 
-import static constants.AgreeModConstants.*;
+import client_interfaces.SignalSender;
 
+import static constants.AgreeModConstants.*;
+import static constants.Signals.*;
 
 /**
  * @author gumises
- * Dialog for agree or disagree with enemy proposal of game end.
+ * Agrees or disagree with enemy proposal of game end.
  */
-@SuppressWarnings("serial")
-public class AgreeMod extends JDialog {
-	//TODO make class abstract
+public class AgreeMod extends JDialog implements SignalSender {
 
-	//action buttons
+	// action buttons
 	AbstractButton agreeButton;
 	AbstractButton disagreeButton;
-	
-	//labels
+
+	// labels
 	JLabel infoLabel;
-	
+
 	public AgreeMod() {
-		
-		//info label
+
+		// info label
 		infoLabel = new InfoLabel(STR_INFO, DIM_INFO);
-		
-		//end button
+
+		// end button
 		agreeButton = new ActionButton(STR_AGREE, DIM_AGREE, COL_AGREE) {
 			@Override
 			public void action() {
-				agree();
+				sendSignal(CL_AGREE);
+				initMe(false);
 			}
 		};
-		
-		//resign button
+
+		// resign button
 		disagreeButton = new ActionButton(STR_DISAGREE, DIM_DISAGREE, COL_DISAGREE) {
 			@Override
 			public void action() {
-				disagree();
+				sendSignal(CL_DISAGREE);
+				initMe(false);
 			}
 		};
-		
-		//gridBagLayout, gridBagConstraint
-		GridBagLayout layout = new GridBagLayout(); 
+
+		// gridBagLayout, gridBagConstraint
+		GridBagLayout layout = new GridBagLayout();
 		GridBagConstraints gbc = new GridBagConstraints();
 		setLayout(layout);
-		
-		//info
+
+		// info
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		gbc.gridwidth = 2;
 		gbc.insets = new Insets(5, 5, 5, 5);
 		add(infoLabel, gbc);
-		
-		//end
+
+		// end
 		gbc.gridx = 0;
 		gbc.gridy = 1;
 		gbc.gridwidth = 1;
 		add(agreeButton, gbc);
-		
-		//resign
+
+		// resign
 		gbc.gridx = 1;
 		gbc.gridy = 1;
 		add(disagreeButton, gbc);
-		
+
+		pack();
+		setVisible(false);
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setTitle(STR_TITLE);
 		setResizable(false);
-		
-		pack();
+	}
+
+	/** Initialize dialog window.*/
+	public void init() {
 		setVisible(true);
 	}
 	
-	/** Agree to end the game. */
-	public void agree() {
-		//TODO make this abstract
-		System.out.println("Agree!");
+	/** Initialize dialog window.*/
+	public void initMe(boolean mode) {
+		setVisible(mode);
 	}
-	
-	/** Disagree to end the game. */
-	public void disagree() {
-		//TODO make this abstract
-		System.out.println("Disagree!");
+
+	/** Sends the signal to the panel. */
+	public void sendSignal(String signal) {
+		System.out.println("[SIGNAL]  " + signal);
 	}
-	
-    public static void main( String[] args ) {
-    	//TODO delete main method
-		new AgreeMod();
-    }
-    
-    /*
-     * Action Button for performing action on parent.
-     */
-    @SuppressWarnings("serial")
+
+	/** Action Button for performing action on parent. */
 	private abstract class ActionButton extends JButton {
-    	
-    	/*
-    	 * constructor
-    	 */
-    	private ActionButton(String text, Dimension dim, Color col) {
-    		
-    		super(text);
-    		setPreferredSize(dim);
-    		setBackground(col);
-    		setForeground(COL_FOREGROUND);
-    		setFont(FONT);
-    		
-    		addActionListener(new ActionListener() {
-      			public void actionPerformed(ActionEvent event) {
-        			action();
-      			}
-    		});
-    		
-    	}
-    	
-    	/*
-    	 * action method, must be override by parent
-    	 */
-    	public abstract void action();
-    }
-    
-    /*
-     * Label for displaying info about dialog.
-     */
-    private class InfoLabel extends JLabel {
-    	
-    	private InfoLabel(String text, Dimension dim) {
-    		super(text);
-    		setFont(FONT);
-    		setPreferredSize(dim);
-    		setHorizontalAlignment(JLabel.CENTER);
-    	    setVerticalAlignment(JLabel.CENTER);
-    	}
-    }
+
+		private ActionButton(String text, Dimension dim, Color col) {
+
+			super(text);
+			setPreferredSize(dim);
+			setBackground(col);
+			setForeground(COL_FOREGROUND);
+			setFont(FONT);
+
+			addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent event) {
+					action();
+				}
+			});
+
+		}
+
+		/** action method, must be override by parent. */
+		public abstract void action();
+	}
+
+	/** Label for displaying info about dialog. */
+	private class InfoLabel extends JLabel {
+
+		private InfoLabel(String text, Dimension dim) {
+			super(text);
+			setFont(FONT);
+			setPreferredSize(dim);
+			setHorizontalAlignment(JLabel.CENTER);
+			setVerticalAlignment(JLabel.CENTER);
+		}
+	}
 }

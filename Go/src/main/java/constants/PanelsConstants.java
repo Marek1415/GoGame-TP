@@ -37,8 +37,9 @@ public class PanelsConstants {
 	public final static Color COL_END = Color.orange;
 	
 	//colors board
-	public final static Color COL_BOARDINIT = Color.GRAY;
-	public final static Color COL_AXIS = Color.GRAY;
+	public final static Color COL_BOARDINIT = Color.WHITE;
+	public final static Color COL_AXIS = Color.BLACK;
+	public final static Color COL_AXIS_BACKGROUND = Color.white;
 	public final static Color COL_GRID = Color.DARK_GRAY;
 	
 	//fonts

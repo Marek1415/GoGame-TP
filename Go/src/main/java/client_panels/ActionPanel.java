@@ -106,6 +106,7 @@ public class ActionPanel extends JPanel implements SignalSender {
 	
 		//pack();
 		//setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setBackground(Color.WHITE);
 		setVisible(true);
 		
 	}
