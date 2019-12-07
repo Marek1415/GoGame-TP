@@ -2,6 +2,7 @@ package constants;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 
 
 public final class EndModConstants extends Constants{

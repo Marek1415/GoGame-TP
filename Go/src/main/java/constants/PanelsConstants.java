@@ -45,6 +45,7 @@ public class PanelsConstants {
 	//fonts
 	public final static Font FONT = new Font("Helvetica", Font.PLAIN, 15);
 	public final static Font FONT_AXIS = new Font("Helvetica", Font.BOLD, 12);
+	public final static Font FONT_BUTTON = new Font("Helvetica", Font.PLAIN, 20);
 	
 	private PanelsConstants() {}
 }

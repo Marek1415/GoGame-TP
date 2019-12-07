@@ -13,5 +13,5 @@ public abstract class Constants {
 	
 	//fonts
 	public final static Font FONT = new Font("Helvetica", Font.PLAIN, 18);
-	
+	public final static Font FONT_BUTTON = new Font("Helvetica", Font.PLAIN, 20);
 }

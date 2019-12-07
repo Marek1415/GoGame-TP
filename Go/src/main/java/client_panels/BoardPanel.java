@@ -209,7 +209,7 @@ public class BoardPanel extends JPanel implements PawnOperations, SignalSender{
 		        			g.drawImage(BLACK, j*step, i*step, null);
 		    }
 			
-			/** Return scaled icon.*/
+			/** Return scaled image.*/
 			public Image getImage(String path) {
 				
 				Image image = null;

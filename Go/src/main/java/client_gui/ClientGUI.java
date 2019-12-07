@@ -13,6 +13,7 @@ import client_modules.NewGameMod;
 import client_modules.StartMod;
 import client_panels.ActionPanel;
 import client_panels.BoardPanel;
+import client_panels.PointsPanel;
 
 /**
  * @author gumises
@@ -23,6 +24,7 @@ public class ClientGUI extends JFrame implements PawnOperations
 	//panels
 	private BoardPanel boardPanel;
 	private ActionPanel actionPanel;
+	private PointsPanel pointsPanel;
 	//private MessengerPanel messengerPanel;
 	
 	//modules
@@ -93,6 +95,9 @@ public class ClientGUI extends JFrame implements PawnOperations
 			}
 		};
 		
+		//points panel
+		pointsPanel = new PointsPanel();
+		
 		//messenger panel
 		//messengerPanel = new MessengerPanel();
 		
@@ -135,15 +140,20 @@ public class ClientGUI extends JFrame implements PawnOperations
 		gbc.weighty = 1;
 		gbc.fill = GridBagConstraints.BOTH;
 		
-		//board panel
+		//points panel
 		gbc.gridx = 0;
 		gbc.gridy = 0;
+		add(pointsPanel, gbc);
+		
+		//board panel
+		gbc.gridx = 0;
+		gbc.gridy = 1;
 		add(boardPanel, gbc);
 		
 		//action panel
 		gbc.gridx = 1;
 		gbc.gridy = 0;
-		gbc.gridheight = 1;
+		gbc.gridheight = 2;
 		add(actionPanel, gbc);
 		
 		//messenger panel
@@ -158,9 +168,15 @@ public class ClientGUI extends JFrame implements PawnOperations
 		setBackground(Color.YELLOW);
 		setVisible(true);
 		
-		addMessage("QWERTYUIOP");
-		for(int i = 0; i < 20; i ++)
-			addMessage(Integer.toString(i));
+		//addMessage("QWERTYUIOP");
+		//for(int i = 0; i < 20; i ++)
+		//	addMessage(Integer.toString(i));
+		
+		addPawn(100, PAWN_BLACK);
+		setPoints("100");
+		turnON();
+		turnOFF();
+		
 	}
 	
 	/** Deal with received signal from child.*/
@@ -181,6 +197,21 @@ public class ClientGUI extends JFrame implements PawnOperations
 	/** Adds message to the message panel.*/
 	public void addMessage(String message) {
 		actionPanel.addMessage(message);
+	}
+	
+	/** Sets the number of points. */
+	public void setPoints(String points) {
+		pointsPanel.setPoints(points);
+	}
+	
+	/** Sets the turn mode ON. */
+	public void turnON() {
+		pointsPanel.turnON();
+	}
+	
+	/** Sets the turn mode OFF. */
+	public void turnOFF() {
+		pointsPanel.turnOFF();
 	}
 
 	/** Creating ClientGUI for test. */

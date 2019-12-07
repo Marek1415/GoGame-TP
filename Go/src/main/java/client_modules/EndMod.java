@@ -131,7 +131,7 @@ public class EndMod extends JDialog implements SignalSender {
     		setPreferredSize(dim);
     		setBackground(col);
     		setForeground(COL_FOREGROUND);
-    		setFont(FONT);
+    		setFont(FONT_BUTTON);
     		
     		addActionListener(new ActionListener() {
       			public void actionPerformed(ActionEvent event) {
