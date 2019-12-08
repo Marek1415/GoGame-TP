@@ -112,7 +112,11 @@ public class Client extends JFrame
 	public void endInit() {
 		System.out.println("End!");
 	}
-
+	static public void boardButtonClicked()
+	{
+		
+		
+	}
 	/*class ButtonsListener implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)

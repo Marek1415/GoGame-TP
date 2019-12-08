@@ -2,6 +2,7 @@ package client_gui;
 
 import javax.swing.*;
 
+import client.Client;
 import client_interfaces.PawnOperations;
 
 import static constants.PawnColors.*;
@@ -112,7 +113,10 @@ public class ClientGUI extends JFrame implements PawnOperations
 		//initAgreeModule();
 		initGame(20);
 	}
-	
+	public void action()
+	{
+		Client.boardButtonClicked();
+	}
 	/** Initialize the start module.*/
 	public void initStartModule() {
 		startMod.init();
