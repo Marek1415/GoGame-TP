@@ -19,20 +19,18 @@ import client_panels.ActionPanel;
 import client_panels.BoardPanel;
 import client_panels.MessengerPanel;
 import client_gui.*;
+import constants.PawnColors;
+import constants.PawnColors.Pawn;
 /**
  * @author gumises
  * Client GUI, displays Board, action Buttons, ... TODO add more
  */
 public class Client extends JFrame
 {
-	boolean wait;
-	Color color, enemyColor;
+	Pawn color, enemyColor;
 	//implements AgreeMethod, EndMethod, RoomMethod, SizeMethod, StartMethod, ModInits {
 	ClientGUI GUI;
 	//components
-	int Game[][] = new int[13][13];
-	private BoardPanel boardPanel;
-	private ActionPanel actionPanel;
 	//private MessengerPanel messengerPanel;
 	Socket socket = null;
 	PrintWriter out = null;
@@ -42,6 +40,7 @@ public class Client extends JFrame
 	public Client()
 	{
 		GUI = new ClientGUI();
+		listen();
 		/*boardPanel = new BoardPanel();
 		  boardPanel.init(7);
 		
@@ -98,31 +97,8 @@ public class Client extends JFrame
 		//pack();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
 		setVisible(true);
-		listen();
-		String data = in.nextLine();
-		if(data.equals("black"))
-		{
-			color = Color.BLACK;
-			enemyColor = Color.GREEN;
-			System.out.println("black");
-			String splitString[];
-			int dimensionsX, dimensionsY;
-				if(in.hasNextLine())
-				{
-					data = in.nextLine();
-					System.out.println(data);
-					splitString = data.split("X|Y");
-					dimensionsX = Integer.parseInt(splitString[1]);
-					dimensionsY = Integer.parseInt(splitString[2]);
-					myPanel.panelButtons[dimensionsX][dimensionsY].setBackground(enemyColor);
-					repaint();
-				}
-		}
-		else if(data.equals("green"))
-		{
-			color = Color.GREEN;
-			enemyColor = Color.BLACK;
-		}*/
+		
+		*/
 	}
 	
 	public void readyInit() {
@@ -241,6 +217,25 @@ public class Client extends JFrame
 				socket = new Socket("localhost", 4444);
 				out = new PrintWriter(socket.getOutputStream(), true);
 				in = new Scanner(new InputStreamReader(socket.getInputStream()));
+				String data = in.nextLine();
+				if(data.equals("black"))
+				{
+					color = Pawn.BLACK;
+					enemyColor = Pawn.WHITE;
+					String splitString[];
+					int position = 5;
+						if(in.hasNextLine())
+						{
+							data = in.nextLine();
+							GUI.addPawn(position, enemyColor.Symbol());
+							repaint();
+						}
+				}
+				else if(data.equals("green"))
+				{
+					color = Pawn.WHITE;
+					enemyColor = Pawn.BLACK;
+				}
 			}
 		catch(UnknownHostException e)
 			{

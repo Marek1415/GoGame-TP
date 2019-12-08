@@ -25,9 +25,9 @@ import java.awt.event.ActionListener;
 public class ActionPanel extends JPanel implements SignalSender {
 
 	//components
-	private AbstractButton readyButton;
-	private AbstractButton checkButton;
-	private AbstractButton endButton;
+	private ActionButton readyButton;
+	private ActionButton checkButton;
+	private ActionButton endButton;
 	private TextArea infoArea;
 	
 	//modules

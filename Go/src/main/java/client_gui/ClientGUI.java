@@ -15,6 +15,7 @@ import client_panels.ActionPanel;
 import client_panels.BoardPanel;
 import client_panels.MessengerPanel;
 import client_panels.PointsPanel;
+import constants.PawnColors;
 
 /**
  * @author gumises
@@ -23,7 +24,7 @@ import client_panels.PointsPanel;
 public class ClientGUI extends JFrame implements PawnOperations
 {
 	//panels
-	private BoardPanel boardPanel;
+	private	BoardPanel boardPanel;
 	private ActionPanel actionPanel;
 	private PointsPanel pointsPanel;
 	private MessengerPanel messengerPanel;
@@ -36,7 +37,7 @@ public class ClientGUI extends JFrame implements PawnOperations
 	
 	/** Public constructor. */
 	public ClientGUI()
-	{
+	{																																																																																				
 		
 		//MODULES
 		
@@ -110,7 +111,6 @@ public class ClientGUI extends JFrame implements PawnOperations
 		//initJoinGameModule();
 		//initAgreeModule();
 		initGame(20);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
 	/** Initialize the start module.*/
@@ -185,8 +185,8 @@ public class ClientGUI extends JFrame implements PawnOperations
 		//for(int i = 0; i < 20; i ++)
 		//	addMessage(Integer.toString(i));
 		
-		addPawn(100, PAWN_BLACK);
-		setPoints("100");
+		//addPawn(100, PawnColors.Pawn.BLACK.Symbol());
+		//setPoints("100");
 		turnON();
 		//turnOFF();
 		setResizable(false);
@@ -228,11 +228,11 @@ public class ClientGUI extends JFrame implements PawnOperations
 	}
 
 	/** Creating ClientGUI for test. */
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		//TODO delete main method
 		ClientGUI clientGUI = new ClientGUI();
 		//clientGUI.initStartModule();
 		clientGUI.initGame(20);
-	}
+	}*/
 
 }

@@ -29,6 +29,8 @@ import java.io.File;
 import java.io.IOException;
 import client_interfaces.*;
 
+import constants.PawnColors;
+
 /** Displays game board. */
 public class BoardPanel extends JPanel implements PawnOperations, SignalSender{
 
@@ -99,9 +101,9 @@ public class BoardPanel extends JPanel implements PawnOperations, SignalSender{
 		//TODO delete main method
 		BoardPanel boardPanel = new BoardPanel();
 		boardPanel.init(20);
-		boardPanel.addPawn(5, PAWN_WHITE);
-		boardPanel.addPawn(15, PAWN_WHITE);
-		boardPanel.addPawn(24, PAWN_BLACK);
+		boardPanel.addPawn(5, PawnColors.Pawn.WHITE.Symbol());
+		boardPanel.addPawn(15, PawnColors.Pawn.WHITE.Symbol());
+		boardPanel.addPawn(24, PawnColors.Pawn.BLACK.Symbol());
 		boardPanel.removePawn(5);
 	}
 	
@@ -203,9 +205,9 @@ public class BoardPanel extends JPanel implements PawnOperations, SignalSender{
 		        //pawns
 		        for(int i = 0; i < size; i++)
 		        	for(int j = 0; j < size; j++)
-		        		if(pawns[i][j] == PAWN_WHITE)
+		        		if(pawns[i][j] == PawnColors.Pawn.WHITE.Symbol())
 		        			g.drawImage(WHITE, j*step, i*step, null);
-		        		else if(pawns[i][j] == PAWN_BLACK)
+		        		else if(pawns[i][j] == PawnColors.Pawn.BLACK.Symbol())
 		        			g.drawImage(BLACK, j*step, i*step, null);
 		    }
 			
@@ -223,13 +225,13 @@ public class BoardPanel extends JPanel implements PawnOperations, SignalSender{
 			/** Adds a pawn with specific color on specific position.*/
 			public void addPawn(int number, int color) {
 				System.out.println("New pawn!");
-				switch(color) {
-				case PAWN_WHITE: 
-					pawns[number/size][number%size] = PAWN_WHITE;
-					break;
-				case PAWN_BLACK:
-					pawns[number/size][number%size] = PAWN_BLACK;
-					break;
+				if(color == PawnColors.Pawn.WHITE.Symbol())
+				{
+					pawns[number/size][number%size] = PawnColors.Pawn.WHITE.Symbol();
+				}
+				else if(color == PawnColors.Pawn.BLACK.Symbol())
+				{
+					pawns[number/size][number%size] = PawnColors.Pawn.BLACK.Symbol();
 				}
 				repaint();
 			}
@@ -237,16 +239,16 @@ public class BoardPanel extends JPanel implements PawnOperations, SignalSender{
 			/** Remove a pawn from specific position.*/
 			public void removePawn(int number) {
 				System.out.println("Remove pawn!");
-				pawns[number/size][number%size] = NONE;
+				pawns[number/size][number%size] = PawnColors.Pawn.NONE.Symbol();
 			}
 		}
 		
 		/*
 		 * Panel for displaying buttons.
 		 */
-		private class LayerButtons extends JPanel {
+		public class LayerButtons extends JPanel {
 			
-			AbstractButton[][] buttons;
+			public BoardButton[][] buttons;
 			
 			public LayerButtons(int size) {
 				
