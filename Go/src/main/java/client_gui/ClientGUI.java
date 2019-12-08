@@ -106,11 +106,11 @@ public class ClientGUI extends JFrame implements PawnOperations
 				recSignal(signal);
 			}
 		};
-		
 		//initStartModule();
 		//initJoinGameModule();
 		//initAgreeModule();
-		//initGame();
+		initGame(20);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
 	/** Initialize the start module.*/

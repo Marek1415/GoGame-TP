@@ -18,7 +18,7 @@ import java.awt.event.*;
 import client_panels.ActionPanel;
 import client_panels.BoardPanel;
 import client_panels.MessengerPanel;
-
+import client_gui.*;
 /**
  * @author gumises
  * Client GUI, displays Board, action Buttons, ... TODO add more
@@ -28,7 +28,7 @@ public class Client extends JFrame
 	boolean wait;
 	Color color, enemyColor;
 	//implements AgreeMethod, EndMethod, RoomMethod, SizeMethod, StartMethod, ModInits {
-	SimpleGuiForTest myPanel;
+	ClientGUI GUI;
 	//components
 	int Game[][] = new int[13][13];
 	private BoardPanel boardPanel;
@@ -41,8 +41,7 @@ public class Client extends JFrame
 	/** Public constructor. */
 	public Client()
 	{
-		myPanel = new SimpleGuiForTest();
-		add(myPanel);
+		GUI = new ClientGUI();
 		/*boardPanel = new BoardPanel();
 		  boardPanel.init(7);
 		
@@ -95,7 +94,7 @@ public class Client extends JFrame
 		  //gbc.gridy = 1;
 		  //gbc.gridheight = 1;
 		  //add(messengerPanel, gbc);*/
-		setBounds(100, 100, 800, 800); 
+		/*setBounds(100, 100, 800, 800); 
 		//pack();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
 		setVisible(true);
@@ -123,7 +122,7 @@ public class Client extends JFrame
 		{
 			color = Color.GREEN;
 			enemyColor = Color.BLACK;
-		}
+		}*/
 	}
 	
 	public void readyInit() {
@@ -138,7 +137,7 @@ public class Client extends JFrame
 		System.out.println("End!");
 	}
 
-	class ButtonsListener implements ActionListener
+	/*class ButtonsListener implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
 		{
@@ -186,7 +185,7 @@ public class Client extends JFrame
 					System.exit(1);
 				}
 		}
-	}
+	}*/
 	/*public void startMode(int mode) {
 	// TODO Auto-generated method stub
 
@@ -217,7 +216,7 @@ public class Client extends JFrame
 
 	}*/
 	
-	public class SimpleGuiForTest extends JPanel{
+	/*public class SimpleGuiForTest extends JPanel{
 		Button panelButtons[][];
 		SimpleGuiForTest()
 		{
@@ -234,7 +233,7 @@ public class Client extends JFrame
 						}
 				}
 		}
-	}
+	}*/
 	public void listen()
 	{
 		try
