@@ -3,131 +3,85 @@ package server;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Scanner;
+import java.util.Set;
+
+
 import java.io.*;
+import java.nio.*;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
+import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
 
 class SocketServer
 {
 	static int game[][] = new int[20][20];
 	ServerSocket server = null;
-	Socket socket = null;
 	Scanner in = null;
 	PrintWriter out = null;
 	String line = "";
+	Selector selector;
+	ServerSocketChannel socket;
 	static ArrayList<ServerThread> serverThreads;
 	int portNumber = 4444;
 	SocketServer()
 	{
-		serverThreads = new ArrayList<ServerThread>();
 		try
-			{
-				server = new ServerSocket(portNumber);
-			}
-		catch(IOException e)
-			{
-				System.out.println("Nie można utworzyć serwera na porcie " + portNumber);
-				System.exit(-1);
-			}
+		{
+			selector = Selector.open();
+			socket = ServerSocketChannel.open();
+			socket.bind(new InetSocketAddress(4444));
+	        socket.configureBlocking(false);
+			int ops = socket.validOps();
+			SelectionKey selectKy = socket.register(selector, ops, null); 
+	        socket.register(selector, SelectionKey.OP_ACCEPT);
+		}
+		catch(Exception e)
+		{
+			System.out.println("Nie można utworzyc serwera");
+		}
+
 	}
 	
-	public void listen()
+	public void listen() throws Exception
 	{
-		/*try
-		  {
-		  client = server.accept();
-		  }
-		  catch(IOException e)
-		  {
-		  System.out.println("Accept failed: 4444");
-		  System.exit(-1);
-		  }
-		  try
-		  {
-		  in = new Scanner(new InputStreamReader(client.getInputStream()));
-		  out = new PrintWriter(client.getOutputStream(), true);
-		  }
-		  catch(IOException e)
-		  {
-		  System.out.println("Accept failed: " + portNumber);
-		  System.exit(-1);
-		  }
-		  while(line != null)
-		  {
-		  try
-		  {
-		  if(!in.hasNextLine())
-		  {
-		  break;
-		  }
-		  line = in.nextLine();
-		  String splitString[] = line.split("X|Y");
-		  int dimensionsX = Integer.parseInt(splitString[1]);
-		  int dimensionsY = Integer.parseInt(splitString[2]);
-		  if(game[dimensionsX][dimensionsY] == 0)
-		  {
-		  game[dimensionsX][dimensionsY] = 1;
-		  threadOut.println("ok");
-		  }
-		  }
-		  catch(Exception e)
-		  {
-		  System.out.println("Problem z inputem w wątku");
-		  System.exit(-1);
-		  }
-		  }*/
-		while(true)
-			{
-				try
-					{
-						socket = server.accept();
-					}
-				catch(Exception e)
-					{
-						System.out.println("Błąd przy tworzeniu wątku");
-						System.exit(-1);
-					}
-				int color;
-				if(serverThreads.size() < 3)
+		while (true) {
+			 
+			selector.select();
+ 
+			Set<SelectionKey> keys = selector.selectedKeys();
+			Iterator<SelectionKey> iterator = keys.iterator();
+ 
+			while (iterator.hasNext()) {
+				SelectionKey myKey = iterator.next();
+ 
+				if (myKey.isAcceptable()) 
 				{
-					if(serverThreads.size() == 0)
-					{
-						color = 1;
-					}
-					else
-					{
-						color = -1;
-					}
-					ServerThread serverThread = new ServerThread(socket, color);
-					serverThreads.add(serverThread);
+					SocketChannel client = socket.accept();
+					client.configureBlocking(false);
+					client.register(selector, SelectionKey.OP_READ);
+ 
 				}
-				if(serverThreads.size() == 2)
+				else if (myKey.isReadable()) 
 				{
-					for(ServerThread t: serverThreads)
-					{
-						t.start();
-					}
+					
+					SocketChannel client = (SocketChannel) myKey.channel();
+					ByteBuffer buffer = ByteBuffer.allocate(256);
+					client.read(buffer);
+					String result = new String(buffer.array()).trim();
+					System.out.println(result); 
 				}
+				iterator.remove();
 			}
-	}
-	
-	protected void finalize()
-	{
-		try
-			{
-				in.close();
-				out.close();
-				socket.close();
-				server.close();
-			}
-		catch(IOException e)
-			{
-				System.out.println("Problemy z zamknieciem serwera");
-				System.exit(-1);
-			}
+		}
 	}
 }
 
@@ -136,6 +90,13 @@ public class Server
 	public static void main(String[] args)
 	{
 		SocketServer server = new SocketServer();
-		server.listen();
+		try
+		{
+			server.listen();
+		}
+		catch(Exception e)
+		{
+			System.out.println("Problem z podlaczeniem do gniazda");
+		}
 	}
 }

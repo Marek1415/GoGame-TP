@@ -195,7 +195,7 @@ public class ClientGUI extends JFrame implements PawnOperations
 	
 	/** Deal with received signal from child.*/
 	public void recSignal(String signal) {
-		client.boardButtonClicked(signal);
+		//client.boardButtonClicked(signal);
 	}
 	
 	/** Adds a pawn with specific color on specific position.*/
