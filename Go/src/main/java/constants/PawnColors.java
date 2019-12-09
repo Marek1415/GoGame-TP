@@ -5,13 +5,18 @@ package constants;
  * Available colors of pawn.
  */
 public class PawnColors {
-	/*public final static int PAWN_WHITE = -1;
-	public final static int PAWN_BLACK = 1;
-	public final static int NONE = 0;*/
+	public final static int WHITE = -1;
+	public final static int BLACK = 1;
+	public final static int EMPTY = 0;
+	public final static int BORDER = 9;
+	
+	
+	
 	public enum Pawn{
 		BLACK(-1),
 		WHITE(1),
-		NONE(0);
+		EMPTY(0),
+		BORDER(9);
 		
 		int number;
 		private Pawn(int number) 
@@ -23,4 +28,5 @@ public class PawnColors {
 			return this.number;
 		}
 	}
+	
 }

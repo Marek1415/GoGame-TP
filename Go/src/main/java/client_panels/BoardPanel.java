@@ -239,7 +239,7 @@ public class BoardPanel extends JPanel implements PawnOperations, SignalSender{
 			/** Remove a pawn from specific position.*/
 			public void removePawn(int number) {
 				System.out.println("Remove pawn!");
-				pawns[number/size][number%size] = PawnColors.Pawn.NONE.Symbol();
+				pawns[number/size][number%size] = PawnColors.Pawn.EMPTY.Symbol();
 			}
 		}
 		
