@@ -17,7 +17,7 @@ import client_panels.BoardPanel;
 import client_panels.MessengerPanel;
 import client_panels.PointsPanel;
 import constants.PawnColors;
-
+import client.*;
 /**
  * @author gumises
  * Client GUI, displays Board, action Buttons, ... TODO add more
@@ -30,6 +30,7 @@ public class ClientGUI extends JFrame implements PawnOperations
 	private PointsPanel pointsPanel;
 	private MessengerPanel messengerPanel;
 	
+	Client client;
 	//modules
 	private StartMod startMod;
 	private JoinGameMod joinGameMod;
@@ -37,9 +38,9 @@ public class ClientGUI extends JFrame implements PawnOperations
 	private AgreeMod agreeMod;
 	
 	/** Public constructor. */
-	public ClientGUI()
+	public ClientGUI(Client client)
 	{																																																																																				
-		
+		this.client = client;
 		//MODULES
 		
 		//start module
@@ -112,10 +113,6 @@ public class ClientGUI extends JFrame implements PawnOperations
 		//initJoinGameModule();
 		//initAgreeModule();
 		initGame(20);
-	}
-	public void action()
-	{
-		Client.boardButtonClicked();
 	}
 	/** Initialize the start module.*/
 	public void initStartModule() {
@@ -198,7 +195,7 @@ public class ClientGUI extends JFrame implements PawnOperations
 	
 	/** Deal with received signal from child.*/
 	public void recSignal(String signal) {
-		System.out.println("[SIGNAL]  " + signal);
+		client.boardButtonClicked(signal);
 	}
 	
 	/** Adds a pawn with specific color on specific position.*/

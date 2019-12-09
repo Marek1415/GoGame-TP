@@ -4,6 +4,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
+import constants.Signals;
 
 public class ServerThread extends Thread
 {
@@ -60,14 +61,15 @@ public class ServerThread extends Thread
 										break;
 									}
 								line = threadIn.nextLine();
-								String splitString[] = line.split("X|Y");
-								int dimensionsX = Integer.parseInt(splitString[1]);
-								int dimensionsY = Integer.parseInt(splitString[2]);
-								if(SocketServer.game[dimensionsX][dimensionsY] == 0)
+								String splitString[] = line.split(" ");
+								System.out.println(splitString.length);
+								int place = Integer.parseInt(splitString[1]);
+								if(SocketServer.game[place%10][place/10] == 0)
 									{
-										SocketServer.game[dimensionsX][dimensionsY] = color;
-										threadOut.println("ok");
-										opponent.threadOut.println(line);
+										SocketServer.game[place%10][place/10] = color;
+										String output = Signals.SE_PUTOK + place;
+										threadOut.println(output);
+										opponent.threadOut.println(output);
 									}
 							}
 						catch(Exception e)

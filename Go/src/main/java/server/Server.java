@@ -12,7 +12,7 @@ import java.io.*;
 
 class SocketServer
 {
-	static int game[][] = new int[13][13];
+	static int game[][] = new int[20][20];
 	ServerSocket server = null;
 	Socket socket = null;
 	Scanner in = null;

@@ -21,6 +21,7 @@ import client_panels.MessengerPanel;
 import client_gui.*;
 import constants.PawnColors;
 import constants.PawnColors.Pawn;
+import constants.Signals;
 /**
  * @author gumises
  * Client GUI, displays Board, action Buttons, ... TODO add more
@@ -28,6 +29,7 @@ import constants.PawnColors.Pawn;
 public class Client extends JFrame
 {
 	Pawn color, enemyColor;
+	static boolean myTurn;
 	//implements AgreeMethod, EndMethod, RoomMethod, SizeMethod, StartMethod, ModInits {
 	ClientGUI GUI;
 	//components
@@ -39,7 +41,7 @@ public class Client extends JFrame
 	/** Public constructor. */
 	public Client()
 	{
-		GUI = new ClientGUI();
+		GUI = new ClientGUI(this);
 		listen();
 		/*boardPanel = new BoardPanel();
 		  boardPanel.init(7);
@@ -112,10 +114,43 @@ public class Client extends JFrame
 	public void endInit() {
 		System.out.println("End!");
 	}
-	static public void boardButtonClicked()
+	public void boardButtonClicked(String signal)
 	{
-		
-		
+		if(myTurn)
+		{
+			String data;
+			System.out.println(signal);
+			String splitString[] = null;
+			out.println(signal);
+			try
+			{
+				data = in.nextLine();
+				try
+				{
+					splitString = data.split(" ");
+					if(splitString[0].equals(Signals.SE_PUTOK))
+					{
+						int place = Integer.parseInt(splitString[1]);
+						GUI.addPawn(place, color.Symbol());
+					}
+					data = in.nextLine();
+					splitString = data.split(" ");
+					if(splitString[0].equals(Signals.SE_PUTOK))
+					{
+						int place = Integer.parseInt(splitString[1]);
+						GUI.addPawn(place, enemyColor.Symbol());
+					}
+				}
+				catch(Exception ex)
+				{
+				}
+			}
+			catch(Exception e)
+			{
+				
+			}
+			myTurn = false;
+		}
 	}
 	/*class ButtonsListener implements ActionListener
 	{
@@ -225,18 +260,21 @@ public class Client extends JFrame
 				if(data.equals("black"))
 				{
 					color = Pawn.BLACK;
+					myTurn = false;
+					GUI.turnOFF();
+					data = in.nextLine();
+					String splitString[] = data.split(" ");
+					if(splitString[0].equals(Signals.SE_PUTOK))
+					{
+						int place = Integer.parseInt(splitString[1]);
+						GUI.addPawn(place, enemyColor.Symbol());
+					}
 					enemyColor = Pawn.WHITE;
-					String splitString[];
-					int position = 5;
-						if(in.hasNextLine())
-						{
-							data = in.nextLine();
-							GUI.addPawn(position, enemyColor.Symbol());
-							repaint();
-						}
 				}
 				else if(data.equals("green"))
 				{
+					GUI.turnON();
+					myTurn = true;
 					color = Pawn.WHITE;
 					enemyColor = Pawn.BLACK;
 				}
