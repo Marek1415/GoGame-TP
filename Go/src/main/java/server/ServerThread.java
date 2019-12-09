@@ -62,15 +62,11 @@ public class ServerThread extends Thread
 									}
 								line = threadIn.nextLine();
 								String splitString[] = line.split(" ");
-								System.out.println(splitString.length);
 								int place = Integer.parseInt(splitString[1]);
-								if(SocketServer.game[place%10][place/10] == 0)
-									{
-										SocketServer.game[place%10][place/10] = color;
-										String output = Signals.SE_PUTOK + place;
-										threadOut.println(output);
-										opponent.threadOut.println(output);
-									}
+								String output = Signals.SE_PUTOK + " " + place;
+								System.out.println(output);
+								threadOut.println(output);
+								opponent.threadOut.println(output);		
 							}
 						catch(Exception e)
 							{

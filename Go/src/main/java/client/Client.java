@@ -128,12 +128,15 @@ public class Client extends JFrame
 				try
 				{
 					splitString = data.split(" ");
+					System.out.println(data);
 					if(splitString[0].equals(Signals.SE_PUTOK))
 					{
 						int place = Integer.parseInt(splitString[1]);
 						GUI.addPawn(place, color.Symbol());
 					}
+					GUI.turnOFF();
 					data = in.nextLine();
+					System.out.println(data);
 					splitString = data.split(" ");
 					if(splitString[0].equals(Signals.SE_PUTOK))
 					{
@@ -143,13 +146,15 @@ public class Client extends JFrame
 				}
 				catch(Exception ex)
 				{
+					
+					
 				}
 			}
 			catch(Exception e)
 			{
 				
 			}
-			myTurn = false;
+			GUI.turnON();
 		}
 	}
 	/*class ButtonsListener implements ActionListener
@@ -262,6 +267,7 @@ public class Client extends JFrame
 					color = Pawn.BLACK;
 					myTurn = false;
 					GUI.turnOFF();
+					enemyColor = Pawn.WHITE;
 					data = in.nextLine();
 					String splitString[] = data.split(" ");
 					if(splitString[0].equals(Signals.SE_PUTOK))
@@ -269,7 +275,8 @@ public class Client extends JFrame
 						int place = Integer.parseInt(splitString[1]);
 						GUI.addPawn(place, enemyColor.Symbol());
 					}
-					enemyColor = Pawn.WHITE;
+					GUI.turnON();
+					myTurn = true;
 				}
 				else if(data.equals("green"))
 				{
