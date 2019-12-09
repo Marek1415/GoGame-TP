@@ -17,6 +17,7 @@ public class Game {
 	int board[][];
 	int size;
 	int realSize;
+	int lastKo;
 	ArrayList<Integer> currentKilled = new ArrayList<Integer>();
 	ArrayList<Integer> currentTerritory = new ArrayList<Integer>();
 
@@ -24,31 +25,18 @@ public class Game {
 
 		initBoard(5);
 
-		tryPut(5, WHITE);
-		tryPut(6, WHITE);
-		tryPut(0, BLACK);
 		tryPut(1, BLACK);
+		tryPut(5, BLACK);
+		tryPut(7, BLACK);
+		tryPut(11, BLACK);
+		
 		tryPut(2, WHITE);
-
-		// ArrayList<Integer> temp = new ArrayList<Integer>();
-		// temp.add(6);
-		// System.out.println(hasBreaths(temp));
-
-		/*
-		 * 
-		 * 
-		 * printBoard();
-		 * 
-		 * 
-		 * ArrayList<Integer> temp = new ArrayList<Integer>(); temp =
-		 * getTerritory(board, getCoords(17)); System.out.println(hasBreaths(temp));
-		 * 
-		 * for(int i = 0; i < temp.size(); i++) System.out.println("temp" + i + "  =  "
-		 * + temp.get(i)); //printBoard(); //System.out.println(getPosition(new int[]
-		 * {2,4}));
-		 * 
-		 * //isSuicide(WHITE, getCoords(4));
-		 */
+		tryPut(8, WHITE);
+		tryPut(12, WHITE);
+		tryPut(6, WHITE);
+		
+		tryPut(7, BLACK);
+		
 	}
 
 	/** Main method for communication between parent and game engine. */
@@ -61,10 +49,17 @@ public class Game {
 			printBoard();
 			return;
 		}
+		
+		//is ko
+		if(isKo(cords)) {
+			ko();
+			printBoard();
+			return;
+		}
 
 		// is kill
 		if (isKill(cords, color)) {
-			kill();
+			prepareKill();
 			printBoard();
 			return;
 		}
@@ -77,6 +72,7 @@ public class Game {
 		}
 
 		putPawn(board, color, cords);
+		lastKo = -1;
 		put();
 		printBoard();
 	}
@@ -87,6 +83,7 @@ public class Game {
 		this.realSize = newSize + 2;
 		board = new int[size + 2][size + 2];
 		initBorders();
+		lastKo = -1;
 	}
 
 	/** Sets the borders. */
@@ -120,6 +117,17 @@ public class Game {
 	/** Checks if specific board field is empty. */
 	private boolean isEmpty(int[] coords) {
 		if (board[coords[1]][coords[0]] == EMPTY)
+			return true;
+		else
+			return false;
+	}
+	
+	/** Checks if current move is ko move. */
+	private boolean isKo(int[] coords) {
+		if(lastKo == -1)
+			return false;
+		int [] coordsKo = getCoords(lastKo);
+		if(coordsKo[0] == coords[0] && coordsKo[1] == coords[1])
 			return true;
 		else
 			return false;
@@ -259,6 +267,22 @@ public class Game {
 	public int getPosition(int x, int y) {
 		return getPosition(new int[] { x, y });
 	}
+	
+	/** Prepares array of killed pawns. */
+	public void prepareKill() {
+		int [] killed = new int[currentKilled.size()];
+		
+		//copy array
+		for(int i = 0; i < currentKilled.size(); i++)
+			killed[i] = currentKilled.get(i);
+		
+		//make ko
+		if(currentKilled.size() == 1)
+			lastKo = currentKilled.get(0);
+		
+		//invoke kill method
+		kill(killed);
+	}
 
 	public static void main(String[] args) {
 		// TODO delete main method
@@ -277,9 +301,14 @@ public class Game {
 	public void suicide() {
 		System.out.println("[GAME] " + SUICIDE);
 	}
+	
+	/** Invoked when move is ko. */
+	public void ko() {
+		System.out.println("[GAME] " + KO);
+	}
 
 	/** Invoked when move kills enemy. This method must be override by parent. */
-	public void kill() {
+	public void kill(int [] killed) {
 		System.out.println("[GAME] " + "killing");
 		for(int i = 0; i < currentKilled.size(); i++)
 			System.out.println("killed " + i + " : " + currentKilled.get(i));
