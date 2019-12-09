@@ -9,6 +9,7 @@ public class PawnColors {
 	public final static int BLACK = 1;
 	public final static int EMPTY = 0;
 	public final static int BORDER = 9;
+	public final static int BREATH = -9;
 	
 	
 	

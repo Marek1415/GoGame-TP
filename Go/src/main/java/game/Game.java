@@ -4,6 +4,8 @@ import server.*;
 
 import static  constants.PawnColors.*;
 
+import java.util.ArrayList;
+
 public class Game
 {
 	
@@ -12,18 +14,18 @@ public class Game
 	int board[][];
 	int size;
 	int realSize;
+	ArrayList<Integer> territory;
 	
 	public Game() {
 		initBoard(5);
-		//printRealBoard();
+		putPawn(WHITE, 15);
+
+		putPawn(BLACK, 16);
+		putPawn(BLACK, 10);
+		putPawn(BLACK, 20);
+		
 		printBoard();
-		System.out.println(isEmpty(getCoords(15)));
-		putPawn(WHITE, getCoords(15));
-		printBoard();
-		System.out.println(isEmpty(getCoords(15)));
-		removePawn(getCoords(15));
-		printBoard();
-		System.out.println(isEmpty(getCoords(15)));
+		System.out.println(_hasBreath(15));
 	}
 	
 	/** Initialize game board.*/
@@ -46,8 +48,8 @@ public class Game
 	
 	/** Prints board in the console. */
 	public void printBoard() {
-		for(int i = 1; i < size+1; i++) {
-			for(int j = 1; j < size+1; j ++)
+		for(int i = 1; i < realSize-1; i++) {
+			for(int j = 1; j < realSize-1; j ++)
 				System.out.print(board[i][j] + " ");
 			System.out.println();
 		}
@@ -63,29 +65,78 @@ public class Game
 	}
 	
 	/** Checks if specific board field is empty.*/
-	public boolean isEmpty(int[] coords) {
-		if(board[coords[0]][coords[1]] == EMPTY)
+	private boolean _isEmpty(int[] coords) {
+		if(board[coords[1]][coords[0]] == EMPTY)
 			return true;
 		else
 			return false;
 	}
 	
-	/** Returns the coordinates of a specific field number.*/
-	public int[] getCoords(int number) {
-		int[] coords = new int[2];
-		coords[0] = (int)number/size + 1;
-		coords[1] = (int)number%size + 1;
-		return coords;
+	/** Checks if specific board field is empty.*/
+	public boolean isEmpty(int position) {
+		return _isEmpty(getCoords(position));
 	}
 	
 	/** Puts new pawn into specific field.*/
-	public void putPawn(int color, int[] coords) {
-		board[coords[0]][coords[1]] = color;
+	private void _putPawn(int color, int[] coords) {
+		board[coords[1]][coords[0]] = color;
+	}
+	
+	/** Puts new pawn into specific field.*/
+	public void putPawn(int color, int position) {
+		_putPawn(color, getCoords(position));
 	}
 	
 	/** Removes pawn from specific field.*/
-	public void removePawn(int[] coords) {
-		board[coords[0]][coords[1]] = EMPTY;
+	private void _removePawn(int[] coords) {
+		board[coords[1]][coords[0]] = EMPTY;
+	}
+	
+	/** Removes pawn from specific field.*/
+	public void removePawn(int position) {
+		_removePawn(getCoords(position));
+	}
+	
+	/** Checks if territory has breaths. */
+	public boolean hasBreaths(ArrayList<Integer> territory) {
+		
+		for(int i = 0; i < territory.size(); i++)
+			if(_hasBreath(territory.get(i)))
+				return true;
+		return false;
+	}
+	
+	/** Check if single field has breaths. */
+	private boolean _hasBreath(int coords[]) {
+		int x = coords[0];
+		int y = coords[1];
+		
+		if(	board[y][x-1]*
+			board[y][x+1]*
+			board[y-1][x]*
+			board[y+1][x] == 0)
+			return true;
+		else
+			return false;
+
+	}
+	
+	/** Check if single field has breaths. */
+	private boolean _hasBreath(int position) {
+		return _hasBreath(getCoords(position));
+	}
+	
+	/** Returns the array of territory.*/
+	public void getTerritory(int position) {
+		
+	}
+	
+	/** Returns the coordinates of a specific field number.*/
+	public int[] getCoords(int number) {
+		int[] coords = new int[2];
+		coords[0] = (int)number%size + 1;
+		coords[1] = (int)number/size + 1;
+		return coords;
 	}
 	
 	public static void main(String[] args) {
