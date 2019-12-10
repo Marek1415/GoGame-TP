@@ -4,6 +4,7 @@ import server.*;
 
 import static constants.PawnColors.*;
 import static constants.Messages.*;
+import static constants.Statuses.*;
 
 import java.util.ArrayList;
 
@@ -22,7 +23,7 @@ public class Game {
 	ArrayList<Integer> currentTerritory = new ArrayList<Integer>();
 
 	public Game() {
-
+		/*
 		initBoard(5);
 
 		tryPut(1, BLACK);
@@ -36,45 +37,53 @@ public class Game {
 		tryPut(6, WHITE);
 		
 		tryPut(7, BLACK);
+		*/
 		
 	}
 
 	/** Main method for communication between parent and game engine. */
-	public void tryPut(int position, int color) {
+	public int tryPut(int position, int color) {
+		
 		int[] cords = getCoords(position);
 
+		//is over range
+		if(cords[0] == STATUS_OVERRANGE) {
+			return STATUS_OVERRANGE;
+		}
+		
 		// is empty
 		if (!isEmpty(cords)) {
 			noEmpty();
 			printBoard();
-			return;
+			return STATUS_NOEMPTY;
 		}
 		
 		//is ko
 		if(isKo(cords)) {
 			ko();
 			printBoard();
-			return;
+			return STATUS_KO;
 		}
 
 		// is kill
 		if (isKill(cords, color)) {
 			prepareKill();
 			printBoard();
-			return;
+			return STATUS_KILL;
 		}
 
 		// is suicide
 		if (isSuicide(cords, color)) {
 			suicide();
 			printBoard();
-			return;
+			return STATUS_SUICIDE;
 		}
 
 		putPawn(board, color, cords);
-		lastKo = -1;
+		lastKo = STATUS_KOINIT;
 		put();
 		printBoard();
+		return STATUS_PUT;
 	}
 
 	/** Initialize game board. */
@@ -83,7 +92,7 @@ public class Game {
 		this.realSize = newSize + 2;
 		board = new int[size + 2][size + 2];
 		initBorders();
-		lastKo = -1;
+		lastKo = STATUS_KOINIT;
 	}
 
 	/** Sets the borders. */
@@ -124,7 +133,7 @@ public class Game {
 	
 	/** Checks if current move is ko move. */
 	private boolean isKo(int[] coords) {
-		if(lastKo == -1)
+		if(lastKo == STATUS_KOINIT)
 			return false;
 		int [] coordsKo = getCoords(lastKo);
 		if(coordsKo[0] == coords[0] && coordsKo[1] == coords[1])
@@ -135,10 +144,6 @@ public class Game {
 
 	/** Checks if move is suicide. */
 	private boolean isSuicide(int[] coords, int color) {
-		// int[][] temp = new int[realSize][realSize];
-		// System.arraycopy(board, 0, temp, 0, realSize);
-		// int[][] temp = board.clone();
-
 		int[][] temp = getBoardCopy();
 		putPawn(temp, color, coords);
 		return !hasBreaths(temp, getTerritory(temp, coords));
@@ -149,9 +154,6 @@ public class Game {
 		int enemyColor = ((color == WHITE) ? BLACK : WHITE);
 		int x = coords[0];
 		int y = coords[1];
-
-		// int[][] temp = new int[realSize][realSize];
-		// System.arraycopy(board, 0, temp, 0, realSize);
 		
 		int[][] temp = getBoardCopy();
 		putPawn(temp, color, coords);
@@ -247,9 +249,9 @@ public class Game {
 		coords[0] = (int) number % size + 1;
 		coords[1] = (int) number / size + 1;
 
-		if (coords[1] > size)
-			System.out.println("[ERROR] stack overflow");
-
+		if (number < 0 || number >= size*size)
+			coords[0] = STATUS_OVERRANGE;
+		
 		return coords;
 	}
 
@@ -325,5 +327,31 @@ public class Game {
 			for (int j = 0; j < realSize; j++)
 				temp[i][j] = board[i][j];
 		return temp;
+	}
+	
+	/** Returns current board size. */
+	public int getSize() {
+		return this.size;
+	}
+	
+	/** Returns current board real size. */
+	public int getRealSize() {
+		return this.realSize;
+	}
+	
+	/** Returns current status of specific field. */
+	public int getField(int position) {
+		int[] coords = getCoords(position);
+		return board[coords[1]][coords[0]];
+	}
+	
+	/** Return the value of specific field. */
+	public int getField(int x, int y) {
+		return board[y][x];
+	}
+	
+	/** Returns the status of current ko. */
+	public int getKo() {
+		return this.lastKo;
 	}
 }
