@@ -154,18 +154,22 @@ public class Game {
 		int enemyColor = ((color == WHITE) ? BLACK : WHITE);
 		int x = coords[0];
 		int y = coords[1];
+		boolean killStatus[] = {false, false, false, false};
 		
 		int[][] temp = getBoardCopy();
 		putPawn(temp, color, coords);
 		currentKilled.clear();
 		
-		if (	isKilled(temp, x - 1, y, enemyColor) || 
-				isKilled(temp, x + 1, y, enemyColor) ||
-				isKilled(temp, x, y - 1, enemyColor) || 
-				isKilled(temp, x, y + 1, enemyColor)) {
+		killStatus[0] = isKilled(temp, x + 1, y, enemyColor);
+		killStatus[1] = isKilled(temp, x - 1, y, enemyColor);
+		killStatus[2] = isKilled(temp, x, y - 1, enemyColor);
+		killStatus[3] = isKilled(temp, x, y + 1, enemyColor);
+		
+		if (killStatus[0] || killStatus[1] || killStatus[2] || killStatus[3]) {
 			putPawn(board, color, coords);
 			return true;
-		} else {
+		}
+		else {
 			return false;
 		}
 	}
@@ -174,8 +178,6 @@ public class Game {
 	private boolean isKilled(int[][] tempBoard, int x, int y, int enemyColor) {
 		if (tempBoard[y][x] == enemyColor) {
 			currentTerritory = getTerritory(tempBoard, getCoords(x, y));
-			//for(int i = 0; i < currentTeritory.size(); i++)
-			//	System.out.println("pos" + i + " : " + currentTeritory.get(i));
 			if (!hasBreaths(tempBoard, currentTerritory)) {
 				killThemAll(currentTerritory);
 				return true;
