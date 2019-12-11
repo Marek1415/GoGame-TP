@@ -11,12 +11,16 @@ import java.awt.event.ActionListener;
 import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import client_interfaces.SignalSender;
 
 import static constants.Signals.*;
 import static constants_modules.EndModConstants.*;
+import static constants.Statuses.STATUS_WIN;
+import static constants.Statuses.STATUS_LOST;
 
 
 /**
@@ -24,24 +28,31 @@ import static constants_modules.EndModConstants.*;
  * Displays option for game ending.
  */
 public class EndMod extends JDialog implements SignalSender {
-	//TODO make class abstract
 
 	//action buttons
-	AbstractButton endButton;
-	AbstractButton resignButton;
-	AbstractButton cancelButton;
+	ActionButton endButton;
 	
 	//labels
-	JLabel infoLabel;
+	PointsLabel pointsLabel;
+	PointsNumber pointsNumber;
+	
+	//panel
+	JPanel panel;
 	
 	/** Initialize the dialog window.*/
 	public EndMod() {
 		
-		//info label
-		infoLabel = new InfoLabel(STR_INFO, DIM_INFO);
+		//panel
+		panel = new JPanel();
+		
+		//points label
+		pointsLabel = new PointsLabel();
+		
+		//points number
+		pointsNumber = new PointsNumber();
 		
 		//end button
-		endButton = new ActionButton(STR_END, DIM_END, COL_END) {
+		endButton = new ActionButton() {
 			@Override
 			public void action() {
 				sendSignal(CL_END);
@@ -49,56 +60,43 @@ public class EndMod extends JDialog implements SignalSender {
 			}
 		};
 		
-		//resign button
-		resignButton = new ActionButton(STR_RESIGN, DIM_RESIGN, COL_RESIGN) {
-			@Override
-			public void action() {
-				sendSignal(CL_RESIGN);
-				initMe(false);
-			}
-		};
-		
-		//cancel button
-		cancelButton = new ActionButton(STR_CANCEL, DIM_CANCEL, COL_CANCEL) {
-			@Override
-			public void action() {
-				initMe(false);
-			}
-		};
-		
 		//gridBagLayout, gridBagConstraint
 		GridBagLayout layout = new GridBagLayout(); 
 		GridBagConstraints gbc = new GridBagConstraints();
-		setLayout(layout);
+		panel.setLayout(layout);
 		
-		//info
+		//gbc init
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.weightx = 1;
+		gbc.weighty = 1;
+		
+		//points label
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		gbc.gridwidth = 3;
-		gbc.insets = new Insets(5, 5, 5, 5);
-		add(infoLabel, gbc);
+		gbc.gridwidth = 1;
+		gbc.insets = new Insets(10,10,10,10);
+		panel.add(pointsLabel, gbc);
 		
-		//end
+		//points number
+		gbc.gridx = 1;
+		gbc.gridy = 0;
+		panel.add(pointsNumber, gbc);
+		
+		//end button
 		gbc.gridx = 0;
 		gbc.gridy = 1;
-		gbc.gridwidth = 1;
-		add(endButton, gbc);
+		gbc.gridwidth = 2;
+		gbc.insets = new Insets(0,0,0,0);
+		gbc.anchor = GridBagConstraints.CENTER;
+		panel.add(endButton, gbc);
 		
-		//resign
-		gbc.gridx = 1;
-		gbc.gridy = 1;
-		add(resignButton, gbc);
+		add(panel);
 		
-		//cancel
-		gbc.gridx = 2;
-		gbc.gridy = 1;
-		add(cancelButton, gbc);
-		
-		setTitle(STR_TITLE);
 		setResizable(false);
 		
 		pack();
 		setVisible(false);
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	}
 	
 	/** Sends the signal to the panel.*/
@@ -107,8 +105,23 @@ public class EndMod extends JDialog implements SignalSender {
 	}
 	
 	/** Makes the dialog visible. */
-	public void init() {
+	public void init(String status, String points) {
+		endButton.setStatus(status);
+		pointsNumber.setPoints(points);
+		setStatus(status);
 		setVisible(true);
+	}
+	
+	/** Sets panel status. */
+	public void setStatus(String status) {
+		if(status == STATUS_WIN) {
+			panel.setBackground(COL_WIN);
+			setTitle(STR_WIN);
+		}
+		else {
+			panel.setBackground(COL_LOST);
+			setTitle(STR_LOST);
+		}
 	}
 	
 	/** Makes the dialog visible or invisible. */
@@ -119,41 +132,78 @@ public class EndMod extends JDialog implements SignalSender {
     public static void main( String[] args ) {
     	//TODO delete main method
 		EndMod endMod = new EndMod();
-		endMod.init();
+		endMod.init(STATUS_WIN, "2");
     }
     
     /**Performs action on parent. */
 	private abstract class ActionButton extends JButton {
     	
-    	private ActionButton(String text, Dimension dim, Color col) {
+		private final Color colorWin;
+		private final Color colorLost;
+		
+    	private ActionButton() {
     		
-    		super(text);
-    		setPreferredSize(dim);
-    		setBackground(col);
+    		super(STR_ENDBUTTON);
+    		this.colorWin = COL_WIN.darker();
+    		this.colorLost = COL_LOST.darker();
+    		setPreferredSize(DIM_ENDBUTTON);
     		setForeground(COL_FOREGROUND);
     		setFont(FONT_BUTTON);
+    		setBorderPainted(false);
     		
     		addActionListener(new ActionListener() {
       			public void actionPerformed(ActionEvent event) {
         			action();
       			}
     		});
-    		
+    	}
+    	
+    	/** Sets button status. */
+    	public void setStatus(String status) {
+    		if(status == STATUS_WIN)
+    			setBackground(colorWin);
+    		else
+    			setBackground(colorLost);
     	}
     	
     	/** action method, must be override by parent */
     	public abstract void action();
     }
     
-    /** Displaying info about dialog. */
-    private class InfoLabel extends JLabel {
+    /** Displays points label. */
+    private class PointsLabel extends JLabel {
     	
-    	private InfoLabel(String text, Dimension dim) {
-    		super(text);
-    		setFont(FONT);
-    		setPreferredSize(dim);
-    		setHorizontalAlignment(JLabel.CENTER);
+    	private PointsLabel() {
+    		super(STR_POINTSLABEL);
+    		setFont(FONT_POINTSLABEL);
+    		setPreferredSize(DIM_POINTSLABEL);
+    		setHorizontalAlignment(JLabel.RIGHT);
     	    setVerticalAlignment(JLabel.CENTER);
+    	    setForeground(COL_FOREGROUND);
+    	    
+    		//setOpaque(true);
+    		//setBackground(Color.YELLOW);
+    	}
+    }
+    
+    /** Displays points number. */
+    private class PointsNumber extends JLabel {
+    	
+    	private PointsNumber() {
+    		super();
+    		setFont(FONT_POINTSNUMBER);
+    		setPreferredSize(DIM_POINTSNUMBER);
+    		setHorizontalAlignment(JLabel.LEFT);
+    	    setVerticalAlignment(JLabel.CENTER);
+    	    setForeground(COL_FOREGROUND);
+    	    	
+    		//setOpaque(true);
+    		//setBackground(Color.YELLOW);
+    	}
+    	
+    	/** Sets points number. */
+    	private void setPoints(String points) {
+    		this.setText(points);
     	}
     }
 }

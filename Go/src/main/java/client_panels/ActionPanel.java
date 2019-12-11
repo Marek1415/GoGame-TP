@@ -7,7 +7,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import client_interfaces.SignalSender;
-import client_modules.EndMod;
 
 import static constants.Signals.*;
 import static constants_panels.ActionPanelConstants.*;
@@ -30,20 +29,9 @@ public class ActionPanel extends JPanel implements SignalSender {
 	private ActionButton endButton;
 	private TextArea infoArea;
 	
-	//modules
-	private EndMod endModule;
-	
 	/** Constructor.*/
 	public ActionPanel() {
 		super();
-		
-		//end module
-		endModule = new EndMod() {
-			@Override
-			public void sendSignal(String signal) {
-				getMe().sendSignal(signal);
-			}
-		};
 		
 		//ready Button
 		readyButton = new ActionButton(STR_READY, DIM_BUTTON, COL_READY) {
@@ -65,7 +53,7 @@ public class ActionPanel extends JPanel implements SignalSender {
 		endButton = new ActionButton(STR_END, DIM_BUTTON, COL_END) {
 			@Override
 			public void action() {
-				endModule.init();
+				sendSignal(CL_END);
 			}
 		};
 		

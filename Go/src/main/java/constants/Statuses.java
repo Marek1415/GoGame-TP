@@ -11,5 +11,8 @@ public class Statuses {
 	public final static int STATUS_NOEMPTY = 4;
 	public final static int STATUS_OVERRANGE = -100;
 	
+	public final static String STATUS_WIN = "STATUS_WIN";
+	public final static String STATUS_LOST = "STATUS_LOST";
+	
 	private Statuses() {}
 }
