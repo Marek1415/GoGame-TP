@@ -323,6 +323,7 @@ public class Game {
 		System.out.println("[GAME] " + "putting");
 	}
 
+	/** Return copy of current board. */
 	public int[][] getBoardCopy() {
 		int[][] temp = new int[realSize][realSize];
 		for (int i = 0; i < realSize; i++)
