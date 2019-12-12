@@ -12,7 +12,7 @@ import static constants.PawnColors.*;
 
 public class BotTest {
 
-	@Ignore
+	//@Ignore
 	@Test
 	public void testSetColorWhite() {
 		Bot bot = new Bot();
@@ -21,7 +21,7 @@ public class BotTest {
 		assertEquals(bot.getEnemyColor(), BLACK);
 	}
 	
-	@Ignore
+	//@Ignore
 	@Test
 	public void testSetColorBlack() {
 		Bot bot = new Bot();
@@ -30,27 +30,31 @@ public class BotTest {
 		assertEquals(bot.getEnemyColor(), WHITE);
 	}
 	
-	@Ignore
+	//@Ignore
 	@Test
-	public void testPutPawnBlack() {
+	public void testPutBotPawnBlack() {
 		Bot bot = new Bot();
 		bot.initBot(5);
 		bot.setColor(WHITE);
-		//bot.putPawn(10);
-		//assertEquals(bot.getField(10), BLACK);
+		bot.putBotPawn(15);
+		bot.putEnemyPawn(20);
+		assertEquals(bot.getBotField(15), WHITE);
+		assertEquals(bot.getBotField(20), BLACK);
 	}
 	
 	//@Ignore
 	@Test
-	public void testPutPawnWhite() {
+	public void testPutBotPawnWhite() {
 		Bot bot = new Bot();
-		bot.initBot(7);
+		bot.initBot(5);
 		bot.setColor(BLACK);
-		//bot.putPawn(30);
-		//assertEquals(bot.getField(30), WHITE);
+		bot.putBotPawn(15);
+		bot.putEnemyPawn(20);
+		assertEquals(bot.getBotField(15), BLACK);
+		assertEquals(bot.getBotField(20), WHITE);
 	}
 	
-	@Ignore
+	//@Ignore
 	@Test
 	public void testInitBot() {
 		int size = 9;
@@ -58,14 +62,12 @@ public class BotTest {
 		Bot bot = new Bot();
 		bot.initBot(size);
 		
-		/*
 		for(int i = 0; i < realSize; i++)
 		for(int j = 0; j < realSize; j++)
 			if(i == 0 || j == 0 || i == realSize-1 || j == realSize-1)
-				assertEquals(bot.getField(j,i), BORDER);
+				assertEquals(bot.getBotField(j,i), BORDER);
 			else
-				assertEquals(bot.getField(j, i), EMPTY);
-		*/
+				assertEquals(bot.getBotField(j, i), EMPTY);
 	}
 
 }

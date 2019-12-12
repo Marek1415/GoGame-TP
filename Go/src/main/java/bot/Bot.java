@@ -31,6 +31,15 @@ public class Bot {
 		lookForKill();
 	}
 	
+	/** Initialize game board. */
+	public void initBot(int newSize) {
+		this.size = newSize;
+		this.realSize = getRealSize(size);
+		board = new int[realSize][realSize];
+		initBorders(realSize, board);
+		//lastKo = STATUS_KOINIT;
+	}
+	
 	/** Sets bot color. */
 	public void setColor(int newColor) {
 		if(newColor == WHITE) {
@@ -43,26 +52,22 @@ public class Bot {
 		}
 	}
 	
-	/** Returns bot color. */
-	public int getColor() {
-		return this.color;
+	/** Performs the best bot move. */
+	public int makeBotMove() {
+		
+		//help
+		
+		//kill
+		int killPosition = lookForKill();
+		if(killPosition != -1)
+			return killPosition;
+		
+		//zmienic to
+		return 0;
+		
 	}
 	
-	/** Returns bot's enemy color. */
-	public int getEnemyColor() {
-		return this.enemyColor;
-	}
-	
-	/** Initialize game board. */
-	public void initBot(int newSize) {
-		this.size = newSize;
-		this.realSize = getRealSize(size);
-		board = new int[realSize][realSize];
-		initBorders(realSize, board);
-		//lastKo = STATUS_KOINIT;
-	}
-	
-	/** Searches the board to kill as many enemies as possible. */
+	/** Searches the board to kill as many enemy pawns as possible. */
 	private int lookForKill() {
 		
 		int killPosition = -1;
@@ -75,11 +80,10 @@ public class Bot {
 				tempKillAmount = tryKill(j, i);
 				if(tempKillAmount > killAmount) {
 					killAmount = tempKillAmount;
-					killPosition = getPosition(j, i, size);
+					killPosition = getPosition(size, j, i);
 				}
 			}
 		}
-		
 		return killPosition;
 	}
 	
@@ -88,38 +92,77 @@ public class Bot {
 		
 		int kills = 0;
 		temp = getBoardCopy(realSize, board);
-		//putPawnTemp(temp, x, y);
-		/*
+		putPawn(temp, x, y, color);
+
 		kills += trySingleKill(temp, x-1,y);
 		kills += trySingleKill(temp, x+1,y);
 		kills += trySingleKill(temp, x,y-1);
 		kills += trySingleKill(temp, x,y+1);
-		*/
+
 		return kills;
 	}
 	
 	/** Returns amount of current killed field. */
-	/*
-	public int trySingleKill(int [][] tempBoard, int x, int y) {
-		if (tempBoard[y][x] == enemyColor) {
-			ArrayList<Integer> currentTerritory = getTerritory(size, tempBoard, getCoords(x, y));
-			if (!hasBreaths(size, tempBoard, currentTerritory)) {
-				killThemAll(size, tempBoard, currentTerritory);
-				return currentTerritory.size();
+	public int trySingleKill(int [][] temp, int x, int y) {
+		if (temp[y][x] == enemyColor) {
+			ArrayList<Integer> territory = getTerritory(size, temp, x, y);
+			if (!hasBreaths(size, temp, territory)) {
+				killThemAll(size, temp, territory);
+				return territory.size();
 			}
 		}
 		return 0;
 	}
-	*/
 	
-	/** Searches the board to prevent an opponent kill. */
+	/** Searches the board to safe as many onw pawns as possible. */
 	private void lookForHelp() {
 		
+		int safePosition = -1;
+		int safeAmount = 0;
+		int tempSafeAmount;
+		/*
+		for(int i = 1; i < realSize-1; i++)
+		for(int j = 1; j < realSize-1; j++) {
+			if(board[i][j] == EMPTY) {
+				tempSafeAmount = trySafe(j, i);
+				if(tempKillAmount > killAmount) {
+					killAmount = tempKillAmount;
+					killPosition = getPosition(size, j, i);
+				}
+			}
+		}
+		return killPosition;
+		*/
 	}
 	
-	/** Puts pawn in a specific field. */
-	public void putPawn(int position, int color) {
-		Engine.putPawn(size, board, position, color);
+	/** Puts enemy pawn in a specific field. */
+	public void putEnemyPawn(int position) {
+		putPawn(size, board, position, enemyColor);
+	}
+	
+	/** Puts bot pawn in a specific field. */
+	public void putBotPawn(int position) {
+		putPawn(size, board, position, color);
+	}
+	
+	/** Returns the value of specific field. */
+	public int getBotField(int position) {
+		return getField(size, board, position);
+	}
+	
+	/** Returns the value of specific field. */
+	public int getBotField(int x, int y) {
+		return getField(board, x, y);
+	}
+	
+	/** Returns bot color. */
+	public int getColor() {
+		return this.color;
+	}
+	
+	/** Returns bot's enemy color. */
+	public int getEnemyColor() {
+		return this.enemyColor;
 	}
 	
 	public static void main(String [] args) {

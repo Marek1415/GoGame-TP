@@ -2,7 +2,6 @@ package game;
 
 import static constants.PawnColors.BORDER;
 import static constants.PawnColors.EMPTY;
-import static constants.Statuses.STATUS_OVERRANGE;
 
 import java.util.ArrayList;
 
