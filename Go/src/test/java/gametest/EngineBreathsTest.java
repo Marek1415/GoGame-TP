@@ -6,10 +6,10 @@ import java.util.ArrayList;
 
 import org.junit.Ignore;
 import org.junit.Test;
-import static game.BoardOperations.*;
+import static game.Engine.*;
 import static constants.PawnColors.*;
 
-public class BoardOperationsBreathsTest {
+public class EngineBreathsTest {
 
 	//@Ignore
 	@Test

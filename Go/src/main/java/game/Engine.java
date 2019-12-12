@@ -7,7 +7,7 @@ import static constants.Statuses.STATUS_OVERRANGE;
 import java.util.ArrayList;
 
 /** Board static operations needed to game engine. */ 
-public class BoardOperations {
+public class Engine {
 
 	/** Prints board in the console. */
 	public static void printBoard(int realSize, int [][] board) {

@@ -1,11 +1,11 @@
 package bot;
 
 import static constants.PawnColors.*;
-import static game.BoardOperations.*;
+import static game.Engine.*;
 
 import java.util.ArrayList;
 
-import game.BoardOperations;
+import game.Engine;
 /**
  * @author gumises
  * Bot class performs simple moves to kill enemy and safe own life.
@@ -119,7 +119,7 @@ public class Bot {
 	
 	/** Puts pawn in a specific field. */
 	public void putPawn(int position, int color) {
-		BoardOperations.putPawn(size, board, position, color);
+		Engine.putPawn(size, board, position, color);
 	}
 	
 	public static void main(String [] args) {

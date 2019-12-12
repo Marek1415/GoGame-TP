@@ -5,10 +5,10 @@ import static org.junit.Assert.*;
 import org.junit.Ignore;
 import org.junit.Test;
 import java.util.Random;
-import static game.BoardOperations.*;
+import static game.Engine.*;
 import static constants.PawnColors.*;
 
-public class BoardOperationsTest {
+public class EngineTest {
 
 	//@Ignore
 	@Test
