@@ -3,7 +3,6 @@ package game;
 import static constants.PawnColors.BORDER;
 import static constants.PawnColors.EMPTY;
 import static constants.Statuses.STATUS_OVERRANGE;
-import static game.BoardOperations.getCoords;
 
 import java.util.ArrayList;
 
@@ -28,45 +27,68 @@ public class BoardOperations {
 		}
 	}
 	
-	/** Sets the borders. */
-	public static void initBorders(int realSize, int [][] board) {
-		for (int i = 0; i < realSize; i++)
-			for (int j = 0; j < realSize; j++)
-				if (i == 0 | j == 0 | i == realSize - 1 | j == realSize - 1)
-					board[i][j] = BORDER;
-				else
-					board[i][j] = EMPTY;
-	}
-	
 	/** Checks if territory has breaths. */
 	public static boolean hasBreaths(int size, int[][] board, ArrayList<Integer> territory) {
-
+		//TODO moga byc bledy XDD
 		for (int i = 0; i < territory.size(); i++)
-			if (hasBreath(board, getCoords(size, territory.get(i))))
+			if (hasBreath(size, board, territory.get(i)))
 				return true;
 		return false;
 	}
 	
 	/** Check if single field has breaths. */
-	private static boolean hasBreath(int[][] board, int coords[]) {
-		int x = coords[0];
-		int y = coords[1];
-
+	//public static boolean hasBreath(int[][] board, int coords[]) {
+	//	int x = coords[0];
+	//	int y = coords[1];
+	//
+	//	if (board[y][x - 1] * board[y][x + 1] * board[y - 1][x] * board[y + 1][x] == 0)
+	//		return true;
+	//	else
+	//		return false;
+	//}
+	
+	/** Check if single field has breaths. */
+	public static boolean hasBreath(int[][] board, int x, int y) {
 		if (board[y][x - 1] * board[y][x + 1] * board[y - 1][x] * board[y + 1][x] == 0)
 			return true;
 		else
 			return false;
 	}
 	
-	/** Returns the array of territory. */
-	public static ArrayList<Integer> getTerritory(int size, int[][] newBoard, int coords[]) {
+	/** Check if single field has breaths. */
+	public static boolean hasBreath(int size, int[][] board, int position) {
+		int [] coords = getCoords(size, position);
 		int x = coords[0];
 		int y = coords[1];
+		
+		return hasBreath(board, x, y);
+	}
+	
+	/** Returns the array of territory. */
+	//public static ArrayList<Integer> getTerritory(int size, int[][] newBoard, int coords[]) {
+	//	int x = coords[0];
+	//	int y = coords[1];
+	//	ArrayList<Integer> territory = new ArrayList<Integer>();
+	//	_getRecursiveTerritory(size, newBoard, newBoard[y][x], x, y, territory);
+	//	return territory;
+	//}
+
+	/** Returns the array of territory. */
+	public static ArrayList<Integer> getTerritory(int size, int[][] newBoard, int x, int y) {
 		ArrayList<Integer> territory = new ArrayList<Integer>();
 		_getRecursiveTerritory(size, newBoard, newBoard[y][x], x, y, territory);
 		return territory;
 	}
-
+	
+	/** Returns the array of territory. */
+	public static ArrayList<Integer> getTerritory(int size, int[][] newBoard, int position) {
+		int [] coords = getCoords(size, position);
+		int x = coords[0];
+		int y = coords[1];
+		
+		return getTerritory(size, newBoard, x, y);
+	}
+	
 	/** Recursive adds fields to the array of territory. */
 	private static void _getRecursiveTerritory(int size, int[][] newBoard, int color, int x, int y, ArrayList<Integer> territory) {
 		if (newBoard[y][x] == color && !territory.contains(getPosition(size, x, y))) {
@@ -80,13 +102,25 @@ public class BoardOperations {
 	
 	/** Removes all pawn from array. */
 	public static void killThemAll(int size, int [][] board, ArrayList<Integer> territory) {
+		//TODO moga byc bledy XDD
 		for (int i = 0; i < territory.size(); i++) {
-			removePawn(board, getCoords(size, territory.get(i)));
+			removePawn(size, board, territory.get(i));
 		}
 	}
 	
 	/** Removes pawn from specific field. */
-	public static void removePawn(int board[][], int[] coords) {
+	//public static void removePawn(int board[][], int[] coords) {
+	//	board[coords[1]][coords[0]] = EMPTY;
+	//}
+	
+	/** Removes pawn from specific field. */
+	public static void removePawn(int board[][], int x, int y) {
+		board[y][x] = EMPTY;
+	}
+	
+	/** Removes pawn from specific field. */
+	public static void removePawn(int size, int board[][], int position) {
+		int [] coords = getCoords(size, position);
 		board[coords[1]][coords[0]] = EMPTY;
 	}
 	
@@ -117,10 +151,6 @@ public class BoardOperations {
 		int[] coords = new int[2];
 		coords[0] = (int) position % size + 1;
 		coords[1] = (int) position / size + 1;
-
-		if (position < 0 || position >= size*size)
-			coords[0] = STATUS_OVERRANGE;
-		
 		return coords;
 	}
 	
@@ -146,6 +176,16 @@ public class BoardOperations {
 			for (int j = 0; j < realSize; j++)
 				temp[i][j] = board[i][j];
 		return temp;
+	}
+	
+	/** Sets the borders. */
+	public static void initBorders(int realSize, int [][] board) {
+		for (int i = 0; i < realSize; i++)
+			for (int j = 0; j < realSize; j++)
+				if (i == 0 | j == 0 | i == realSize - 1 | j == realSize - 1)
+					board[i][j] = BORDER;
+				else
+					board[i][j] = EMPTY;
 	}
 	
 	/** Returns value of real size. */
