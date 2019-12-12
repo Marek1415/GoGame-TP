@@ -112,6 +112,7 @@ public class ClientGUI extends JFrame implements PawnOperations
 		//initStartModule();
 		//initJoinGameModule();
 		//initAgreeModule();
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		initGame(20);
 	}
 	/** Initialize the start module.*/
@@ -195,7 +196,7 @@ public class ClientGUI extends JFrame implements PawnOperations
 	
 	/** Deal with received signal from child.*/
 	public void recSignal(String signal) {
-		//client.boardButtonClicked(signal);
+		client.boardButtonClicked(signal);
 	}
 	
 	/** Adds a pawn with specific color on specific position.*/

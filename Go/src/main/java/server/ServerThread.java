@@ -54,25 +54,16 @@ public class ServerThread extends Thread
 			{
 				try
 					{
-						try
-							{
-								if(!threadIn.hasNextLine())
+						if(!threadIn.hasNextLine())
 									{
 										break;
 									}
-								line = threadIn.nextLine();
-								String splitString[] = line.split(" ");
-								int place = Integer.parseInt(splitString[1]);
-								String output = Signals.SE_PUTOK + " " + place;
-								System.out.println(output);
-								threadOut.println(output);
-								opponent.threadOut.println(output);		
-							}
-						catch(Exception e)
-							{
-								System.out.println("Problem z inputem w wątku");
-								break;
-							}
+						line = threadIn.nextLine();
+						String splitString[] = line.split(" ");
+						int place = Integer.parseInt(splitString[1]);
+						String output = Signals.SE_PUTOK + " " + place;
+						threadOut.println(output);
+						opponent.threadOut.println(Signals.CL_PUT + " " + place);		
 					}
 				catch(Exception e)
 					{
@@ -81,9 +72,8 @@ public class ServerThread extends Thread
 					}
 			}
 		SocketServer.serverThreads.remove(this);
-		close();
 	}
-	public void close()
+	protected void finalize()
 	{
 		try
 			{

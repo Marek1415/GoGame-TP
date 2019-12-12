@@ -32,6 +32,7 @@ public class Client extends JFrame
 	static boolean myTurn;
 	//implements AgreeMethod, EndMethod, RoomMethod, SizeMethod, StartMethod, ModInits {
 	ClientGUI GUI;
+	ClientThread clientThread;
 	//components
 	//private MessengerPanel messengerPanel;
 	Socket socket = null;
@@ -43,6 +44,9 @@ public class Client extends JFrame
 	{
 		GUI = new ClientGUI(this);
 		listen();
+		clientThread = new ClientThread(this);
+		clientThread.start();
+		System.out.println("Started");
 		/*boardPanel = new BoardPanel();
 		  boardPanel.init(7);
 		
@@ -114,47 +118,52 @@ public class Client extends JFrame
 	public void endInit() {
 		System.out.println("End!");
 	}
+	public void messageReceived(String command)
+	{
+		String splitString[];
+		try
+		{
+			splitString = command.split(" ");
+			if(command.equals("black"))
+			{
+				color = Pawn.BLACK;
+				myTurn = false;
+				GUI.turnOFF();
+				enemyColor = Pawn.WHITE;
+			}
+			else if(command.equals("green"))
+			{
+				GUI.turnON();
+				myTurn = true;
+				color = Pawn.WHITE;
+				enemyColor = Pawn.BLACK;
+			}
+			else if(splitString[0].equals(Signals.SE_PUTOK))
+			{
+				int place = Integer.parseInt(splitString[1]);
+				GUI.addPawn(place, color.Symbol());
+				GUI.turnOFF();
+				myTurn = false;
+			}
+			else if(splitString[0].equals(Signals.CL_PUT))
+			{
+				int place = Integer.parseInt(splitString[1]);
+				GUI.addPawn(place, enemyColor.Symbol());
+				GUI.turnON();
+				myTurn = true;
+			}
+		}
+		catch(Exception ex)
+		{
+			System.out.println("Problem z obsluga rozkazu");
+		}
+	}
 	public void boardButtonClicked(String signal)
 	{
 		if(myTurn)
 		{
-			String data;
 			System.out.println(signal);
-			String splitString[] = null;
 			out.println(signal);
-			try
-			{
-				data = in.nextLine();
-				try
-				{
-					splitString = data.split(" ");
-					System.out.println(data);
-					if(splitString[0].equals(Signals.SE_PUTOK))
-					{
-						int place = Integer.parseInt(splitString[1]);
-						GUI.addPawn(place, color.Symbol());
-					}
-					GUI.turnOFF();
-					data = in.nextLine();
-					System.out.println(data);
-					splitString = data.split(" ");
-					if(splitString[0].equals(Signals.SE_PUTOK))
-					{
-						int place = Integer.parseInt(splitString[1]);
-						GUI.addPawn(place, enemyColor.Symbol());
-					}
-				}
-				catch(Exception ex)
-				{
-					
-					
-				}
-			}
-			catch(Exception e)
-			{
-				
-			}
-			GUI.turnON();
 		}
 	}
 	/*class ButtonsListener implements ActionListener
@@ -261,30 +270,6 @@ public class Client extends JFrame
 				socket = new Socket("localhost", 4444);
 				out = new PrintWriter(socket.getOutputStream(), true);
 				in = new Scanner(new InputStreamReader(socket.getInputStream()));
-				String data = in.nextLine();
-				if(data.equals("black"))
-				{
-					color = Pawn.BLACK;
-					myTurn = false;
-					GUI.turnOFF();
-					enemyColor = Pawn.WHITE;
-					data = in.nextLine();
-					String splitString[] = data.split(" ");
-					if(splitString[0].equals(Signals.SE_PUTOK))
-					{
-						int place = Integer.parseInt(splitString[1]);
-						GUI.addPawn(place, enemyColor.Symbol());
-					}
-					GUI.turnON();
-					myTurn = true;
-				}
-				else if(data.equals("green"))
-				{
-					GUI.turnON();
-					myTurn = true;
-					color = Pawn.WHITE;
-					enemyColor = Pawn.BLACK;
-				}
 			}
 		catch(UnknownHostException e)
 			{
