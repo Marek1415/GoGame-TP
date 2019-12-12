@@ -4,6 +4,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
+
+import constants.PawnColors.Pawn;
 import constants.Signals;
 
 public class ServerThread extends Thread
@@ -13,8 +15,8 @@ public class ServerThread extends Thread
 	Socket socket = null;
 	String line;
 	ServerThread opponent;
-	int color;
-	ServerThread(Socket socket, int color)
+	Pawn color;
+	ServerThread(Socket socket, Pawn color)
 	{
 		this.color = color;
 		this.socket = socket;
@@ -32,32 +34,22 @@ public class ServerThread extends Thread
 		
 	public void run()
 	{
-		if(color == 1)
-		{
-			opponent = SocketServer.serverThreads.get(1);
-		}
-		else
-		{
-			opponent = SocketServer.serverThreads.get(0);
-		}
-		System.out.println(this.color + " wątek zadziałał");
-		System.out.println(opponent + " to mój przeciwnik");
-		if(color == 1)
+		if(color == Pawn.WHITE)
 			{
-				threadOut.println("black");
+				threadOut.println(Signals.COLOR_WHITE);
 			}
 		else
 			{
-				threadOut.println("green");
+				threadOut.println(Signals.COLOR_BLACK);
 			}
 		while(true)
 			{
 				try
 					{
 						if(!threadIn.hasNextLine())
-									{
+							{
 										break;
-									}
+							}
 						line = threadIn.nextLine();
 						String splitString[] = line.split(" ");
 						int place = Integer.parseInt(splitString[1]);

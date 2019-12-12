@@ -8,6 +8,9 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
+
+import constants.PawnColors.Pawn;
+
 import java.io.*;
 
 class SocketServer
@@ -18,6 +21,7 @@ class SocketServer
 	Scanner in = null;
 	PrintWriter out = null;
 	String line = "";
+	ServerThread[] tuple = new ServerThread[2];
 	static ArrayList<ServerThread> serverThreads;
 	int portNumber = 4444;
 	SocketServer()
@@ -82,35 +86,34 @@ class SocketServer
 		while(true)
 			{
 				try
-					{
+				{
 						socket = server.accept();
-					}
+				}
 				catch(Exception e)
-					{
+				{
 						System.out.println("Błąd przy tworzeniu wątku");
 						System.exit(-1);
-					}
-				int color;
-				if(serverThreads.size() < 3)
-				{
-					if(serverThreads.size() == 0)
-					{
-						color = 1;
-					}
-					else
-					{
-						color = -1;
-					}
-					ServerThread serverThread = new ServerThread(socket, color);
-					serverThreads.add(serverThread);
 				}
-				if(serverThreads.size() == 2)
+				
+				if(serverThreads.size() % 2 == 0)
 				{
-					for(ServerThread t: serverThreads)
+					ServerThread serverThread = new ServerThread(socket, Pawn.WHITE);
+					serverThreads.add(serverThread);
+					tuple[0] = serverThread;
+				}
+				else if(serverThreads.size() % 2 == 1)
+				{
+					ServerThread serverThread = new ServerThread(socket, Pawn.BLACK);
+					serverThreads.add(serverThread);
+					tuple[1] = serverThread;
+					serverThread.opponent = tuple[0];
+					tuple[0].opponent = serverThread;
+					for(ServerThread t: tuple)
 					{
 						t.start();
 					}
-				}
+					tuple = new ServerThread[2];
+				}	
 			}
 	}
 	

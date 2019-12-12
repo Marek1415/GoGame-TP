@@ -20,6 +20,9 @@ public final class Signals {
 	public final static String CL_READY = "CL_READY";
 	public final static String SE_COLORSET = "SE_COLORSET";
 	
+	public final static String COLOR_BLACK = "COLOR_BLACK";
+	public final static String COLOR_WHITE = "COLOR_WHITE";
+	
 	//signals during the game
 	public final static String CL_PUT = "CL_PUT";
 	public final static String SE_PUTOK = "SE_PUTOK";

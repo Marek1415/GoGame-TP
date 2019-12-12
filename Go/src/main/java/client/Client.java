@@ -46,7 +46,6 @@ public class Client extends JFrame
 		listen();
 		clientThread = new ClientThread(this);
 		clientThread.start();
-		System.out.println("Started");
 		/*boardPanel = new BoardPanel();
 		  boardPanel.init(7);
 		
@@ -124,14 +123,14 @@ public class Client extends JFrame
 		try
 		{
 			splitString = command.split(" ");
-			if(command.equals("black"))
+			if(command.equals(Signals.COLOR_BLACK))
 			{
 				color = Pawn.BLACK;
 				myTurn = false;
 				GUI.turnOFF();
 				enemyColor = Pawn.WHITE;
 			}
-			else if(command.equals("green"))
+			else if(command.equals(Signals.COLOR_WHITE))
 			{
 				GUI.turnON();
 				myTurn = true;
