@@ -11,7 +11,7 @@ import static constants.PawnColors.*;
 
 public class EngineBreathsTest {
 
-	//@Ignore
+	@Ignore
 	@Test
 	public void hasBreathTestFirst() {
 		int size = 5;
@@ -23,7 +23,7 @@ public class EngineBreathsTest {
 		assertEquals(hasBreath(size, board, 0), true);
 	}
 	
-	//@Ignore
+	@Ignore
 	@Test
 	public void hasBreathTestSecond() {
 		int size = 5;
@@ -36,7 +36,7 @@ public class EngineBreathsTest {
 		assertEquals(hasBreath(size, board, 0), true);
 	}
 	
-	//@Ignore
+	@Ignore
 	@Test
 	public void hasNotBreathTestFirst() {
 		int size = 5;
@@ -50,7 +50,7 @@ public class EngineBreathsTest {
 		assertEquals(hasBreath(size, board, 0), false);
 	}
 	
-	//@Ignore
+	@Ignore
 	@Test
 	public void hasNotBreathTestSecond() {
 		int size = 5;
@@ -66,7 +66,7 @@ public class EngineBreathsTest {
 		assertEquals(hasBreath(size, board, 12), false);
 	}
 	
-	//@Ignore
+	@Ignore
 	@Test
 	public void getTerritoryTestFirst() {
 		int size = 5;
@@ -84,7 +84,7 @@ public class EngineBreathsTest {
 		assertEquals(territory.contains(1), true);
 	}
 	
-	//@Ignore
+	@Ignore
 	@Test
 	public void getTerritoryTestSecond() {
 		int size = 5;
@@ -116,7 +116,7 @@ public class EngineBreathsTest {
 		assertEquals(territory.contains(4), true);
 	}
 	
-	//@Ignore
+	@Ignore
 	@Test
 	public void hasBreathsTestFirst() {
 		int size = 5;
@@ -139,7 +139,7 @@ public class EngineBreathsTest {
 		assertEquals(hasBreaths(size, board, whities), true);
 	}
 	
-	//@Ignore
+	@Ignore
 	@Test
 	public void hasNoBreathsTestFirst() {
 		int size = 5;
@@ -163,7 +163,7 @@ public class EngineBreathsTest {
 		assertEquals(hasBreaths(size, board, whities), false);
 	}
 	
-	//@Ignore
+	@Ignore
 	@Test
 	public void hasBreathsTestSecond() {
 		int size = 5;
@@ -190,7 +190,7 @@ public class EngineBreathsTest {
 		assertEquals(hasBreaths(size, board, whities), true);
 	}
 	
-	//@Ignore
+	@Ignore
 	@Test
 	public void hasNoBreathsTestSecond() {
 		int size = 5;
@@ -218,7 +218,7 @@ public class EngineBreathsTest {
 		assertEquals(hasBreaths(size, board, whities), false);
 	}
 
-	//@Ignore
+	@Ignore
 	@Test
 	public void killThemAllTest() {
 		int size = 5;
@@ -258,5 +258,52 @@ public class EngineBreathsTest {
 		assertEquals(getField(size, board, 8), EMPTY);
 		assertEquals(getField(size, board, 9), EMPTY);
 		assertEquals(getField(size, board, 4), EMPTY);	
+	}
+	
+	@Ignore
+	@Test
+	public void getBreathsTestFirst() {
+		int size = 5;
+		int realSize = getRealSize(size);
+		int board[][] = new int[realSize][realSize];
+		initBorders(realSize, board);
+		
+		putPawn(size, board, 15, BLACK);
+		putPawn(size, board, 16, BLACK);
+		putPawn(size, board, 21, BLACK);
+		
+		ArrayList<Integer> territory = getTerritory(size, board, 15);
+		ArrayList<Integer> breaths = getBreaths(size, board, territory);
+
+		assertEquals(breaths.size(), 5);
+		assertEquals(breaths.contains(20), true);
+		assertEquals(breaths.contains(10), true);
+		assertEquals(breaths.contains(11), true);
+		assertEquals(breaths.contains(17), true);
+		assertEquals(breaths.contains(22), true);
+	}
+	
+	@Ignore
+	@Test
+	public void getBreathsTestSecond() {
+		int size = 5;
+		int realSize = getRealSize(size);
+		int board[][] = new int[realSize][realSize];
+		initBorders(realSize, board);
+		
+		putPawn(size, board, 0, BLACK);
+		putPawn(size, board, 1, BLACK);
+		putPawn(size, board, 2, BLACK);
+		putPawn(size, board, 6, BLACK);
+		putPawn(size, board, 10, BLACK);
+		
+		ArrayList<Integer> territory = getTerritory(size, board, 0);
+		ArrayList<Integer> breaths = getBreaths(size, board, territory);
+
+		assertEquals(breaths.size(), 4);
+		assertEquals(breaths.contains(3), true);
+		assertEquals(breaths.contains(7), true);
+		assertEquals(breaths.contains(11), true);
+		assertEquals(breaths.contains(5), true);
 	}
 }

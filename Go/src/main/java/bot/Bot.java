@@ -71,9 +71,40 @@ public class Bot {
 		if(killPosition != -1)
 			return killPosition;
 		
+		//kill opportunity
+		/*
+		int opportunityPosition = lookForOpportunity();
+		if(opportunityPosition != -1)
+			return opportunityPosition;
+		*/
+		//random move
 		//zmienic to
 		return 0;
 		
+	}
+	
+	/** Searches the board for opportunity to kill enemy in the future.
+	public int lookForOpportunity() {
+		
+		int killPosition = -1;
+		int killAmount = 0;
+		int tempKillAmount;
+		int tempKillPosition;
+		
+		for(int i = 1; i < realSize-1; i++)
+		for(int j = 1; j < realSize-1; j++) {
+			if(board[i][j] == EMPTY) {
+				
+				tempKillAmount = tryKill(j, i);
+				tempKillPosition = getPosition(size, j, i);
+				
+				if(tempKillAmount > killAmount && tempKillPosition != lastKo) {
+					killAmount = tempKillAmount;
+					killPosition = tempKillPosition;
+				}
+			}
+		}
+		return killPosition;
 	}
 	
 	/** Searches the board to kill as many enemy pawns as possible. */

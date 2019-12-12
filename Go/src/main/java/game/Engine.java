@@ -2,6 +2,7 @@ package game;
 
 import static constants.PawnColors.BORDER;
 import static constants.PawnColors.EMPTY;
+import static constants.PawnColors.BREATH;
 
 import java.util.ArrayList;
 
@@ -24,6 +25,39 @@ public class Engine {
 				System.out.print(board[i][j] + " ");
 			System.out.println();
 		}
+	}
+	
+	/** Returns territory breaths. */
+	public static ArrayList<Integer> getBreaths(int size, int[][] board, ArrayList<Integer> territory) {
+		int realSize = getRealSize(size);
+		int temp[][] = new int[realSize][realSize];
+		for(int i = 0; i < territory.size(); i++)
+			putBreaths(board, temp, getCoords(size, territory.get(i)));
+		return getBreathsPositions(size, temp);
+	}
+	
+	/** Puts value in breaths temp table. */
+	private static void putBreaths(int [][]board, int temp[][], int [] coords) {
+		int x = coords[0];
+		int y = coords[1];
+		
+		if(board[y-1][x] == EMPTY)	temp[y-1][x] = BREATH;
+		if(board[y+1][x] == EMPTY)	temp[y+1][x] = BREATH;
+		if(board[y][x-1] == EMPTY)	temp[y][x-1] = BREATH;
+		if(board[y][x+1] == EMPTY)	temp[y][x+1] = BREATH;	
+	}
+	
+	/** Returns breaths positions. */
+	private static ArrayList<Integer> getBreathsPositions(int size, int temp[][]) {
+		ArrayList<Integer> positions = new ArrayList<Integer>();
+		int realSize = getRealSize(size);
+		
+		for(int i = 1; i < realSize-1; i++)
+		for(int j = 1; j < realSize-1; j++)
+			if(temp[i][j] == BREATH)
+				positions.add(getPosition(size, j, i));
+		
+		return positions;
 	}
 	
 	/** Checks if territory has breaths. */
