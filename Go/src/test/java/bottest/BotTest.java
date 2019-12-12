@@ -69,5 +69,4 @@ public class BotTest {
 			else
 				assertEquals(bot.getBotField(j, i), EMPTY);
 	}
-
 }
