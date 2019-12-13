@@ -6,6 +6,7 @@ import client.Client;
 import client_interfaces.PawnOperations;
 
 import static constants.PawnColors.*;
+import static constants.Signals.*;
 import java.awt.*;
 
 import client_modules.AgreeMod;
@@ -20,7 +21,7 @@ import constants.PawnColors;
 import client.*;
 /**
  * @author gumises
- * Client GUI, displays Board, action Buttons, ... TODO add more
+ * Client GUI Facade, connects GUI panels and simplifies thiers methods.
  */
 public class ClientGUI extends JFrame implements PawnOperations
 {
@@ -30,21 +31,20 @@ public class ClientGUI extends JFrame implements PawnOperations
 	private PointsPanel pointsPanel;
 	private MessengerPanel messengerPanel;
 	
-	Client client;
 	//modules
 	private StartMod startMod;
-	private JoinGameMod joinGameMod;
+	//private JoinGameMod joinGameMod;
 	private NewGameMod newGameMod;
 	private AgreeMod agreeMod;
 	
 	/** Public constructor. */
-	public ClientGUI(Client client)
-	{																																																																																				
-		this.client = client;
+	public ClientGUI()
+	{		
+		
 		//MODULES
 		
 		//start module
-		/*startMod = new StartMod() {
+		startMod = new StartMod() {
 			@Override
 			public void newGame() {
 				initNewGameModule();
@@ -52,31 +52,34 @@ public class ClientGUI extends JFrame implements PawnOperations
 			
 			@Override
 			public void joinGame() {
-				initJoinGameModule();
+				recSignalNow(CL_ROOMJOIN);
 			}
-		};*/
+		};
 		
+		//this module won't be use
 		//join game module
-		joinGameMod = new JoinGameMod() {
+		/*joinGameMod = new JoinGameMod() {
 			@Override
 			public void sendSignal(String signal) {
 				recSignal(signal);
 			}
 		};
+		*/
 		
 		//new game module
-		/*newGameMod = new NewGameMod() {
+		newGameMod = new NewGameMod() {
 			@Override
-			public void sendSignal(String signal) {
-				recSignal(signal);
+			public void sendSignal(String signal, int size) {
+				initGame(size);
+				recSignalNow(signal);
 			}
-		};*/
+		};
 		
 		//agree module
 		agreeMod = new AgreeMod() {
 			@Override
 			public void sendSignal(String signal) {
-				recSignal(signal);
+				recSignalNow(signal);
 			}
 		};
 		
@@ -87,15 +90,21 @@ public class ClientGUI extends JFrame implements PawnOperations
 		boardPanel = new BoardPanel() {
 			@Override
 			public void sendSignal(String signal) {
-				recSignal(signal);
+				recSignalWait(signal);
 			}
 		};
 		
 		//action panel
 		actionPanel = new ActionPanel() {
+			
 			@Override
-			public void sendSignal(String signal) {
-				recSignal(signal);
+			public void sendSignalNow(String signal) {
+				recSignalNow(signal);
+			}
+			
+			@Override
+			public void sendSignalWait(String signal) {
+				recSignalWait(signal);
 			}
 		};
 		
@@ -106,22 +115,26 @@ public class ClientGUI extends JFrame implements PawnOperations
 		messengerPanel = new MessengerPanel() {
 			@Override
 			public void sendSignal(String signal) {
-				recSignal(signal);
+				recSignalNow(signal);
 			}
 		};
-		//initStartModule();
-		//initJoinGameModule();
-		//initAgreeModule();
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		initGame(20);
+		
 	}
+	
 	/** Initialize the start module.*/
 	public void initStartModule() {
 		startMod.init();
 	}
 	
-	public void initJoinGameModule() {
-		joinGameMod.init(new int[] {0, 1, 4, 5, 67});
+	//public void initJoinGameModule() {
+	//	joinGameMod.init(new int[] {0, 1, 4, 5, 67});
+	//}
+	
+	/** Initialize new game module. */
+	public void initNewGameModule() {
+		newGameMod.init();
 	}
 	
 	/** Initialize the agree module.*/
@@ -175,24 +188,21 @@ public class ClientGUI extends JFrame implements PawnOperations
 		add(actionPanel, gbc);
 		
 		pack();
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setBackground(Color.YELLOW);
+		setResizable(false);
 		setVisible(true);
 		
-		//addMessage("QWERTYUIOP");
-		//for(int i = 0; i < 20; i ++)
-		//	addMessage(Integer.toString(i));
-		
-		//addPawn(100, PawnColors.Pawn.BLACK.Symbol());
-		//setPoints("100");
-		turnON();
-		//turnOFF();
-		setResizable(false);
 	}
 	
-	/** Deal with received signal from child.*/
-	public void recSignal(String signal) {
-		client.boardButtonClicked(signal);
+	/** Deal with received signal from child for which client can wait.*/
+	public void recSignalNow(String signal) {
+		
+	}
+	
+	/** Deal with received signal from child which client execute immediately. */
+	public void recSignalWait(String signal) {
+		
 	}
 	
 	/** Adds a pawn with specific color on specific position.*/
@@ -223,6 +233,11 @@ public class ClientGUI extends JFrame implements PawnOperations
 	/** Sets the turn mode OFF. */
 	public void turnOFF() {
 		pointsPanel.turnOFF();
+	}
+	
+	/** Invoked when enemy join the game. */
+	public void enemyJoin() {
+		actionPanel.enemyJoin();
 	}
 
 	/** Creating ClientGUI for test. */

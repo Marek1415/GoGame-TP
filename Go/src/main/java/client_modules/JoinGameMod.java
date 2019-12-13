@@ -104,7 +104,7 @@ implements SignalSender{
     		
     		addActionListener(new ActionListener() {
       			public void actionPerformed(ActionEvent event) {
-        			action(CL_ROOMSET + " " + newRoom);
+        			action("BLABLALBA" + " " + newRoom);
       			}
     		});
     		

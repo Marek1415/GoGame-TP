@@ -1,12 +1,7 @@
 package client_panels;
 
-import javax.swing.AbstractButton;
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-
-import client_interfaces.SignalSender;
 
 import static constants.Signals.*;
 import static constants_panels.ActionPanelConstants.*;
@@ -21,7 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /** Panel for displaying board. */
-public class ActionPanel extends JPanel implements SignalSender {
+public class ActionPanel extends JPanel{
 
 	//components
 	private ActionButton readyButton;
@@ -37,15 +32,16 @@ public class ActionPanel extends JPanel implements SignalSender {
 		readyButton = new ActionButton(STR_READY, DIM_BUTTON, COL_READY) {
 			@Override
 			public void action() {
-				sendSignal(CL_READY);
+				sendSignalNow(CL_READY);
 			}
 		};
+		readyButton.setEnabled(false);
 		
 		//check Button
 		checkButton = new ActionButton(STR_CHECK, DIM_BUTTON, COL_CHECK) {
 			@Override
 			public void action() {
-				sendSignal(CL_CHECK);
+				sendSignalWait(CL_CHECK);
 			}
 		};
 		
@@ -53,7 +49,7 @@ public class ActionPanel extends JPanel implements SignalSender {
 		endButton = new ActionButton(STR_END, DIM_BUTTON, COL_END) {
 			@Override
 			public void action() {
-				sendSignal(CL_END);
+				sendSignalNow(CL_END);
 			}
 		};
 		
@@ -111,7 +107,12 @@ public class ActionPanel extends JPanel implements SignalSender {
 	}
 	
 	/** Sends the signal to the frame.*/
-	public void sendSignal(String signal) {
+	public void sendSignalNow(String signal) {
+		//System.out.println("[SIGNAL]  " + signal);
+	}
+	
+	/** Sends the signal to the frame.*/
+	public void sendSignalWait(String signal) {
 		//System.out.println("[SIGNAL]  " + signal);
 	}
 	
@@ -121,6 +122,11 @@ public class ActionPanel extends JPanel implements SignalSender {
 		infoArea.append("\n" + message);
 	}
 	
+	/** Invoked when enemy join the game. */
+	public void enemyJoin() {
+		readyButton.setEnabled(true);
+	}
+	
 	public static void main(String [] args) {
 		new ActionPanel();
 	}
@@ -128,9 +134,6 @@ public class ActionPanel extends JPanel implements SignalSender {
 	/** Button for performing action on parent.*/
 	private abstract class ActionButton extends JButton {
     	
-    	/*
-    	 * constructor
-    	 */
     	private ActionButton(String text, Dimension dim, Color col) {
     		
     		super(text);
@@ -148,13 +151,11 @@ public class ActionPanel extends JPanel implements SignalSender {
     		
     	}
     	
-    	/*
-    	 * action method, must be override by parent
-    	 */
+    	/** Action method, must be override by parent. */
     	public abstract void action();
     }
 	
-	/** TextArea for displaying current game info.*/
+	/** TextArea for displaying current game info. */
 	private class InfoArea extends TextArea {
 		
 		private InfoArea() {

@@ -114,7 +114,6 @@ public class SizePanel extends JPanel {
     	
     	/** Make the button pressed mode. */
     	public void setPressed() {
-    		System.out.println("Now pressed!");
 			setCurrentSize(size);
 			setNoPressedOthers();
     		setBackground(colorPressed);

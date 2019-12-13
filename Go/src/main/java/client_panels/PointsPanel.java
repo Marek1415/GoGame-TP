@@ -168,6 +168,7 @@ public class PointsPanel extends JPanel {
 		
 		public TurnLabel(String textON, String textOFF) {
 			super(STR_TURN_INIT);
+			setForeground(COL_INIT);
 			this.textOFF = textOFF;
 			this.textON = textON;
 			setFont(FONT_LABEL);

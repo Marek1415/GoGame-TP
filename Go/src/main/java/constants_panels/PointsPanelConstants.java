@@ -27,6 +27,7 @@ public final class PointsPanelConstants extends Constants{
 	//colors
 	public final static Color COL_ON = Color.GREEN.darker();
 	public final static Color COL_OFF = Color.RED.brighter();
+	public final static Color COL_INIT = Color.LIGHT_GRAY;
 	public final static Color COL_POINTS_LABEL = Color.LIGHT_GRAY;
 	public final static Color COL_POINTS_NUMBER = Color.WHITE;
 	public final static Color COL_BACKGROUND = Color.DARK_GRAY;

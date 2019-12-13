@@ -12,9 +12,10 @@ public final class Signals {
 	//start game
 	//public final static String CL_PLAYBOT = "CL_PLAYBOT";	//depreciated
 	//public final static String CL_PLAYUSR = "CL_PLAYBOT";	//depreciated
-	public final static String SE_ROOMSGET = "SE_ROOMSGET";
-	public final static String CL_ROOMSET = "CL_ROOMSET";
+	//public final static String SE_ROOMSGET = "SE_ROOMSGET";
+	//public final static String CL_ROOMSET = "CL_ROOMSET";
 	public final static String CL_ROOMNEW = "CL_ROOMNEW";
+	public final static String CL_ROOMJOIN = "CL_ROOMJOIN";
 	public final static String CL_SIZESET = "CL_SIZESET";
 	public final static String SE_ENEMYNEW = "SE_ENEMYNEW";
 	public final static String CL_READY = "CL_READY";

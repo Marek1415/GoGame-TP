@@ -8,10 +8,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
-
-import client.Client;
-import client_interfaces.SignalSender;
 
 import static constants.Signals.*;
 import static constants_modules.NewGameModConstants.*;
@@ -19,17 +15,15 @@ import static constants_modules.NewGameModConstants.*;
 /**
  * @author gumises Player chooses game mode and board size.
  */
-public class NewGameMod extends JFrame implements SignalSender{
+public class NewGameMod extends JDialog {
 
 	// components
 	ModePanel modePanel;
 	SizePanel sizePanel;
 	StartButton startButton;
-	Client client;
-	
-	public NewGameMod(Client client) {
-		
-		this.client = client;
+
+	public NewGameMod() {
+
 		modePanel = new ModePanel();
 		sizePanel = new SizePanel();
 		startButton =  new StartButton();
@@ -59,28 +53,34 @@ public class NewGameMod extends JFrame implements SignalSender{
 		pack();
 		setTitle(STR_TITLE);
 		setResizable(false);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setVisible(false);
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+	}
+
+	/** Initialize the dialog window. */
+	public void init() {
 		setVisible(true);
 	}
 	
 	/** Prepares signal fore sending.*/
 	public void prepareSignal() {
-		client.startButtons(CL_ROOMNEW 
-				+ " " + modePanel.getCurrentMode()
-				+ " " + sizePanel.getCurrentSize());
+		int mode = modePanel.getCurrentMode();
+		int size = sizePanel.getCurrentSize();
+		String signal = CL_ROOMNEW + " " + mode + " " + size;
+		sendSignal(signal, size);
 		setVisible(false);
-		dispose();
 	}
 	
 	/** Sends the signal to the panel. */
-	public void sendSignal(String signal) {
+	public void sendSignal(String signal, int size) {
 		//System.out.println("[SIGNAL]  " + signal);
 	}
 
-	/*public static void main(String[] args) {
+	public static void main(String[] args) {
 		// TODO delete main method
 		NewGameMod newGameMod = new NewGameMod();
-	}*/
+		newGameMod.init();
+	}
 	
     /** Starts the game. */
 	private class StartButton extends JButton {

@@ -8,17 +8,15 @@ import java.net.UnknownHostException;
 import java.util.Scanner;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
 
-import client_modules.NewGameMod;
-import client_panels.ActionPanel;
-import client_panels.BoardPanel;
-import client_panels.MessengerPanel;
 import client_gui.*;
 import constants.PawnColors;
 import constants.PawnColors.Pawn;
 import constants.Signals;
+
+import static constants.Messages.*;
+import static constants.Signals.*;
+
 /**
  * @author ja 
  * Client GUI, displays Board, action Buttons, ... TODO add more
@@ -29,7 +27,6 @@ public class Client extends JFrame
 	static boolean myTurn;
 	ClientGUI GUI;
 	ClientThread clientThread;
-	NewGameMod dialog;
 	Socket socket = null;
 	PrintWriter out = null;
 	Scanner in = null;
@@ -37,24 +34,31 @@ public class Client extends JFrame
 	/** Public constructor. */
 	public Client()
 	{
-		//GUI = new ClientGUI(this);
-		dialog = new NewGameMod(this);
-		listen();
-		clientThread = new ClientThread(this);
-		clientThread.start();
+		//listen
+		//listen();
+		
+		//initialize GUI
+		GUI = new ClientGUI() {
+			
+			@Override
+			public void recSignalNow(String signal) {
+				executeSignalNow(signal);
+			}
+			
+			@Override
+			public void recSignalWait(String signal) {
+				executeSignalWait(signal);
+			}
+		};
+		
+		
+		//start GUI
+		GUI.initStartModule();
+		
+		//clientThread = new ClientThread(this);
+		//clientThread.start();
 	}
 	
-	public void readyInit() {
-		System.out.println("Ready!");
-	}
-	
-	public void checkInit() {
-		System.out.println("Check!");
-	}
-	
-	public void endInit() {
-		System.out.println("End!");
-	}
 	public void messageReceived(String command)
 	{
 		String splitString[];
@@ -93,7 +97,7 @@ public class Client extends JFrame
 			else if(splitString[0].equals(Signals.START)) 
 			{
 				System.out.println("im here");
-				GUI = new ClientGUI(this);
+				//GUI = new ClientGUI(this);
 			}
 		}
 		catch(Exception ex)
@@ -103,16 +107,41 @@ public class Client extends JFrame
 	}
 	public void startButtons(String signal)
 	{
+		System.out.println(signal);
 		out.println(signal);
 	}
+	
+	/** Executes GUI signal without waiting for turn. */
+	public void executeSignalNow(String signal) {
+		System.out.println(signal);
+		//out.println(signal);
+	}
+	
+	/** Executes GUI signal only if its client turn. */
+	public void executeSignalWait(String signal) {
+		
+		if(myTurn) {
+			System.out.println(signal);
+			//out.println(signal);
+		}
+		else {
+			GUI.addMessage(THIS + NO_TURN);
+		}
+	}
+	
+	/*
 	public void boardButtonClicked(String signal)
 	{
+		//TODO delete this in the future
+		System.out.println(signal);
 		if(myTurn)
 		{
 			System.out.println(signal);
 			out.println(signal);
 		}
 	}
+	*/
+	
 	/*class ButtonsListener implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
