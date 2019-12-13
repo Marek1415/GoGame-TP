@@ -1,9 +1,5 @@
 package client;
 
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -15,6 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+import client_modules.NewGameMod;
 import client_panels.ActionPanel;
 import client_panels.BoardPanel;
 import client_panels.MessengerPanel;
@@ -23,18 +20,16 @@ import constants.PawnColors;
 import constants.PawnColors.Pawn;
 import constants.Signals;
 /**
- * @author gumises
+ * @author ja 
  * Client GUI, displays Board, action Buttons, ... TODO add more
  */
 public class Client extends JFrame
 {
 	Pawn color, enemyColor;
 	static boolean myTurn;
-	//implements AgreeMethod, EndMethod, RoomMethod, SizeMethod, StartMethod, ModInits {
 	ClientGUI GUI;
 	ClientThread clientThread;
-	//components
-	//private MessengerPanel messengerPanel;
+	NewGameMod dialog;
 	Socket socket = null;
 	PrintWriter out = null;
 	Scanner in = null;
@@ -42,68 +37,11 @@ public class Client extends JFrame
 	/** Public constructor. */
 	public Client()
 	{
-		GUI = new ClientGUI(this);
+		//GUI = new ClientGUI(this);
+		dialog = new NewGameMod(this);
 		listen();
 		clientThread = new ClientThread(this);
 		clientThread.start();
-		/*boardPanel = new BoardPanel();
-		  boardPanel.init(7);
-		
-		  //action panel
-		  actionPanel = new ActionPanel() {
-			
-		  @Override
-		  public void ready() {
-		  readyInit();
-		  }
-			
-		  @Override
-		  public void check() {
-		  checkInit();
-		  }
-			
-		  @Override
-		  public void end() {
-		  endInit();
-		  }
-		  };
-		
-		  //messengerPanel = new MessengerPanel();
-		
-		  //gridBagLayout, gridBagConstraint
-		  GridBagLayout layout = new GridBagLayout(); 
-		  GridBagConstraints gbc = new GridBagConstraints();
-		  setLayout(layout);
-		
-		
-		  //gbc init
-		  gbc.insets = new Insets(5, 5, 5, 5);
-		  gbc.weightx = 1;
-		  gbc.weighty = 1;
-		  gbc.fill = GridBagConstraints.BOTH;
-		
-		  //board panel
-		  gbc.gridx = 0;
-		  gbc.gridy = 0;
-		  add(boardPanel, gbc);
-		
-		  //action panel
-		  gbc.gridx = 1;
-		  gbc.gridy = 0;
-		  gbc.gridheight = 1;
-		  add(actionPanel, gbc);
-		
-		  //messenger panel
-		  //gbc.gridx = 0;
-		  //gbc.gridy = 1;
-		  //gbc.gridheight = 1;
-		  //add(messengerPanel, gbc);*/
-		/*setBounds(100, 100, 800, 800); 
-		//pack();
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
-		setVisible(true);
-		
-		*/
 	}
 	
 	public void readyInit() {
@@ -120,6 +58,7 @@ public class Client extends JFrame
 	public void messageReceived(String command)
 	{
 		String splitString[];
+		System.out.println(command);
 		try
 		{
 			splitString = command.split(" ");
@@ -151,11 +90,20 @@ public class Client extends JFrame
 				GUI.turnON();
 				myTurn = true;
 			}
+			else if(splitString[0].equals(Signals.START)) 
+			{
+				System.out.println("im here");
+				GUI = new ClientGUI(this);
+			}
 		}
 		catch(Exception ex)
 		{
 			System.out.println("Problem z obsluga rozkazu");
 		}
+	}
+	public void startButtons(String signal)
+	{
+		out.println(signal);
 	}
 	public void boardButtonClicked(String signal)
 	{

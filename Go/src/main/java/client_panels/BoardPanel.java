@@ -97,7 +97,7 @@ public class BoardPanel extends JPanel implements PawnOperations, SignalSender{
 		//setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 	
-	public static void main(String [] args) {
+	/*public static void main(String [] args) {
 		//TODO delete main method
 		BoardPanel boardPanel = new BoardPanel();
 		boardPanel.init(20);
@@ -105,7 +105,7 @@ public class BoardPanel extends JPanel implements PawnOperations, SignalSender{
 		boardPanel.addPawn(15, PawnColors.Pawn.WHITE.Symbol());
 		boardPanel.addPawn(24, PawnColors.Pawn.BLACK.Symbol());
 		boardPanel.removePawn(5);
-	}
+	}*/
 	
 	public void sendSignal(String signal) {
 		System.out.println(signal);

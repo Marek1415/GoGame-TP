@@ -8,7 +8,9 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 
+import client.Client;
 import client_interfaces.SignalSender;
 
 import static constants.Signals.*;
@@ -17,15 +19,17 @@ import static constants_modules.NewGameModConstants.*;
 /**
  * @author gumises Player chooses game mode and board size.
  */
-public class NewGameMod extends JDialog implements SignalSender {
+public class NewGameMod extends JFrame implements SignalSender{
 
 	// components
 	ModePanel modePanel;
 	SizePanel sizePanel;
 	StartButton startButton;
-
-	public NewGameMod() {
-
+	Client client;
+	
+	public NewGameMod(Client client) {
+		
+		this.client = client;
 		modePanel = new ModePanel();
 		sizePanel = new SizePanel();
 		startButton =  new StartButton();
@@ -55,21 +59,17 @@ public class NewGameMod extends JDialog implements SignalSender {
 		pack();
 		setTitle(STR_TITLE);
 		setResizable(false);
-		setVisible(false);
-		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-	}
-
-	/** Initialize the dialog window. */
-	public void init() {
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 	}
 	
 	/** Prepares signal fore sending.*/
 	public void prepareSignal() {
-		sendSignal(CL_ROOMNEW 
+		client.startButtons(CL_ROOMNEW 
 				+ " " + modePanel.getCurrentMode()
 				+ " " + sizePanel.getCurrentSize());
 		setVisible(false);
+		dispose();
 	}
 	
 	/** Sends the signal to the panel. */
@@ -77,11 +77,10 @@ public class NewGameMod extends JDialog implements SignalSender {
 		//System.out.println("[SIGNAL]  " + signal);
 	}
 
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		// TODO delete main method
 		NewGameMod newGameMod = new NewGameMod();
-		newGameMod.init();
-	}
+	}*/
 	
     /** Starts the game. */
 	private class StartButton extends JButton {

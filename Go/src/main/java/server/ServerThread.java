@@ -34,28 +34,39 @@ public class ServerThread extends Thread
 		
 	public void run()
 	{
-		if(color == Pawn.WHITE)
-			{
-				threadOut.println(Signals.COLOR_WHITE);
-			}
-		else
-			{
-				threadOut.println(Signals.COLOR_BLACK);
-			}
 		while(true)
 			{
 				try
 					{
 						if(!threadIn.hasNextLine())
 							{
-										break;
+								break;
 							}
 						line = threadIn.nextLine();
 						String splitString[] = line.split(" ");
-						int place = Integer.parseInt(splitString[1]);
-						String output = Signals.SE_PUTOK + " " + place;
-						threadOut.println(output);
-						opponent.threadOut.println(Signals.CL_PUT + " " + place);		
+						String output = null;
+						if(splitString[0].contentEquals(Signals.CL_PUT))
+						{
+							int place = Integer.parseInt(splitString[1]);
+							output = Signals.SE_PUTOK + " " + place;
+							threadOut.println(output);
+							opponent.threadOut.println(Signals.CL_PUT + " " + place);
+						}
+						else if(splitString[0].equals(Signals.CL_ROOMNEW))
+						{
+							output = Signals.START;
+							threadOut.println(output);
+							opponent.threadOut.println(output);
+							if(color == Pawn.WHITE)
+							{
+								threadOut.println(Signals.COLOR_WHITE);
+							}
+							else
+							{
+								threadOut.println(Signals.COLOR_BLACK);
+							}
+						}
+						System.out.println(output);
 					}
 				catch(Exception e)
 					{

@@ -18,6 +18,7 @@ public final class Signals {
 	public final static String CL_SIZESET = "CL_SIZESET";
 	public final static String SE_ENEMYNEW = "SE_ENEMYNEW";
 	public final static String CL_READY = "CL_READY";
+	public final static String START = "START";
 	public final static String SE_COLORSET = "SE_COLORSET";
 	
 	public final static String COLOR_BLACK = "COLOR_BLACK";
