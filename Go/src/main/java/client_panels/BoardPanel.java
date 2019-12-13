@@ -1,6 +1,7 @@
 package client_panels;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import board_components.Board;
 import board_components.XAxis;
@@ -21,7 +22,7 @@ import constants.PawnColors;
  * Facade for connecting BoardPanel with board components and their methods.
  * @author gumises
  */
-public class BoardPanel extends JFrame implements PawnOperations, SignalSender{
+public class BoardPanel extends JPanel implements PawnOperations, SignalSender{
 
 	//components
 	private Board board;
@@ -83,18 +84,18 @@ public class BoardPanel extends JFrame implements PawnOperations, SignalSender{
 		setVisible(true);
 		setBackground(BACKGROUND);
 		
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		//setDefaultCloseOperation(EXIT_ON_CLOSE);
 		//setResizable(false);
-		pack();
+		//pack();
 	}
 	
 	public static void main(String [] args) {
 		//TODO delete main method
 		BoardPanel boardPanel = new BoardPanel();
-		int size = 7;
+		int size = 43;
 		boardPanel.init(size);
-		for(int i = 0; i < size; i++)
-		for(int j = 0; j < size-4; j++)
+		for(int i = 0; i < size-2; i++)
+		for(int j = 0; j < size-3; j++)
 			boardPanel.addPawn(i*size+j, PawnColors.Pawn.WHITE.Symbol());
 	}
 	
