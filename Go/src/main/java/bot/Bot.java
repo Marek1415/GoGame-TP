@@ -5,6 +5,7 @@ import static game.Engine.*;
 import static constants.Statuses.STATUS_KOINIT;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import game.Engine;
 /**
@@ -24,14 +25,22 @@ public class Bot {
 	private int temp[][];
 	private int lastKo;
 	
+	//arrays
+	private ArrayList<Integer> breathPositionsTemp;
+	
+	//random
+	private Random random;
+	
 	public Bot() {
+		/*
 		initBot(5);
 		setColor(WHITE);
 		lastKo = STATUS_KOINIT;
 		printBoard(realSize, board);
 		printRealBoard(realSize, board);
 		System.out.println("color" + getColor());
-		lookForKill();
+		lookForOpportunity();
+		*/
 	}
 	
 	/** Initialize game board. */
@@ -40,7 +49,9 @@ public class Bot {
 		this.realSize = getRealSize(size);
 		board = new int[realSize][realSize];
 		initBorders(realSize, board);
-		//lastKo = STATUS_KOINIT;
+		random = new Random();
+		lastKo = STATUS_KOINIT;
+		breathPositionsTemp = new ArrayList<Integer>();
 	}
 	
 	/** Sets bot color. */
@@ -60,51 +71,72 @@ public class Bot {
 		
 		//gets last ko position
 		getLastKo();
+		int move;
 		
 		//help
-		int safePosition = lookForSafe();
-		if(safePosition != -1)
-			return safePosition;
+		move = lookForSafe();
+		if(move != -1)
+			return move;
 		
 		//kill
-		int killPosition = lookForKill();
-		if(killPosition != -1)
-			return killPosition;
+		move = lookForKill();
+		if(move != -1)
+			return move;
 		
 		//kill opportunity
-		/*
-		int opportunityPosition = lookForOpportunity();
-		if(opportunityPosition != -1)
-			return opportunityPosition;
-		*/
+		move = lookForOpportunity();
+		if(move != -1)
+			return move;
+		
 		//random move
 		//zmienic to
 		return 0;
 		
 	}
 	
-	/** Searches the board for opportunity to kill enemy in the future.
+	/** Searches the board for opportunity to kill enemy in the future. */
 	public int lookForOpportunity() {
 		
-		int killPosition = -1;
-		int killAmount = 0;
-		int tempKillAmount;
-		int tempKillPosition;
+		//variables
+		int opportunityPosition = -1;
+		
+		int breaths = Integer.MAX_VALUE;
+		int breathsTemp;
 		
 		for(int i = 1; i < realSize-1; i++)
 		for(int j = 1; j < realSize-1; j++) {
-			if(board[i][j] == EMPTY) {
+			if(board[i][j] == enemyColor) {
 				
-				tempKillAmount = tryKill(j, i);
-				tempKillPosition = getPosition(size, j, i);
-				
-				if(tempKillAmount > killAmount && tempKillPosition != lastKo) {
-					killAmount = tempKillAmount;
-					killPosition = tempKillPosition;
+				breathsTemp = tryOpportune(j, i);
+				if(breathPositionsTemp.size() > 0 && breathsTemp < breaths) {
+					breaths = breathsTemp;
+					opportunityPosition = getRandomPosition(breathPositionsTemp);
 				}
 			}
 		}
-		return killPosition;
+		
+		return opportunityPosition;
+	}
+	
+	/** Tries to put pawn and looks for amount of breaths. */
+	private int tryOpportune(int x, int y) {
+		
+		ArrayList<Integer> breaths;
+		breaths = getBreaths(size, board, getTerritory(size, board, x, y));
+		
+		int amountOfBreaths = breaths.size();
+		for(int i = amountOfBreaths-1; i >= 0; i--)
+			if(breaths.get(i) == lastKo || isSuicide(size, board, breaths.get(i), color))
+				breaths.remove(i);
+		
+		breathPositionsTemp = new ArrayList<Integer>(breaths);
+		return amountOfBreaths;
+	}
+	
+	/** Returns random value from array. */
+	public int getRandomPosition(ArrayList<Integer> positions) {
+		int index = random.nextInt(positions.size());
+		return positions.get(index);
 	}
 	
 	/** Searches the board to kill as many enemy pawns as possible. */
@@ -240,8 +272,19 @@ public class Bot {
 		//TODO override by parent
 	}
 	
+	/** Sets value of last ko. */
 	public void setLastKo(int ko) {
 		this.lastKo = ko;
+	}
+	
+	/** Prints board in the console. */
+	public void printBoard() {
+		Engine.printBoard(realSize, board);
+	}
+	
+	/** Prints real board in the console. */
+	public void printRealBoard() {
+		Engine.printRealBoard(realSize, board);
 	}
 	
 	public static void main(String [] args) {

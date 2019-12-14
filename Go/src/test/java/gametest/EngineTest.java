@@ -4,9 +4,14 @@ import static org.junit.Assert.*;
 
 import org.junit.Ignore;
 import org.junit.Test;
+
+import game.Game;
+
 import java.util.Random;
 import static game.Engine.*;
 import static constants.PawnColors.*;
+import static constants.Statuses.STATUS_PUT;
+import static constants.Statuses.STATUS_SUICIDE;
 
 public class EngineTest {
 
@@ -148,5 +153,48 @@ public class EngineTest {
 				assertEquals(getField(board, j, i), BORDER);
 			else
 				assertEquals(getField(board, j, i), EMPTY);
+	}
+	
+	//@Ignore
+	@Test
+	public void testSuicideOne() {
+		int size = 5;
+		int realSize = getRealSize(size);
+		int [][] board = new int[realSize][realSize];
+		initBorders(realSize, board);
+		
+		putPawn(size, board, 1, WHITE);
+		putPawn(size, board, 5, WHITE);
+		putPawn(size, board, 7, WHITE);
+		putPawn(size, board, 11, WHITE);
+		
+		assertEquals(isSuicide(size, board, 6, BLACK), true);
+		assertEquals(isSuicide(size, board, 6, WHITE), false);
+		assertEquals(isSuicide(size, board, 2, BLACK), false);
+	}
+	
+	//@Ignore
+	@Test
+	public void testSuicideMany() {
+		int size = 5;
+		int realSize = getRealSize(size);
+		int [][] board = new int[realSize][realSize];
+		initBorders(realSize, board);
+		
+		putPawn(size, board, 6, WHITE);
+		putPawn(size, board, 7, WHITE);
+		putPawn(size, board, 10, WHITE);
+		putPawn(size, board, 13, WHITE);
+		putPawn(size, board, 16, WHITE);
+		putPawn(size, board, 18, WHITE);
+		putPawn(size, board, 22, WHITE);
+
+		assertEquals(isSuicide(size, board, 11, BLACK), false);
+		putPawn(size, board, 11, BLACK);
+		
+		assertEquals(isSuicide(size, board, 12, BLACK), false);
+		putPawn(size, board, 12, BLACK);
+		
+		assertEquals(isSuicide(size, board, 17, BLACK), true);
 	}
 }
