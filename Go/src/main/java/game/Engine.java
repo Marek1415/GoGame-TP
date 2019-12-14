@@ -225,4 +225,7 @@ public class Engine {
 	public static int getRealSize(int size) {
 		return size + 2;
 	}
+	
+	/** Private constructor. */
+	private Engine() {}
 }

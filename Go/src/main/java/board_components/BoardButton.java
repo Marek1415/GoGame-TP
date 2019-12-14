@@ -1,7 +1,7 @@
 package board_components;
 
 import static constants.Signals.CL_PUT;
-import static constants_panels.BoardPanelConstants.LENGTH_BOARD;
+import static constants_panels.BoardPanelConstants.*;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -21,6 +21,8 @@ public class BoardButton extends JButton {
 	
 	LayerButtons parent;
 	private final ImageIcon CROSS;
+	private final Color active;
+	private final Color inactive;
 	
 	public BoardButton(LayerButtons parent, final int number) {
 		super();
@@ -28,14 +30,16 @@ public class BoardButton extends JButton {
 
 		setBorderPainted(false);
 		setPreferredSize(new Dimension(1,1));
-		setBackground(new Color(0,0,0,0));
+		this.active = COL_ACTIVE;
+		this.inactive = COL_INACTIVE;
+		setBackground(inactive);
 		repaintNow(getBounds());
 		repaint();
 		
 		CROSS = getImage("images/ring.png");
 		
 		//setOpaque(false);
-		//setContentAreaFilled(false);
+		//setContentAreaFilled(true);
 		//setVisible(false);
 		//repaintNow(getBounds());
 		//setBackground(new Color(0,0,0,125));
@@ -44,14 +48,14 @@ public class BoardButton extends JButton {
 			
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				setBackground(Color.YELLOW);
+				setBackground(active);
 				//System.out.println(getBounds());
 				//setIcon(CROSS);
 			}
 			
 			@Override
 			public void mouseExited(MouseEvent e) {
-				setBackground(new Color(0,0,0,0));
+				setBackground(inactive);
 				//setIcon(null);
 				repaintNow(getBounds());
 				repaint();

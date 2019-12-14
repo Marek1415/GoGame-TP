@@ -37,7 +37,7 @@ implements PawnOperations {
 		this.size = newSize;
 		pawns = new int[size][size];
 		
-	    step = (double)LENGTH_BOARD/size;
+	    step = (double)getLength(size)/size;
 	    thick = (double)THICKNESS;
 	    length = (double)(step*(size-1) + thick);
 	    initStep = (double)(step/2 - thick/2);

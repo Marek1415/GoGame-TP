@@ -92,7 +92,7 @@ public class BoardPanel extends JPanel implements PawnOperations, SignalSender{
 	public static void main(String [] args) {
 		//TODO delete main method
 		BoardPanel boardPanel = new BoardPanel();
-		int size = 43;
+		int size = 13;
 		boardPanel.init(size);
 		for(int i = 0; i < size-2; i++)
 		for(int j = 0; j < size-3; j++)
