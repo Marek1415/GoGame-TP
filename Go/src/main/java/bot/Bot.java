@@ -267,6 +267,11 @@ public class Bot {
 		Engine.removePawn(size, board, position);
 	}
 	
+	/** Sets value of last ko. */
+	public void setLastKo(int ko) {
+		this.lastKo = ko;
+	}
+	
 	/** Returns the value of specific field. */
 	public int getBotField(int position) {
 		return getField(size, board, position);
@@ -290,11 +295,6 @@ public class Bot {
 	/**Gets last ko position from game. Must be override by parent. */
 	public void getLastKo() {
 		//TODO override by parent
-	}
-	
-	/** Sets value of last ko. */
-	public void setLastKo(int ko) {
-		this.lastKo = ko;
 	}
 	
 	/** Prints board in the console. */
