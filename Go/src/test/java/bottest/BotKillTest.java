@@ -2,6 +2,7 @@ package bottest;
 
 import static constants.PawnColors.BLACK;
 import static constants.PawnColors.WHITE;
+import static constants.Statuses.STATUS_CANT;
 import static org.junit.Assert.*;
 
 import org.junit.Ignore;
@@ -53,7 +54,7 @@ public class BotKillTest {
 		bot.putEnemyPawn(12);
 		bot.putBotPawn(11);
 		bot.putBotPawn(17);
-		assertEquals(bot.lookForKill(), -1);
+		assertEquals(bot.lookForKill(), STATUS_CANT);
 	}
 	
 	//@Ignore

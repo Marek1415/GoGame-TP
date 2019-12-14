@@ -3,6 +3,7 @@ package bot;
 import static constants.PawnColors.*;
 import static game.Engine.*;
 import static constants.Statuses.STATUS_KOINIT;
+import static constants.Statuses.STATUS_CANT;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -75,30 +76,44 @@ public class Bot {
 		
 		//help
 		move = lookForSafe();
-		if(move != -1)
+		if(move != STATUS_CANT)
 			return move;
 		
 		//kill
 		move = lookForKill();
-		if(move != -1)
+		if(move != STATUS_CANT)
 			return move;
 		
 		//kill opportunity
 		move = lookForOpportunity();
-		if(move != -1)
+		if(move != STATUS_CANT)
 			return move;
 		
-		//random move
-		//zmienic to
-		return 0;
+		//random move or cant
+		move = lookForRandom();
+		return move;
+	}
+	
+	/** Returns random move, if its possible. */
+	public int lookForRandom() {
+		ArrayList<Integer> moves = new ArrayList<Integer>();
 		
+		for(int i = 1; i < realSize-1; i++)
+		for(int j = 1; j < realSize-1; j++)
+			if(board[i][j] == EMPTY && !isSuicide(size, board, j,  i, color))
+				moves.add(getPosition(size, j, i));
+		
+		if(moves.size() > 0)
+			return getRandomPosition(moves);
+		else
+			return STATUS_CANT;
 	}
 	
 	/** Searches the board for opportunity to kill enemy in the future. */
 	public int lookForOpportunity() {
 		
 		//variables
-		int opportunityPosition = -1;
+		int opportunityPosition = STATUS_CANT;
 		
 		int breaths = Integer.MAX_VALUE;
 		int breathsTemp;
@@ -142,7 +157,7 @@ public class Bot {
 	/** Searches the board to kill as many enemy pawns as possible. */
 	public int lookForKill() {
 		
-		int killPosition = -1;
+		int killPosition = STATUS_CANT;
 		int killAmount = 0;
 		int tempKillAmount;
 		int tempKillPosition;
@@ -193,7 +208,7 @@ public class Bot {
 	/** Searches the board to safe as many own pawns as possible. */
 	public int lookForSafe() {
 		
-		int safePosition = -1;
+		int safePosition = STATUS_CANT;
 		int safeAmount = 0;
 		int tempSafeAmount;
 		
@@ -245,6 +260,11 @@ public class Bot {
 	/** Puts bot pawn in a specific field. */
 	public void putBotPawn(int position) {
 		putPawn(size, board, position, color);
+	}
+	
+	/** Removes pawn from specific position. */
+	public void removePawn(int position) {
+		Engine.removePawn(size, board, position);
 	}
 	
 	/** Returns the value of specific field. */

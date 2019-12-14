@@ -2,10 +2,6 @@ package game;
 
 import static constants.PawnColors.BORDER;
 import static constants.PawnColors.EMPTY;
-import static game.Engine.getBoardCopy;
-import static game.Engine.getTerritory;
-import static game.Engine.hasBreaths;
-import static game.Engine.putPawn;
 import static constants.PawnColors.BREATH;
 
 import java.util.ArrayList;
@@ -235,6 +231,11 @@ public class Engine {
 		int[][] temp = getBoardCopy(getRealSize(size), board);
 		putPawn(size, temp, position, color);
 		return !hasBreaths(size, temp, getTerritory(size, temp, position));
+	}
+	
+	/** Checks if move is suicide. */
+	public static boolean isSuicide(int size, int [][] board, int x, int y, int color) {
+		return isSuicide(size, board, getPosition(size, x, y), color);
 	}
 	
 	/** Private constructor. */

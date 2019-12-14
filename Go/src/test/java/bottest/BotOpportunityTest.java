@@ -1,6 +1,7 @@
 package bottest;
 
 import static constants.PawnColors.BLACK;
+import static constants.Statuses.STATUS_CANT;
 import static org.junit.Assert.*;
 
 import org.junit.Ignore;
@@ -42,7 +43,7 @@ public class BotOpportunityTest {
 		bot.initBot(size);
 		bot.setColor(BLACK);
 		
-		assertEquals(bot.lookForOpportunity(), -1);
+		assertEquals(bot.lookForOpportunity(), STATUS_CANT);
 	}
 	
 	//@Ignore
@@ -85,7 +86,7 @@ public class BotOpportunityTest {
 		bot.putBotPawn(10);
 	
 		for(int i = 0; i < 100; i ++)
-			assertEquals(bot.lookForOpportunity(), -1);
+			assertEquals(bot.lookForOpportunity(), STATUS_CANT);
 	}
 	
 	//@Ignore
