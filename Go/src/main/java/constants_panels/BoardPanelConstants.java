@@ -14,11 +14,6 @@ public class BoardPanelConstants {
 	public final static int THICKNESS = 3;
 	public final static int LENGTH_AXIS = 40;
 	public final static int LENGTH_BOARD = 600;
-	//public final static Dimension DIM_BOARD = new Dimension(LENGTH_BOARD, LENGTH_BOARD);
-	//public final static Dimension DIM_BOARDINIT = new Dimension(LENGTH_BOARD + LENGTH_AXIS, LENGTH_BOARD + LENGTH_AXIS);
-	//public final static Dimension DIM_AXIS = new Dimension(WIDTH_AXIS,WIDTH_AXIS);
-	//public final static Dimension DIM_XAXIS = new Dimension(LENGTH_BOARD, LENGTH_AXIS);
-	//public final static Dimension DIM_YAXIS = new Dimension(LENGTH_AXIS, LENGTH_BOARD);
 	
 	//colors
 	public final static Color BACKGROUND = Color.WHITE;
