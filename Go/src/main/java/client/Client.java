@@ -59,7 +59,7 @@ public class Client extends JFrame
 		clientThread.start();
 	}
 	
-	public void messageReceived(String command)
+	public synchronized void messageReceived(String command)
 	{
 		String splitString[];
 		System.out.println(command);

@@ -19,8 +19,8 @@ public class Game {
 	int board[][];
 	int size;
 	int realSize;
-	int lastKo;
-	ArrayList<Integer> currentKilled = new ArrayList<Integer>();
+	int lastKo; 
+	public ArrayList<Integer> currentKilled = new ArrayList<Integer>();
 	ArrayList<Integer> currentTerritory = new ArrayList<Integer>();
 
 	public Game() {

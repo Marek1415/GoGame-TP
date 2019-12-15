@@ -45,13 +45,29 @@ public class ServerThread extends Thread
 								break;
 							}
 						line = threadIn.nextLine();
+						System.out.println(line);
 						String splitString[] = line.split(" ");
 						String output = null;
-						if(splitString[0].contentEquals(Signals.CL_PUT))
+						if(splitString[0].equals(Signals.CL_PUT))
 						{
 							int place = Integer.parseInt(splitString[1]);
-							if(game.tryPut(place, this.color.Symbol()) == Statuses.STATUS_PUT)
+							int status = game.tryPut(place, this.color.Symbol());
+							if(status == Statuses.STATUS_PUT)
 							{
+								output = Signals.SE_PUTOK + " " + place;
+								threadOut.println(output);
+								opponent.threadOut.println(Signals.CL_PUT + " " + place);
+							}
+							else if(status == Statuses.STATUS_KILL)
+							{
+								output = Signals.REMOVE + " ";
+								for(int i: game.currentKilled)
+								{
+									output = output + i + " ";
+								}
+								threadOut.println(output);
+								opponent.threadOut.println(output);
+								
 								output = Signals.SE_PUTOK + " " + place;
 								threadOut.println(output);
 								opponent.threadOut.println(Signals.CL_PUT + " " + place);
