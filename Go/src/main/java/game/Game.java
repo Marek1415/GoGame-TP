@@ -24,16 +24,6 @@ public class Game {
 	ArrayList<Integer> currentTerritory = new ArrayList<Integer>();
 
 	public Game() {
-		/*
-		 * initBoard(5);
-		 * 
-		 * tryPut(1, BLACK); tryPut(5, BLACK); tryPut(7, BLACK); tryPut(11, BLACK);
-		 * 
-		 * tryPut(2, WHITE); tryPut(8, WHITE); tryPut(12, WHITE); tryPut(6, WHITE);
-		 * 
-		 * tryPut(7, BLACK);
-		 */
-
 	}
 
 	/** Main method for communication between parent and game engine. */
@@ -255,12 +245,6 @@ public class Game {
 		// invoke kill method
 		kill(killed);
 	}
-
-	public static void main(String[] args) {
-		// TODO delete main method
-		Game game = new Game();
-	}
-
 	/** Invoked when field isn't empty. This method must be override by parent. */
 	public void noEmpty() {
 		System.out.println("[GAME] " + NO_EMPTY);

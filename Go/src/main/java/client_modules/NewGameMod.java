@@ -73,13 +73,7 @@ public class NewGameMod extends JDialog {
 	
 	/** Sends the signal to the panel. */
 	public void sendSignal(String signal, int size) {
-		//System.out.println("[SIGNAL]  " + signal);
-	}
-
-	public static void main(String[] args) {
-		// TODO delete main method
-		NewGameMod newGameMod = new NewGameMod();
-		newGameMod.init();
+		System.out.println("[SIGNAL]  " + signal);
 	}
 	
     /** Starts the game. */

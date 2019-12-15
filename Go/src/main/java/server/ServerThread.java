@@ -7,18 +7,19 @@ import java.util.Scanner;
 
 import constants.PawnColors.Pawn;
 import constants.Signals;
+import game.Game;
 
 public class ServerThread extends Thread
 {
+	Game game = null;
 	Scanner threadIn = null;
 	PrintWriter threadOut = null;
 	Socket socket = null;
 	String line;
 	ServerThread opponent;
 	Pawn color;
-	ServerThread(Socket socket, Pawn color)
+	ServerThread(Socket socket)
 	{
-		this.color = color;
 		this.socket = socket;
 		try
 			{
@@ -54,16 +55,36 @@ public class ServerThread extends Thread
 						}
 						else if(splitString[0].equals(Signals.CL_ROOMNEW))
 						{
-							output = Signals.START;
-							threadOut.println(output);
-							opponent.threadOut.println(output);
-							if(color == Pawn.WHITE)
+							int bot = Integer.parseInt(splitString[1]);
+							color = Pawn.WHITE;
+							threadOut.println(Signals.COLOR_WHITE);
+							if(bot != 10)
 							{
-								threadOut.println(Signals.COLOR_WHITE);
+								SocketServer.waiting.add(this);
+								game = new Game();
+								game.initBoard(Integer.parseInt(splitString[2]));
 							}
 							else
 							{
+								
+							}
+						}
+						else if(splitString[0].equals(Signals.CL_ROOMJOIN))
+						{
+							synchronized(this)
+							{
+								System.out.println("im here");
+								while(SocketServer.waiting.isEmpty())
+								{
+									
+								}
+								color = Pawn.BLACK;
 								threadOut.println(Signals.COLOR_BLACK);
+								opponent = SocketServer.waiting.get(0);
+								SocketServer.waiting.get(0).opponent = this;
+								this.game = SocketServer.waiting.get(0).game;
+								threadOut.println(Signals.START + " " + game.getSize());
+								SocketServer.waiting.remove(0);
 							}
 						}
 						System.out.println(output);

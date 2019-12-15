@@ -23,6 +23,10 @@ class ClientThread extends Thread{
 		{
 			try
 			{
+				if(!threadIn.hasNext())
+				{
+					break;
+				}
 				data = threadIn.nextLine();
 				System.out.println(data);
 				myClient.messageReceived(data);

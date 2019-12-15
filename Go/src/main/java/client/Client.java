@@ -35,7 +35,7 @@ public class Client extends JFrame
 	public Client()
 	{
 		//listen
-		//listen();
+		listen();
 		
 		//initialize GUI
 		GUI = new ClientGUI() {
@@ -55,8 +55,8 @@ public class Client extends JFrame
 		//start GUI
 		GUI.initStartModule();
 		
-		//clientThread = new ClientThread(this);
-		//clientThread.start();
+		clientThread = new ClientThread(this);
+		clientThread.start();
 	}
 	
 	public void messageReceived(String command)
@@ -96,8 +96,8 @@ public class Client extends JFrame
 			}
 			else if(splitString[0].equals(Signals.START)) 
 			{
-				System.out.println("im here");
-				//GUI = new ClientGUI(this);
+				int size = Integer.parseInt(splitString[1]);
+				GUI.initGame(size);
 			}
 		}
 		catch(Exception ex)
@@ -114,131 +114,23 @@ public class Client extends JFrame
 	/** Executes GUI signal without waiting for turn. */
 	public void executeSignalNow(String signal) {
 		System.out.println(signal);
-		//out.println(signal);
+		out.println(signal);
 	}
 	
 	/** Executes GUI signal only if its client turn. */
 	public void executeSignalWait(String signal) {
 		
-		if(myTurn) {
-			System.out.println(signal);
-			//out.println(signal);
-		}
-		else {
-			GUI.addMessage(THIS + NO_TURN);
-		}
-	}
-	
-	/*
-	public void boardButtonClicked(String signal)
-	{
-		//TODO delete this in the future
-		System.out.println(signal);
-		if(myTurn)
+		if(myTurn) 
 		{
 			System.out.println(signal);
 			out.println(signal);
 		}
-	}
-	*/
-	
-	/*class ButtonsListener implements ActionListener
-	{
-		public void actionPerformed(ActionEvent e)
+		else 
 		{
-			String data;
-			
-			String splitString[];
-			int dimensionsX, dimensionsY;
-			System.out.println("Sukces");
-			Button button = (Button)e.getSource();
-			String command = button.getActionCommand();
-			out.println(command);
-			try
-				{
-					data = in.nextLine();
-					System.out.println("data " + data);
-					try
-					{
-						splitString = command.split("X|Y");
-						dimensionsX = Integer.parseInt(splitString[1]);
-						dimensionsY = Integer.parseInt(splitString[2]);
-						if(data.equals("ok"))
-							{
-								myPanel.panelButtons[dimensionsX][dimensionsY].setBackground(color);
-								repaint();
-							}
-						if(in.hasNextLine())
-						{
-							data = in.nextLine();
-							System.out.println(data);
-							splitString = data.split("X|Y");
-							dimensionsX = Integer.parseInt(splitString[1]);
-							dimensionsY = Integer.parseInt(splitString[2]);
-							myPanel.panelButtons[dimensionsX][dimensionsY].setBackground(enemyColor);
-							repaint();
-						}
-					}
-					catch(Exception ex)
-					{
-						System.out.println("Error parsing int");
-					}
-				}
-			catch(Exception ex)
-				{
-					System.out.println("Error");
-					System.exit(1);
-				}
+			GUI.addMessage(THIS + NO_TURN);
 		}
-	}*/
-	/*public void startMode(int mode) {
-	// TODO Auto-generated method stub
-
 	}
-
-	public void sizeBoard(int size) {
-	// TODO Auto-generated method stub
-
-	}
-
-	public void roomNoumber(int roomNoumber) {
-	// TODO Auto-generated method stub
-
-	}
-
-	public void roomNew() {
-	// TODO Auto-generated method stub
-
-	}
-
-	public void endMode(int mode) {
-	// TODO Auto-generated method stub
-
-	}
-
-	public void agreeMode(int mode) {
-	// TODO Auto-generated method stub
-
-	}*/
 	
-	/*public class SimpleGuiForTest extends JPanel{
-		Button panelButtons[][];
-		SimpleGuiForTest()
-		{
-			panelButtons = new Button[13][13];
-			setLayout(new GridLayout(13, 13));
-			panelButtons = new Button[13][13];
-			for(int i = 0; i < 13; i++)
-				{
-					for(int j = 0; j < 13; j++)
-						{
-							panelButtons[i][j] = new Button("X" + i + "Y" + j);
-							panelButtons[i][j].addActionListener(new ButtonsListener());
-							add(panelButtons[i][j]);
-						}
-				}
-		}
-	}*/
 	public void listen()
 	{
 		try

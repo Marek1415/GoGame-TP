@@ -62,7 +62,7 @@ public class Engine {
 	
 	/** Checks if territory has breaths. */
 	public static boolean hasBreaths(int size, int[][] board, ArrayList<Integer> territory) {
-		//TODO moga byc bledy XDD
+		//TODO moga byc bledy XDD - quality szefie xdd
 		for (int i = 0; i < territory.size(); i++)
 			if (hasBreath(size, board, territory.get(i)))
 				return true;
