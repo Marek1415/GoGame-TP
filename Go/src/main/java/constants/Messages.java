@@ -11,6 +11,6 @@ public class Messages {
 		public static final String SERVER = "[SERVER] ";
 		public static final String CLIENT = "[CLIENT] ";
 		public static final String THIS = "[THIS] ";
-		
+		public static final String NO_CLIENT = "Przeciwnik sie rozlaczyl";
 		private Messages() {}
 }

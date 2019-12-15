@@ -10,6 +10,7 @@ import java.util.Scanner;
 import javax.swing.*;
 
 import client_gui.*;
+import constants.Messages;
 import constants.PawnColors;
 import constants.PawnColors.Pawn;
 import constants.Signals;
@@ -61,8 +62,8 @@ public class Client extends JFrame
 	
 	public synchronized void messageReceived(String command)
 	{
-		String splitString[];
 		System.out.println(command);
+		String splitString[];
 		try
 		{
 			splitString = command.split(" ");
@@ -72,6 +73,14 @@ public class Client extends JFrame
 				myTurn = false;
 				enemyColor = Pawn.WHITE;
 				GUI.turnOFF();
+				GUI.enemyJoin();
+			}
+			else if(command.equals(Signals.DISCONNECT))
+			{
+				GUI.addMessage("Przeciwnik sie rozlaczyl");
+				in = null;
+				out = null;
+				clientThread.continueRunning = false;
 			}
 			else if(splitString[0].equals(Signals.REMOVE))
 			{
@@ -85,6 +94,7 @@ public class Client extends JFrame
 			else if(command.equals(Signals.CL_READY))
 			{
 				GUI.turnON();
+				GUI.enemyJoin();
 			}
 			else if(command.equals(Signals.COLOR_WHITE))
 			{
@@ -99,6 +109,16 @@ public class Client extends JFrame
 				GUI.turnOFF();
 				myTurn = false;
 			}
+			else if(splitString[0].equals(Signals.SE_MESSREC))
+			{
+				String message = "";
+				int length = splitString.length;
+				for(int i = 1; i < length; i++)
+				{
+					message = message + splitString[i] + " ";
+				}
+				GUI.addMessage(message);
+			}
 			else if(command.equals(Signals.SE_PUTNO))
 			{
 				GUI.addMessage("Zly ruch");
@@ -112,6 +132,7 @@ public class Client extends JFrame
 			}
 			else if(splitString[0].equals(Signals.START)) 
 			{
+				System.out.println(command);
 				int size = Integer.parseInt(splitString[1]);
 				GUI.initGame(size);
 			}
@@ -120,28 +141,33 @@ public class Client extends JFrame
 		{
 			System.out.println("Problem z obsluga rozkazu");
 		}
-	}
-	public void startButtons(String signal)
-	{
-		System.out.println(signal);
-		out.println(signal);
-	}
-	
+	}	
 	/** Executes GUI signal without waiting for turn. */
 	public void executeSignalNow(String signal) {
 		System.out.println(signal);
-		out.println(signal);
+		if(in == null || out == null)
+		{
+			GUI.addMessage(Messages.NO_CLIENT);
+		}
+		else
+		{
+			out.println(signal);
+		}
 	}
 	
 	/** Executes GUI signal only if its client turn. */
-	public void executeSignalWait(String signal) {
-		
-		if(myTurn) 
+	public void executeSignalWait(String signal) 
+	{
+		if(in == null || out == null)
+		{
+			GUI.addMessage(Messages.NO_CLIENT);
+		}
+		else if(myTurn) 
 		{
 			System.out.println(signal);
 			out.println(signal);
 		}
-		else 
+		else
 		{
 			GUI.addMessage(THIS + NO_TURN);
 		}

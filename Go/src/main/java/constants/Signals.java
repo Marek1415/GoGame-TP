@@ -24,7 +24,7 @@ public final class Signals {
 	
 	public final static String COLOR_BLACK = "COLOR_BLACK";
 	public final static String COLOR_WHITE = "COLOR_WHITE";
-	
+	public final static String DISCONNECT = "DISCONNECT";
 	//signals during the game
 	public final static String CL_PUT = "CL_PUT";
 	public final static String SE_PUTOK = "SE_PUTOK";

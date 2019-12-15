@@ -4,7 +4,9 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
+import constants.Messages;
 import constants.PawnColors.Pawn;
 import constants.Signals;
 import constants.Statuses;
@@ -78,6 +80,26 @@ public class ServerThread extends Thread
 								threadOut.println(output);
 							}
 						}
+						else if(splitString[0].equals(Signals.CL_MESSEND))
+						{
+							if(opponent != null)
+							{
+								String message = "";
+								String messageThis = Messages.THIS;
+								String messageEnemy = Messages.CLIENT;
+								int size = splitString.length;
+								for(int i = 1; i < size; i++)
+								{
+									message = message + splitString[i] + " ";
+								}
+								threadOut.println(Signals.SE_MESSREC + " " + messageThis + " " + message);
+								opponent.threadOut.println(Signals.SE_MESSREC + " " + messageEnemy + " " + message);
+							}
+							else
+							{		
+								threadOut.println(Signals.SE_MESSREC + " " + Messages.SERVER + " " + Messages.NO_CLIENT);
+							}
+						}
 						else if(splitString[0].equals(Signals.CL_ROOMNEW))
 						{
 							int bot = Integer.parseInt(splitString[1]);
@@ -85,7 +107,10 @@ public class ServerThread extends Thread
 							threadOut.println(Signals.COLOR_WHITE);
 							if(bot != 10)
 							{
-								SocketServer.waiting.add(this);
+								synchronized(this)
+								{
+									SocketServer.waiting.add(this);
+								}
 								game = new Game();
 								game.initBoard(Integer.parseInt(splitString[2]));
 							}
@@ -98,11 +123,12 @@ public class ServerThread extends Thread
 						{
 							synchronized(this)
 							{
-								while(SocketServer.waiting.isEmpty()) { wait(1); }
+								while(SocketServer.waiting.isEmpty()) { TimeUnit.SECONDS.sleep(1); }
 								color = Pawn.BLACK;
 								threadOut.println(Signals.COLOR_BLACK);
 								opponent = SocketServer.waiting.get(0);
 								SocketServer.waiting.get(0).opponent = this;
+								System.out.println("musi dzialac");
 								this.game = SocketServer.waiting.get(0).game;
 								threadOut.println(Signals.START + " " + game.getSize());
 								opponent.threadOut.println(Signals.CL_READY);
@@ -116,20 +142,21 @@ public class ServerThread extends Thread
 						break;
 					}
 			}
-		SocketServer.serverThreads.remove(this);
-	}
-	protected void finalize()
-	{
 		try
+		{
+			if(opponent != null)
 			{
-				threadIn.close();
-				threadOut.close();
-				socket.close();
+				if(opponent.opponent != null)
+				{
+					opponent.threadOut.println(Signals.DISCONNECT);
+					opponent.opponent = null;
+				}
 			}
+		}
 		catch(Exception e)
-			{
-				System.out.println("Problemy z zamknięciem wątku");
-				System.exit(-1);
-			}
+		{
+			System.out.println("Problemy here");
+		}
+		SocketServer.serverThreads.remove(this);
 	}
 }

@@ -11,6 +11,7 @@ class ClientThread extends Thread{
 	Scanner threadIn = null;
 	String data;
 	Client myClient;
+	boolean continueRunning = true;
 	
 	ClientThread(Client client)
 	{
@@ -19,7 +20,7 @@ class ClientThread extends Thread{
 	}
 	public void run()
 	{
-		while(true)
+		while(continueRunning)
 		{
 			try
 			{
