@@ -13,6 +13,7 @@ public final class AgreeModConstants extends Constants{
 	
 	//colors
 	public final static Color COL_FOREGROUND = Color.WHITE;
+	public final static Color COL_DISABLED = Color.DARK_GRAY;
 	public final static Color COL_AGREE = Color.GREEN;
 	public final static Color COL_DISAGREE = Color.RED;
 	

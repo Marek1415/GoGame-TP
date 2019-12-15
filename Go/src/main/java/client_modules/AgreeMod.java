@@ -85,7 +85,7 @@ public class AgreeMod extends JDialog implements SignalSender{
 		setVisible(false);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setTitle(STR_TITLE);
-		//setResizable(false);
+		setResizable(false);
 	}
 
 	/** Initialize dialog window.*/
@@ -120,7 +120,7 @@ public class AgreeMod extends JDialog implements SignalSender{
 		AgreeMod agreeMod = new AgreeMod();
 		
 		//init board
-		int size = 5;
+		int size = 20;
 		int [][] pawns = new int[size][size];
 		pawns[0][0] = -1;
 		pawns[0][1] = 1;
@@ -132,6 +132,15 @@ public class AgreeMod extends JDialog implements SignalSender{
 		agreeMod.addTerritory(9, CONFLICT);
 		agreeMod.addTerritory(8, CONFLICT);
 		agreeMod.addTerritory(9, EMPTY);
+		agreeMod.switchConflict(true);
+	}
+	
+	/** Switches the conflict status. */
+	public void switchConflict(boolean conflict) {
+		if(conflict)
+			agreeButton.setEnabledStatus(false);
+		else
+			agreeButton.setEnabledStatus(true);
 	}
 	
 }

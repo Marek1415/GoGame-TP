@@ -47,10 +47,8 @@ public final class Signals {
 	public final static String CL_AGREE = "CL_AGREE";
 	public final static String CL_DISAGREE = "CL_DISAGREE";
 	public final static String CL_MYADD = "CL_MYADD";
-	public final static String CL_MYREMOVE = "CL_MYREMOVE";
-	public final static String SE_ENEMYADD =  "SE_ENEMYADD";
-	public final static String SE_ENEMYREMOVE  ="SE_ENEMYREMOVE";
-	public final static String SE_CONFLICK = "SE_CONFLICT";
+	public final static String SE_TERRADD = "SE_TERRADD";
+	public final static String SE_CONFLICT = "SE_CONFLICT";
 	
 	private Signals() {};
 	

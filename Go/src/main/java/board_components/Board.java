@@ -64,4 +64,14 @@ public class Board extends JLayeredPane implements PawnOperations {
 	public void removePawn(int number) {
 		layerGrid.removePawn(number);
 	}
+	
+	/** Return current pawns board. */
+	public int [][] getCurrentPawns() {
+		return layerGrid.getCurrentPawns();
+	}
+	
+	/** Returns current board size. */
+	public int getCurrentSize() {
+		return layerGrid.getCurrentSize();
+	}
 }

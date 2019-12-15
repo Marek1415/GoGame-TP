@@ -118,4 +118,14 @@ public class BoardPanel extends JPanel implements PawnOperations, SignalSender{
 	public BoardPanel getMe() {
 		return this;
 	}
+	
+	/** Returns current board size. */
+	public int getCurrentSize() {
+		return board.getCurrentSize();
+	}
+	
+	/** Return current pawns board. */
+	public int [][] getCurrentPawns() {
+		return board.getCurrentPawns();
+	}
 }

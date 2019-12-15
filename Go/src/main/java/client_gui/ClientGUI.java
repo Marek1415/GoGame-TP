@@ -136,7 +136,10 @@ public class ClientGUI extends JFrame implements PawnOperations
 	
 	/** Initialize the agree module.*/
 	public void initAgreeModule() {
-		//agreeMod.init(size, pawns);
+		agreeMod.init(
+				boardPanel.getCurrentSize(),
+				boardPanel.getCurrentPawns()
+				);
 	}
 	
 	/** Displays the main game frame.*/
@@ -235,6 +238,16 @@ public class ClientGUI extends JFrame implements PawnOperations
 	/** Invoked when enemy join the game. */
 	public void enemyJoin() {
 		actionPanel.enemyJoin();
+	}
+	
+	/** Switch on piece of territory in AgreeMod Panel.*/
+	public void addTerritory(int position, int status) {
+		agreeMod.addTerritory(position, status);
+	}
+	
+	/** Switches the conflict status. */
+	public void switchConflict(boolean conflict) {
+		agreeMod.switchConflict(conflict);
 	}
 
 	/** Creating ClientGUI for test. */

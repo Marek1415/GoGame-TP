@@ -11,11 +11,16 @@ import static constants_modules.AgreeModConstants.*;
 /** Action Button for performing action on parent. */
 public abstract class ActionButton extends JButton {
 
+	Color color;
+	Color colorDisabled;
+	
 	public ActionButton(String text, Dimension dim, Color col) {
 
 		super(text);
 		setPreferredSize(dim);
-		setBackground(col);
+		this.color = col;
+		this.colorDisabled = COL_DISABLED;
+		setEnabledStatus(true);
 		setForeground(COL_FOREGROUND);
 		setFont(FONT);
 		setBorderPainted(false);
@@ -29,4 +34,15 @@ public abstract class ActionButton extends JButton {
 
 	/** action method, must be override by parent. */
 	public abstract void action();
+	
+	public void setEnabledStatus(boolean status) {
+		if(status) {
+			setBackground(color);
+			setEnabled(true);
+		}
+		else {
+			setBackground(colorDisabled);
+			setEnabled(false);
+		}
+	}
 }

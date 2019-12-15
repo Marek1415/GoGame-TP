@@ -102,4 +102,14 @@ implements PawnOperations {
 	public void removePawn(int number) {
 		pawns[number/size][number%size] = PawnColors.Pawn.EMPTY.Symbol();
 	}
+	
+	/** Return current pawns board. */
+	public int [][] getCurrentPawns() {
+		return pawns;
+	}
+	
+	/** Returns current board size. */
+	public int getCurrentSize() {
+		return size;
+	}
 }
