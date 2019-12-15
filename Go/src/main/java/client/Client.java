@@ -78,6 +78,7 @@ public class Client extends JFrame
 			else if(command.equals(Signals.DISCONNECT))
 			{
 				GUI.addMessage("Przeciwnik sie rozlaczyl");
+				GUI.disconnected();
 				in = null;
 				out = null;
 				clientThread.continueRunning = false;

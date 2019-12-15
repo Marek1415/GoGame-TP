@@ -157,6 +157,10 @@ public class ServerThread extends Thread
 		{
 			System.out.println("Problemy here");
 		}
-		SocketServer.serverThreads.remove(this);
+		synchronized(this)
+		{
+			SocketServer.waiting.remove(this);
+			SocketServer.serverThreads.remove(this);
+		}
 	}
 }

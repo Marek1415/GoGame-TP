@@ -238,6 +238,10 @@ public class ClientGUI extends JFrame implements PawnOperations
 		pointsPanel.turnOFF();
 	}
 	
+	public void disconnected()
+	{
+		pointsPanel.disconnected();
+	}
 	/** Invoked when enemy join the game. */
 	public void enemyJoin() {
 		actionPanel.enemyJoin();

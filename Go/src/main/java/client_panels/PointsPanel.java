@@ -94,14 +94,18 @@ public class PointsPanel extends JPanel {
 	public void setPoints(String points) {
 		pointsNumber.setText(points);
 	}
-	
 	/** Sets the turn mode ON. */
 	public void turnON() {
 		greenDot.setON();
 		redDot.setOFF();
 		turnLabel.setON();
 	}
-	
+	public void disconnected()
+	{
+		greenDot.setOFF();
+		redDot.setOFF();
+		turnLabel.disconnected();
+	}
 	/** Sets the turn mode OFF. */
 	public void turnOFF() {
 		greenDot.setOFF();
@@ -165,10 +169,10 @@ public class PointsPanel extends JPanel {
 		
 		private final String textON;
 		private final String textOFF;
-		
+		private final String disconnected = "Enemy disconnected";
 		public TurnLabel(String textON, String textOFF) {
 			super(STR_TURN_INIT);
-			setForeground(COL_INIT);
+			setForeground(COL_DC);
 			this.textOFF = textOFF;
 			this.textON = textON;
 			setFont(FONT_LABEL);
@@ -179,7 +183,11 @@ public class PointsPanel extends JPanel {
 			setText(textOFF);
 			setForeground(COL_OFF);
 		}
-		
+		public void disconnected()
+		{
+			setText(disconnected);
+			setForeground(COL_DC);
+		}
 		/** Sets the text OF mode. */
 		public void setON() {
 			setText(textON);
