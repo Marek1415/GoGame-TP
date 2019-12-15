@@ -2,23 +2,22 @@ package client_modules;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 
 import javax.swing.JDialog;
 
 import agreemod_components.ActionButton;
 import agreemod_components.Board;
-import client_interfaces.EnemyOperations;
 import client_interfaces.SignalSender;
 
 import static constants.Signals.*;
 import static constants_modules.AgreeModConstants.*;
+import static constants.Territories.*;
 
 /**
  * @author gumises
  * Agrees or disagree with enemy proposal of game end.
  */
-public class AgreeMod extends JDialog implements SignalSender, EnemyOperations {
+public class AgreeMod extends JDialog implements SignalSender{
 
 	// action buttons
 	ActionButton agreeButton;
@@ -49,7 +48,12 @@ public class AgreeMod extends JDialog implements SignalSender, EnemyOperations {
 		};
 		
 		//board
-		board = new Board();
+		board = new Board() {
+			@Override
+			public void sendSignal(String signal) {
+				getMe().sendSignal(signal);
+			}
+		};
 
 		// gridBagLayout, gridBagConstraint
 		GridBagLayout layout = new GridBagLayout();
@@ -96,19 +100,19 @@ public class AgreeMod extends JDialog implements SignalSender, EnemyOperations {
 		setVisible(mode);
 	}
 
-	/** Sends the signal to the panel. */
+	/** Sends the signal, must be override by parent. */
 	public void sendSignal(String signal) {
 		System.out.println("[SIGNAL]  " + signal);
 	}
 	
-	/** Switch on enemy territory field.*/
-	public void addEnemy(int number) {
-		board.addEnemy(number);
+	/** Returns instance of this class. */
+	public AgreeMod getMe() {
+		return this;
 	}
 	
-	/** Switch off enemy territory field.*/
-	public void removeEnemy(int number) {
-		board.removeEnemy(number);
+	/** Switch on piece of territory in specific status.*/
+	public void addTerritory(int position, int status) {
+		board.addTerritory(position, status);
 	}
 	
 	public static void main(String [] args) {
@@ -122,12 +126,12 @@ public class AgreeMod extends JDialog implements SignalSender, EnemyOperations {
 		pawns[0][1] = 1;
 		pawns[3][3] = 1;
 		agreeMod.init(size, pawns);
-		agreeMod.addEnemy(0);
-		agreeMod.addEnemy(1);
-		agreeMod.addEnemy(5);
-		agreeMod.addEnemy(7);
-		agreeMod.removeEnemy(0);
-
+		agreeMod.addTerritory(0, ME);
+		agreeMod.addTerritory(1, ENEMY);
+		agreeMod.addTerritory(2, CONFLICT);
+		agreeMod.addTerritory(9, CONFLICT);
+		agreeMod.addTerritory(8, CONFLICT);
+		agreeMod.addTerritory(9, EMPTY);
 	}
 	
 }

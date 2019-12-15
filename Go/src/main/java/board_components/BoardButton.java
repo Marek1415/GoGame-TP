@@ -44,21 +44,18 @@ public class BoardButton extends JButton {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				setBackground(active);
-				//System.out.println(getBounds());
-				//setIcon(CROSS);
 			}
 			
 			@Override
 			public void mouseExited(MouseEvent e) {
 				setBackground(inactive);
-				//setIcon(null);
 				repaintNow(getBounds());
 				repaint();
 			}
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				sendSignal(CL_PUT + " " + number);
+				sendSignal(number);
 			}
 		});
 	}
@@ -69,7 +66,7 @@ public class BoardButton extends JButton {
 	}
 	
 	/** Sends signal to parent. */
-	public void sendSignal(String signal) {
-		parent.sendSignal(signal);
+	public void sendSignal(int number) {
+		parent.sendSignal(number);
 	}
 }

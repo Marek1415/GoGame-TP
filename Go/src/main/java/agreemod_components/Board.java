@@ -5,11 +5,12 @@ import java.awt.Rectangle;
 import javax.swing.JLayeredPane;
 import javax.swing.OverlayLayout;
 
-import client_interfaces.EnemyOperations;
+import board_components.LayerButtons;
 
+import static constants.Signals.*;
 
 /** Grid and buttons layer. */
-public class Board extends JLayeredPane implements EnemyOperations {
+public class Board extends JLayeredPane {
 	
 	//components
 	private LayerGrid layerGrid;
@@ -24,7 +25,18 @@ public class Board extends JLayeredPane implements EnemyOperations {
 		
 		//components
 		layerGrid = new LayerGrid(size, pawns);
-		layerButtons = new LayerButtons(this, size);
+		layerButtons = new LayerButtons(size) {
+			
+			@Override
+			public void repaintNow(Rectangle rec) {
+				getBoard().repaintNow(rec);
+			}
+			
+			@Override
+			public void sendSignal(int signal) {
+				getBoard().sendSignal(CL_MYADD + " " + signal);
+			}
+		};
 		
 		setLayout(new OverlayLayout(this));
 		add(layerGrid, 0);
@@ -36,18 +48,18 @@ public class Board extends JLayeredPane implements EnemyOperations {
 		layerGrid.repaint(rec);
 	}
 	
+	/** Returns instance of this class. */
+	public Board getBoard() {
+		return this;
+	}
+	
 	/** Sends signal, must be override by parent. */
 	public void sendSignal(String signal) {
 		//System.out.println("[SIGNAL] " + signal);
 	}
 	
-	/** Switch on enemy territory field.*/
-	public void addEnemy(int number) {
-		layerButtons.addEnemy(number);
-	}
-	
-	/** Switch off enemy territory field.*/
-	public void removeEnemy(int number) {
-		layerButtons.removeEnemy(number);
+	/** Switch on piece of territory in specific status.*/
+	public void addTerritory(int position, int status) {
+		layerGrid.addTerritory(position, status);
 	}
 }

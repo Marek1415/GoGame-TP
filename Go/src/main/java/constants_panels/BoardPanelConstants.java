@@ -23,15 +23,9 @@ public class BoardPanelConstants {
 	public final static Color COL_INACTIVE = new Color(0,0,0,0);
 	
 	//colors territory
-	//public final static Color COL_MYACTIVE = new Color(0,128,0, 200);
-	//public final static Color COL_MYTERRITORY = new Color(0,128,0, 100);
-	//public final static Color COL_ENEMYTERRITORY = new Color(105,105,105,100);
-	//public final static Color COL_CONFLICT = new Color(255,0,0,100);
-	
-	public final static Color COL_MYACTIVE = new Color(30,144,255,100);
-	public final static Color COL_MYTERRITORY = new Color(0,128,0);
-	public final static Color COL_ENEMYTERRITORY = new Color(105,105,105);
-	public final static Color COL_CONFLICT = new Color(255,0,0);
+	public final static Color COL_MYTERRITORY = new Color(0,128,0, 175);
+	public final static Color COL_ENEMYTERRITORY = new Color(105,105,105,175);
+	public final static Color COL_CONFLICT = new Color(255,0,0,175);
 	
 	//fonts
 	public final static Font FONT_AXIS = new Font("Helvetica", Font.BOLD, 12);

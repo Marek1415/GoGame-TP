@@ -13,11 +13,9 @@ import javax.swing.JPanel;
 public class LayerButtons extends JPanel {
 	
 	private BoardButton button;
-	Board parent;
 	
-	public LayerButtons(Board parent, int size) {
+	public LayerButtons(int size) {
 		super();
-		this.parent = parent;
 		//setLayout(new GridLayout(size,size));
 		
 		
@@ -45,11 +43,9 @@ public class LayerButtons extends JPanel {
 	
 	/** Repaints part of area, must be override by parent. */
 	public void repaintNow(Rectangle rec) {
-		parent.repaintNow(rec);
 	}
 	
 	/** Sends signal, must be override by parent. */
-	public void sendSignal(String signal) {
-		parent.sendSignal(signal);
+	public void sendSignal(int number) {
 	}
 }
