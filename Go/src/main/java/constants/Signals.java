@@ -3,7 +3,7 @@ package constants;
 
 /**
  * @author gumises
- * Signals for asynchronous communication between client and server.
+ * Protocol for asynchronous communication between client and server.
  * CL_* - send by the client
  * SE_* - send by the server
  */
@@ -37,13 +37,20 @@ public final class Signals {
 	//end game
 	public final static String CL_END = "CL_END";
 	public final static String CL_RESIGN = "CL_RESIGN";
-	public final static String SE_ENDGET = "SE_ENDGET";
-	public final static String CL_AGREE = "CL_AGREE";
-	public final static String CL_DISAGREE = "CL_DISAGREE";
-	public final static String SE_ENDOK = "SE_ENDOK";
-	public final static String SE_ENDNO = "SE_ENDNO";
+	//public final static String SE_ENDGET = "SE_ENDGET";
+	//public final static String SE_ENDOK = "SE_ENDOK";
+	//public final static String SE_ENDNO = "SE_ENDNO";
 	public final static String SE_WIN = "SE_WIN";
 	public final static String SE_LOST = "SE_LOST";
+	
+	//territory signals
+	public final static String CL_AGREE = "CL_AGREE";
+	public final static String CL_DISAGREE = "CL_DISAGREE";
+	public final static String CL_MYADD = "CL_MYADD";
+	public final static String CL_MYREMOVE = "CL_MYREMOVE";
+	public final static String SE_ENEMYADD =  "SE_ENEMYADD";
+	public final static String SE_ENEMYREMOVE  ="SE_ENEMYREMOVE";
+	public final static String SE_CONFLICK = "SE_CONFLICT";
 	
 	private Signals() {};
 	

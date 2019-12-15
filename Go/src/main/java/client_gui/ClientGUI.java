@@ -76,6 +76,7 @@ public class ClientGUI extends JFrame implements PawnOperations
 		};
 		
 		//agree module
+		
 		agreeMod = new AgreeMod() {
 			@Override
 			public void sendSignal(String signal) {
@@ -128,10 +129,6 @@ public class ClientGUI extends JFrame implements PawnOperations
 		startMod.init();
 	}
 	
-	//public void initJoinGameModule() {
-	//	joinGameMod.init(new int[] {0, 1, 4, 5, 67});
-	//}
-	
 	/** Initialize new game module. */
 	public void initNewGameModule() {
 		newGameMod.init();
@@ -139,7 +136,7 @@ public class ClientGUI extends JFrame implements PawnOperations
 	
 	/** Initialize the agree module.*/
 	public void initAgreeModule() {
-		agreeMod.init();
+		//agreeMod.init(size, pawns);
 	}
 	
 	/** Displays the main game frame.*/

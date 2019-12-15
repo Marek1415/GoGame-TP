@@ -49,7 +49,7 @@ public class ActionPanel extends JPanel{
 		endButton = new ActionButton(STR_END, DIM_BUTTON, COL_END) {
 			@Override
 			public void action() {
-				sendSignalNow(CL_END);
+				sendSignalNow(CL_RESIGN);
 			}
 		};
 		

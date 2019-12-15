@@ -23,12 +23,6 @@ import static constants.Signals.*;
  */
 public class Client extends JFrame
 {
-	/*
-	 * TODO naprawa board panel, nie usuwac tej wiadomosci
-	 * Ja sie tym zajme, po prostu szerokosc przycisku musi byc dzielnikiem 
-	 * szerokosci LayerButtons, inaczej sie rozjedzie, zrobie to w wolnej chwili
-	 * Pisze to tutaj, zeby bylo na widoku, dobranoc
-	 */
 	Pawn color, enemyColor;
 	static boolean myTurn;
 	ClientGUI GUI;

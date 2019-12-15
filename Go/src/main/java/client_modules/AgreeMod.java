@@ -1,18 +1,14 @@
 package client_modules;
 
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.AbstractButton;
-import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JLabel;
 
+import agreemod_components.ActionButton;
+import agreemod_components.Board;
+import client_interfaces.EnemyOperations;
 import client_interfaces.SignalSender;
 
 import static constants.Signals.*;
@@ -22,19 +18,17 @@ import static constants_modules.AgreeModConstants.*;
  * @author gumises
  * Agrees or disagree with enemy proposal of game end.
  */
-public class AgreeMod extends JDialog implements SignalSender {
+public class AgreeMod extends JDialog implements SignalSender, EnemyOperations {
 
 	// action buttons
-	AbstractButton agreeButton;
-	AbstractButton disagreeButton;
+	ActionButton agreeButton;
+	ActionButton disagreeButton;
 
-	// labels
-	JLabel infoLabel;
-
+	//board
+	Board board;
+	
 	public AgreeMod() {
 
-		// info label
-		infoLabel = new InfoLabel(STR_INFO, DIM_INFO);
 
 		// end button
 		agreeButton = new ActionButton(STR_AGREE, DIM_AGREE, COL_AGREE) {
@@ -53,39 +47,47 @@ public class AgreeMod extends JDialog implements SignalSender {
 				initMe(false);
 			}
 		};
+		
+		//board
+		board = new Board();
 
 		// gridBagLayout, gridBagConstraint
 		GridBagLayout layout = new GridBagLayout();
 		GridBagConstraints gbc = new GridBagConstraints();
 		setLayout(layout);
 
-		// info
+		//board
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		gbc.gridwidth = 2;
-		gbc.insets = new Insets(5, 5, 5, 5);
-		add(infoLabel, gbc);
-
-		// end
+		//gbc.insets = new Insets(5,5,5,5);
+		add(board, gbc);
+		
+		// agree
 		gbc.gridx = 0;
 		gbc.gridy = 1;
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.weightx = 1;
 		gbc.gridwidth = 1;
+		//gbc.insets = new Insets(0,0,0,0);
 		add(agreeButton, gbc);
 
-		// resign
+		// disagree
 		gbc.gridx = 1;
 		gbc.gridy = 1;
 		add(disagreeButton, gbc);
 
 		pack();
 		setVisible(false);
-		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setTitle(STR_TITLE);
-		setResizable(false);
+		//setResizable(false);
 	}
 
 	/** Initialize dialog window.*/
-	public void init() {
+	public void init(int size, int [][] pawns) {
+		board.init(size, pawns);
+		pack();
 		setVisible(true);
 	}
 	
@@ -98,39 +100,34 @@ public class AgreeMod extends JDialog implements SignalSender {
 	public void sendSignal(String signal) {
 		System.out.println("[SIGNAL]  " + signal);
 	}
-
-	/** Action Button for performing action on parent. */
-	private abstract class ActionButton extends JButton {
-
-		private ActionButton(String text, Dimension dim, Color col) {
-
-			super(text);
-			setPreferredSize(dim);
-			setBackground(col);
-			setForeground(COL_FOREGROUND);
-			setFont(FONT);
-
-			addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent event) {
-					action();
-				}
-			});
-
-		}
-
-		/** action method, must be override by parent. */
-		public abstract void action();
+	
+	/** Switch on enemy territory field.*/
+	public void addEnemy(int number) {
+		board.addEnemy(number);
 	}
-
-	/** Label for displaying info about dialog. */
-	private class InfoLabel extends JLabel {
-
-		private InfoLabel(String text, Dimension dim) {
-			super(text);
-			setFont(FONT);
-			setPreferredSize(dim);
-			setHorizontalAlignment(JLabel.CENTER);
-			setVerticalAlignment(JLabel.CENTER);
-		}
+	
+	/** Switch off enemy territory field.*/
+	public void removeEnemy(int number) {
+		board.removeEnemy(number);
 	}
+	
+	public static void main(String [] args) {
+		//TODO delete main method
+		AgreeMod agreeMod = new AgreeMod();
+		
+		//init board
+		int size = 5;
+		int [][] pawns = new int[size][size];
+		pawns[0][0] = -1;
+		pawns[0][1] = 1;
+		pawns[3][3] = 1;
+		agreeMod.init(size, pawns);
+		agreeMod.addEnemy(0);
+		agreeMod.addEnemy(1);
+		agreeMod.addEnemy(5);
+		agreeMod.addEnemy(7);
+		agreeMod.removeEnemy(0);
+
+	}
+	
 }
