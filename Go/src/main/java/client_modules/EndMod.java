@@ -99,7 +99,7 @@ public class EndMod extends JDialog implements SignalSender {
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	}
 	
-	/** Sends the signal to the panel.*/
+	/** Sends the signal, must be override by parent.*/
 	public void sendSignal(String signal) {
 		//System.out.println("[SIGNAL]  " + signal);
 	}

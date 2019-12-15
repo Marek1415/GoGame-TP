@@ -10,6 +10,7 @@ import static constants.Signals.*;
 import java.awt.*;
 
 import client_modules.AgreeMod;
+import client_modules.EndMod;
 import client_modules.JoinGameMod;
 import client_modules.NewGameMod;
 import client_modules.StartMod;
@@ -33,13 +34,12 @@ public class ClientGUI extends JFrame implements PawnOperations
 	
 	//modules
 	private StartMod startMod;
-	//private JoinGameMod joinGameMod;
+	private EndMod endMod;
 	private NewGameMod newGameMod;
 	private AgreeMod agreeMod;
 	
 	/** Public constructor. */
-	public ClientGUI()
-	{		
+	public ClientGUI() {		
 		
 		//MODULES
 		
@@ -56,15 +56,13 @@ public class ClientGUI extends JFrame implements PawnOperations
 			}
 		};
 		
-		//this module won't be use
-		//join game module
-		/*joinGameMod = new JoinGameMod() {
+		//end module
+		endMod = new EndMod() {
 			@Override
 			public void sendSignal(String signal) {
-				recSignal(signal);
+				recSignalNow(signal);
 			}
 		};
-		*/
 		
 		//new game module
 		newGameMod = new NewGameMod() {
@@ -76,7 +74,6 @@ public class ClientGUI extends JFrame implements PawnOperations
 		};
 		
 		//agree module
-		
 		agreeMod = new AgreeMod() {
 			@Override
 			public void sendSignal(String signal) {
@@ -120,6 +117,7 @@ public class ClientGUI extends JFrame implements PawnOperations
 			}
 		};
 		
+		//TODO DO_NOTGIN_ON_CLOSA
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 	}
@@ -127,6 +125,11 @@ public class ClientGUI extends JFrame implements PawnOperations
 	/** Initialize the start module.*/
 	public void initStartModule() {
 		startMod.init();
+	}
+	
+	/** Initialize the end module.*/
+	public void initEndModule(String status, String points) {
+		endMod.init(status, points);
 	}
 	
 	/** Initialize new game module. */
