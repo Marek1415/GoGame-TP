@@ -70,12 +70,24 @@ public class Client extends JFrame
 			{
 				color = Pawn.BLACK;
 				myTurn = false;
-				GUI.turnOFF();
 				enemyColor = Pawn.WHITE;
+				GUI.turnOFF();
+			}
+			else if(splitString[0].equals(Signals.REMOVE))
+			{
+				int size = splitString.length;
+				for(int i = 1; i < size; i++)
+				{
+					int place = Integer.parseInt(splitString[i]);
+					GUI.removePawn(place);
+				}
+			}
+			else if(command.equals(Signals.CL_READY))
+			{
+				GUI.turnON();
 			}
 			else if(command.equals(Signals.COLOR_WHITE))
 			{
-				GUI.turnON();
 				myTurn = true;
 				color = Pawn.WHITE;
 				enemyColor = Pawn.BLACK;
@@ -86,6 +98,10 @@ public class Client extends JFrame
 				GUI.addPawn(place, color.Symbol());
 				GUI.turnOFF();
 				myTurn = false;
+			}
+			else if(command.equals(Signals.SE_PUTNO))
+			{
+				GUI.addMessage("Zly ruch");
 			}
 			else if(splitString[0].equals(Signals.CL_PUT))
 			{

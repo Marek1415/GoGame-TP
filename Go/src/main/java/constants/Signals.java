@@ -33,6 +33,7 @@ public final class Signals {
 	public final static String CL_CHECK = "CL_CHECK";
 	public final static String CL_MESSEND = "CL_MESSEND";
 	public final static String SE_MESSREC = "SE_MESSREC";
+	public final static String REMOVE = "REMOVE";
 	
 	//end game
 	public final static String CL_END = "CL_END";

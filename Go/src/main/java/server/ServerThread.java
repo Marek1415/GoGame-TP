@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 import constants.PawnColors.Pawn;
 import constants.Signals;
+import constants.Statuses;
 import game.Game;
 
 public class ServerThread extends Thread
@@ -49,9 +50,17 @@ public class ServerThread extends Thread
 						if(splitString[0].contentEquals(Signals.CL_PUT))
 						{
 							int place = Integer.parseInt(splitString[1]);
-							output = Signals.SE_PUTOK + " " + place;
-							threadOut.println(output);
-							opponent.threadOut.println(Signals.CL_PUT + " " + place);
+							if(game.tryPut(place, this.color.Symbol()) == Statuses.STATUS_PUT)
+							{
+								output = Signals.SE_PUTOK + " " + place;
+								threadOut.println(output);
+								opponent.threadOut.println(Signals.CL_PUT + " " + place);
+							}
+							else
+							{
+								output = Signals.SE_PUTNO;
+								threadOut.println(output);
+							}
 						}
 						else if(splitString[0].equals(Signals.CL_ROOMNEW))
 						{
@@ -73,21 +82,17 @@ public class ServerThread extends Thread
 						{
 							synchronized(this)
 							{
-								System.out.println("im here");
-								while(SocketServer.waiting.isEmpty())
-								{
-									
-								}
+								while(SocketServer.waiting.isEmpty()) { wait(1); }
 								color = Pawn.BLACK;
 								threadOut.println(Signals.COLOR_BLACK);
 								opponent = SocketServer.waiting.get(0);
 								SocketServer.waiting.get(0).opponent = this;
 								this.game = SocketServer.waiting.get(0).game;
 								threadOut.println(Signals.START + " " + game.getSize());
+								opponent.threadOut.println(Signals.CL_READY);
 								SocketServer.waiting.remove(0);
 							}
 						}
-						System.out.println(output);
 					}
 				catch(Exception e)
 					{
