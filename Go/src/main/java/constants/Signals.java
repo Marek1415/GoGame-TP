@@ -27,14 +27,13 @@ public final class Signals {
 	public final static String DISCONNECT = "DISCONNECT";
 	
 	//signals during the game
-	public final static String CL_PUT = "CL_PUT";
-	public final static String SE_PUTOK = "SE_PUTOK";
-	public final static String SE_PUTNO = "SE_PUTNO";
-	public final static String CL_TIMEUP = "CL_TIMEUP";
+	public final static String CL_PUT = "CL_PUT";				//OK
+	public final static String SE_PUTOK = "SE_PUTOK";			//OK
+	public final static String SE_PUTNO = "SE_PUTNO";			//OK
 	public final static String CL_CHECK = "CL_CHECK";
-	public final static String CL_MESSEND = "CL_MESSEND";
-	public final static String SE_MESSREC = "SE_MESSREC";
-	public final static String REMOVE = "REMOVE";
+	public final static String CL_MESSEND = "CL_MESSEND";		//OK
+	public final static String SE_MESSREC = "SE_MESSREC";		//OK
+	public final static String REMOVE = "REMOVE";				//OK
 	public final static String SE_CHECKED = "SE_CHECKED";
 	public final static String ENEMY_CHECKED = "ENEMY_CHECKED";
 	public final static String POINTS = "POINTS";
