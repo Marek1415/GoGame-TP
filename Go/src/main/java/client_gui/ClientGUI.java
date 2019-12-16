@@ -60,7 +60,8 @@ public class ClientGUI extends JFrame implements PawnOperations
 		endMod = new EndMod() {
 			@Override
 			public void sendSignal(String signal) {
-				recSignalNow(signal);
+				//recSignalNow(signal);
+				System.exit(0);
 			}
 		};
 		

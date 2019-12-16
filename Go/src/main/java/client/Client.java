@@ -74,6 +74,8 @@ public class Client extends JFrame
 				enemyColor = Pawn.WHITE;
 				GUI.turnOFF();
 				GUI.enemyJoin();
+				GUI.setPlayerColor(color);
+				GUI.addMessage(Messages.SERVER + " " + Messages.COLOR_BLACK);
 			}
 			else if(command.equals(Signals.DISCONNECT))
 			{
@@ -102,6 +104,8 @@ public class Client extends JFrame
 				myTurn = true;
 				color = Pawn.WHITE;
 				enemyColor = Pawn.BLACK;
+				GUI.setPlayerColor(color);
+				GUI.addMessage(Messages.SERVER + " " + Messages.COLOR_WHITE);
 			}
 			else if(splitString[0].equals(Signals.SE_PUTOK))
 			{
@@ -134,6 +138,9 @@ public class Client extends JFrame
 			{
 				System.out.println(splitString[0]);
 				GUI.initEndModule(splitString[0], splitString[1]);
+				in = null;
+				out = null;
+				clientThread.continueRunning = false;
 			}
 			else if(splitString[0].equals(Signals.POINTS))
 			{
