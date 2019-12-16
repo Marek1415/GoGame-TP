@@ -5,8 +5,13 @@ import server.*;
 import static constants.PawnColors.*;
 import static constants.Messages.*;
 import static constants.Statuses.*;
+import static constants.Territories.*;
+import static constants.Signals.*;
 
 import java.util.ArrayList;
+
+import constants.PawnColors;
+
 import static game.Engine.*;
 
 /**
@@ -17,6 +22,8 @@ public class Game {
 	// variables
 	ServerThread player1, player2;
 	int board[][];
+	int territory[][];
+	int conflicts;
 	int size;
 	int realSize;
 	int lastKo; 
@@ -81,23 +88,9 @@ public class Game {
 		lastKo = STATUS_KOINIT;
 	}
 
-	/**
-	 * Sets the borders. public void initBorders() { for (int i = 0; i < realSize;
-	 * i++) for (int j = 0; j < realSize; j++) if (i == 0 | j == 0 | i == realSize -
-	 * 1 | j == realSize - 1) board[i][j] = BORDER; else board[i][j] = EMPTY; }
-	 * 
-	 * /** Prints board in the console. public void printBoard() { for (int i = 1; i
-	 * < realSize - 1; i++) { for (int j = 1; j < realSize - 1; j++)
-	 * System.out.print(board[i][j] + " "); System.out.println(); } }
-	 * 
-	 * /** Prints real board in the console. public void printRealBoard() { for (int
-	 * i = 0; i < realSize; i++) { for (int j = 0; j < realSize; j++)
-	 * System.out.print(board[i][j] + " "); System.out.println(); } }
-	 * 
-	 * /** Checks if specific board field is empty.
-	 */
+	/** Checks if specific board field is empty. */
 	private boolean isEmpty(int[] coords) {
-		if (board[coords[1]][coords[0]] == EMPTY)
+		if (board[coords[1]][coords[0]] == PawnColors.EMPTY)
 			return true;
 		else
 			return false;
@@ -121,7 +114,7 @@ public class Game {
 		return !hasBreaths(size, temp, getTerritory(size, temp, position));
 	}
 
-	/** Checks if move is overrange. */
+	/** Checks if move is over range. */
 	private boolean isOverRange(int position) {
 		if (position < 0 || position >= size * size)
 			return true;
@@ -166,70 +159,6 @@ public class Game {
 		return false;
 	}
 
-	/**
-	 * Removes all pawn from array. private void killThemAll(ArrayList<Integer>
-	 * territory) { for (int i = 0; i < territory.size(); i++) {
-	 * removePawn(getCoords(territory.get(i))); currentKilled.add(territory.get(i));
-	 * } }
-	 * 
-	 * /** Puts new pawn into specific field. private void putPawn(int[][] newBoard,
-	 * int color, int[] coords) { newBoard[coords[1]][coords[0]] = color; }
-	 * 
-	 * /** Removes pawn from specific field. private void removePawn(int[] coords) {
-	 * board[coords[1]][coords[0]] = EMPTY; }
-	 * 
-	 * /** Checks if territory has breaths. public boolean hasBreaths(int[][] board,
-	 * ArrayList<Integer> territory) {
-	 * 
-	 * for (int i = 0; i < territory.size(); i++) if (hasBreath(board,
-	 * getCoords(territory.get(i)))) return true; return false; }
-	 * 
-	 * /** Check if single field has breaths. private boolean hasBreath(int[][]
-	 * board, int coords[]) { int x = coords[0]; int y = coords[1];
-	 * 
-	 * if (board[y][x - 1] * board[y][x + 1] * board[y - 1][x] * board[y + 1][x] ==
-	 * 0) return true; else return false;
-	 * 
-	 * }
-	 * 
-	 * /** Returns the array of territory. public ArrayList<Integer>
-	 * getTerritory(int[][] newBoard, int coords[]) { int x = coords[0]; int y =
-	 * coords[1]; ArrayList<Integer> territory = new ArrayList<Integer>();
-	 * _getRecursiveTerritory(newBoard, newBoard[y][x], x, y, territory); return
-	 * territory; }
-	 * 
-	 * /** Recursive adds fields to the array of territory. private void
-	 * _getRecursiveTerritory(int[][] newBoard, int color, int x, int y,
-	 * ArrayList<Integer> territory) { if (newBoard[y][x] == color &&
-	 * !territory.contains(getPosition(x, y))) { territory.add(getPosition(x, y));
-	 * _getRecursiveTerritory(newBoard, color, x - 1, y, territory);
-	 * _getRecursiveTerritory(newBoard, color, x + 1, y, territory);
-	 * _getRecursiveTerritory(newBoard, color, x, y - 1, territory);
-	 * _getRecursiveTerritory(newBoard, color, x, y + 1, territory); } }
-	 * 
-	 * /** Returns the coordinates of a specific field number. public int[]
-	 * getCoords(int number) { int[] coords = new int[2]; coords[0] = (int) number %
-	 * size + 1; coords[1] = (int) number / size + 1;
-	 * 
-	 * if (number < 0 || number >= size*size) coords[0] = STATUS_OVERRANGE;
-	 * 
-	 * return coords; }
-	 * 
-	 * /** Returns the coordinates of a specific field number. public int[]
-	 * getCoords(int x, int y) { return new int[] { x, y }; }
-	 
-	 * 
-	 * /** Returns position of a specific field coordinates.
-	 
-	public int getPosition(int[] coords) {
-		return (coords[1] - 1) * size + (coords[0] - 1);
-	}
-
-	/** Returns position of a specific field coordinates.
-	public int getPosition(int x, int y) {
-		return getPosition(new int[] { x, y });
-	}
-
 	/** Prepares array of killed pawns. */
 	public void prepareKill() {
 		int[] killed = new int[currentKilled.size()];
@@ -245,14 +174,13 @@ public class Game {
 		// invoke kill method
 		kill(killed);
 	}
+	
 	/** Invoked when field isn't empty. This method must be override by parent. */
 	public void noEmpty() {
 		System.out.println("[GAME] " + NO_EMPTY);
 	}
 
-	/**
-	 * Invoked when move is suicide without kills. sMust be override by parent.
-	 */
+	/** Invoked when move is suicide without kills. sMust be override by parent. */
 	public void suicide() {
 		System.out.println("[GAME] " + SUICIDE);
 	}
@@ -274,13 +202,7 @@ public class Game {
 		System.out.println("[GAME] " + "putting");
 	}
 
-	/**
-	 * Return copy of current board. public int[][] getBoardCopy() { int[][] temp =
-	 * new int[realSize][realSize]; for (int i = 0; i < realSize; i++) for (int j =
-	 * 0; j < realSize; j++) temp[i][j] = board[i][j]; return temp; }
-
-	 * /** Returns current board size.
-	 */
+	 /** Returns current board size. */
 	public int getSize() {
 		return this.size;
 	}
@@ -293,18 +215,68 @@ public class Game {
 	/** Returns current status of specific field. */
 	public int getField(int position) {
 		return Engine.getField(size, board, position);
-		// int[] coords = getCoords(position);
-		// return board[coords[1]][coords[0]];
 	}
 
 	/** Return the value of specific field. */
 	public int getField(int x, int y) {
 		return Engine.getField(board, x, y);
-		// return board[y][x];
 	}
 
 	/** Returns the status of current ko. */
 	public int getKo() {
 		return this.lastKo;
+	}
+	
+	/** Initialize territory. */
+	public void initTerritory() {
+		this.territory = new int [size][size];
+		this.conflicts = 0;
+	}
+	
+	/** Adds conflict in conflicts counter. */
+	private void addConflict() {
+		conflicts += 1;
+		sendSignal(SE_CONFLICT + " " + 1);
+	}
+	
+	/** Removes conflict from conflicts counter. */
+	private void removeConflict() {
+		conflicts -= 1;
+		if(conflicts == 0)
+			sendSignal(SE_CONFLICT + " " + 0);
+	}
+	
+	/** Switch territory status on specific position and color. */
+	public void clickTerritory(int position, int status, int color) {
+		
+		int x = position%size;
+		int y = position/size;
+		
+		boolean wasConflict = (territory[y][x] == ISCONFLICT);
+		
+		if(color == WHITE)
+			territory[y][x] += status * WHITE_ADD;
+		else
+			territory[y][x] += status * BLACK_ADD;
+		
+		boolean isConflict = (territory[y][x] == ISCONFLICT);
+		
+		if(wasConflict && !isConflict) {
+			removeConflict();
+			sendSignal(SE_TERRADD + " " + OK);
+		}
+		else if(!wasConflict && isConflict) {
+			addConflict();
+			sendSignal(SE_TERRADD + " " + NO);
+		}
+		else {
+			sendSignal(SE_TERRADD + " " + NO);
+		}
+			
+	}
+	
+	/** Sends signal, must be override by parent.*/
+	public void sendSignal(String signal) {
+		
 	}
 }
