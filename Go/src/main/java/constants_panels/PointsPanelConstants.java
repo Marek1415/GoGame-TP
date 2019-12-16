@@ -14,12 +14,14 @@ public final class PointsPanelConstants extends Constants{
 	public final static String STR_TURN_ON = "twoja kolej";
 	public final static String STR_TURN_OFF = "kolej przeciwnika";
 	public final static String STR_TURN_INIT = "czekaj na przeciwnika";
+	public final static String STR_DISCONNECTED = "rozłączono przeciwnika";
 	
 	//dimensions
 	public final static int DOT_LENGTH = 25;
 	public final static Dimension DIM_DOT = new Dimension(DOT_LENGTH,DOT_LENGTH);
-	public final static Dimension DIM_POINTS = new Dimension(100,40);
-			
+	public final static Dimension DIM_POINTS = new Dimension(80,40);
+	public final static Dimension DIM_TURNLABEL = new Dimension(220,40);
+	
 	//font
 	public final static Font FONT_LABEL = new Font("Helvetica", Font.PLAIN, 18);
 	public final static Font FONT_POINTS_NOUMBER = new Font("Helvetica", Font.PLAIN, 20);

@@ -6,10 +6,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import static constants_panels.BoardPanelConstants.LENGTH_BOARD;
 import static constants_panels.PointsPanelConstants.*;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -169,12 +167,14 @@ public class PointsPanel extends JPanel {
 		
 		private final String textON;
 		private final String textOFF;
-		private final String disconnected = "Enemy disconnected";
+		private final String disconnected;
 		public TurnLabel(String textON, String textOFF) {
 			super(STR_TURN_INIT);
 			setForeground(COL_DC);
 			this.textOFF = textOFF;
 			this.textON = textON;
+			this.disconnected = STR_DISCONNECTED;
+			setPreferredSize(DIM_TURNLABEL);
 			setFont(FONT_LABEL);
 		}
 		
