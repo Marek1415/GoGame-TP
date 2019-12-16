@@ -25,6 +25,7 @@ public final class Signals {
 	public final static String COLOR_BLACK = "COLOR_BLACK";
 	public final static String COLOR_WHITE = "COLOR_WHITE";
 	public final static String DISCONNECT = "DISCONNECT";
+	
 	//signals during the game
 	public final static String CL_PUT = "CL_PUT";
 	public final static String SE_PUTOK = "SE_PUTOK";
@@ -36,6 +37,8 @@ public final class Signals {
 	public final static String REMOVE = "REMOVE";
 	public final static String SE_CHECKED = "SE_CHECKED";
 	public final static String ENEMY_CHECKED = "ENEMY_CHECKED";
+	public final static String POINTS = "POINTS";
+	
 	//end game
 	public final static String CL_END = "CL_END";
 	public final static String CL_RESIGN = "CL_RESIGN";

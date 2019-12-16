@@ -12,6 +12,8 @@ import constants.Signals;
 import constants.Statuses;
 import game.Game;
 
+import static constants.Messages.*;
+
 public class ServerThread extends Thread
 {
 	Game game = null;
@@ -21,6 +23,7 @@ public class ServerThread extends Thread
 	String line;
 	ServerThread opponent;
 	Pawn color;
+	int points = 0;
 	ServerThread(Socket socket)
 	{
 		this.socket = socket;
@@ -67,9 +70,11 @@ public class ServerThread extends Thread
 								{
 									output = output + i + " ";
 								}
+								points += game.currentKilled.size();
 								threadOut.println(output);
 								opponent.threadOut.println(output);
-								
+								output = Signals.POINTS + " " + points;
+								threadOut.println(output);
 								output = Signals.SE_PUTOK + " " + place;
 								threadOut.println(output);
 								opponent.threadOut.println(Signals.CL_PUT + " " + place);
@@ -79,15 +84,15 @@ public class ServerThread extends Thread
 								output = Signals.SE_PUTNO + " ";
 								if(status == Statuses.STATUS_SUICIDE)
 								{
-									output = output + Messages.SUICIDE;
+									output = output + SERVER + Messages.SUICIDE;
 								}
 								else if(status == Statuses.STATUS_KO)
 								{
-									output = output + Messages.KO;
+									output = output + SERVER + " " + Messages.KO;
 								}
-								else if(status == Statuses.STATUS_CANT)
+								else if(status == Statuses.STATUS_NOEMPTY)
 								{
-									output = output + Messages.NO_TURN;
+									output = output + SERVER + Messages.NO_EMPTY;
 								}
 								threadOut.println(output);
 							}
