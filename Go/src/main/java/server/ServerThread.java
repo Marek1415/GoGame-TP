@@ -55,7 +55,8 @@ public class ServerThread extends Thread
 						line = threadIn.nextLine();
 						check = false;
 						agree = false;
-						opponent.agree = false;
+						if(opponent != null)
+							opponent.agree = false;
 						System.out.println(line);
 						String splitString[] = line.split(" ");
 						String output = null;

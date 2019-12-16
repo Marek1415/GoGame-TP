@@ -117,6 +117,8 @@ public class ClientGUI extends JFrame implements PawnOperations
 				recSignalNow(signal);
 			}
 		};
+
+		pack();
 		
 		//TODO DO_NOTGIN_ON_CLOSA
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -126,16 +128,22 @@ public class ClientGUI extends JFrame implements PawnOperations
 	/** Initialize the start module.*/
 	public void initStartModule() {
 		startMod.init();
+		startMod.setLocationRelativeTo(this);
+		pack();
 	}
 	
 	/** Initialize the end module.*/
 	public void initEndModule(String status, String points) {
 		endMod.init(status, points);
+		endMod.setLocationRelativeTo(this);
+		pack();
 	}
 	
 	/** Initialize new game module. */
 	public void initNewGameModule() {
 		newGameMod.init();
+		newGameMod.setLocationRelativeTo(this);
+		pack();
 	}
 	
 	/** Initialize the agree module.*/
@@ -144,6 +152,8 @@ public class ClientGUI extends JFrame implements PawnOperations
 				boardPanel.getCurrentSize(),
 				boardPanel.getCurrentPawns()
 				);
+		agreeMod.setLocationRelativeTo(this);
+		pack();
 	}
 	
 	/** Displays the main game frame.*/
