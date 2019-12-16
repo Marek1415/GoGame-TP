@@ -77,7 +77,7 @@ public class Client extends JFrame
 			}
 			else if(command.equals(Signals.DISCONNECT))
 			{
-				GUI.addMessage("Przeciwnik sie rozlaczyl");
+				GUI.addMessage(Messages.NO_CLIENT);
 				GUI.disconnected();
 				in = null;
 				out = null;
@@ -120,9 +120,15 @@ public class Client extends JFrame
 				}
 				GUI.addMessage(message);
 			}
-			else if(command.equals(Signals.SE_PUTNO))
+			else if(splitString[0].equals(Signals.SE_PUTNO))
 			{
-				GUI.addMessage("Zly ruch");
+				String message = "";
+				int length = splitString.length;
+				for(int i = 1; i < length; i++)
+				{
+					message = message + splitString[i] + " ";
+				}
+				GUI.addMessage(message);
 			}
 			else if(splitString[0].equals(Signals.CL_PUT))
 			{
@@ -130,6 +136,16 @@ public class Client extends JFrame
 				GUI.addPawn(place, enemyColor.Symbol());
 				GUI.turnON();
 				myTurn = true;
+			}
+			else if(command.equals(Signals.ENEMY_CHECKED))
+			{
+				GUI.turnON();
+				myTurn = true;
+			}
+			else if(command.equals(Signals.SE_CHECKED))
+			{
+				GUI.turnOFF();
+				myTurn = false;
 			}
 			else if(splitString[0].equals(Signals.START)) 
 			{

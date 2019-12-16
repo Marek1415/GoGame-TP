@@ -76,7 +76,19 @@ public class ServerThread extends Thread
 							}
 							else
 							{
-								output = Signals.SE_PUTNO;
+								output = Signals.SE_PUTNO + " ";
+								if(status == Statuses.STATUS_SUICIDE)
+								{
+									output = output + Messages.SUICIDE;
+								}
+								else if(status == Statuses.STATUS_KO)
+								{
+									output = output + Messages.KO;
+								}
+								else if(status == Statuses.STATUS_CANT)
+								{
+									output = output + Messages.NO_TURN;
+								}
 								threadOut.println(output);
 							}
 						}
@@ -134,6 +146,11 @@ public class ServerThread extends Thread
 								opponent.threadOut.println(Signals.CL_READY);
 								SocketServer.waiting.remove(0);
 							}
+						}
+						else if(splitString[0].equals(Signals.CL_CHECK))
+						{
+							threadOut.println(Signals.SE_CHECKED);
+							opponent.threadOut.println(Signals.ENEMY_CHECKED);
 						}
 					}
 				catch(Exception e)
