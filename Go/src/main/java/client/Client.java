@@ -130,6 +130,10 @@ public class Client extends JFrame
 				}
 				GUI.addMessage(message);
 			}
+			else if(splitString[0].equals(Signals.POINTS))
+			{
+				GUI.setPoints(splitString[1]);
+			}
 			else if(splitString[0].equals(Signals.CL_PUT))
 			{
 				int place = Integer.parseInt(splitString[1]);
