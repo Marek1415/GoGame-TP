@@ -13,6 +13,10 @@ public class ActionPanelConstants {
 	public final static String STR_READY = "Gotowy";
 	public final static String STR_CHECK = "Czekaj";
 	public final static String STR_END = "Koniec";
+	
+	//string ready button
+	public final static String STR_PAWN_BLACK = "czarny";
+	public final static String STR_PAWN_WHITE = "biały";
 
 	//dimensions
 	public final static Dimension DIM_BUTTON = new Dimension(250,100);
@@ -25,6 +29,11 @@ public class ActionPanelConstants {
 	public final static Color COL_CHECK = Color.BLUE;
 	public final static Color COL_END = Color.BLUE.darker();
 	
+	//colors ready button
+	public final static Color BACKGROUN_PAWN_WHITE = Color.white;
+	public final static Color BACKGROUN_PAWN_BLACK = Color.black;
+	public final static Color COLOR_PAWN_WHITE = Color.DARK_GRAY;
+	public final static Color COLOR_PAWN_BLACK = Color.LIGHT_GRAY;
 	//fonts
 	public final static Font FONT_INFO = new Font("Helvetica", Font.PLAIN, 15);
 	public final static Font FONT_BUTTON = new Font("Helvetica", Font.PLAIN, 20);

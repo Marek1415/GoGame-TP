@@ -256,6 +256,11 @@ public class ClientGUI extends JFrame implements PawnOperations
 	public void switchConflict(boolean conflict) {
 		agreeMod.switchConflict(conflict);
 	}
+	
+	/** Sets player color. */
+	public void setPlayerColor(Pawn color) {
+		actionPanel.setPlayerColor(color);
+	}
 
 	/** Creating ClientGUI for test. */
 	/*public static void main(String[] args) {

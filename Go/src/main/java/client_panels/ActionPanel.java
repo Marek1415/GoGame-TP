@@ -3,6 +3,8 @@ package client_panels;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import constants.PawnColors.Pawn;
+
 import static constants.Signals.*;
 import static constants_panels.ActionPanelConstants.*;
 
@@ -19,7 +21,7 @@ import java.awt.event.ActionListener;
 public class ActionPanel extends JPanel{
 
 	//components
-	private ActionButton readyButton;
+	private ReadyButton readyButton;
 	private ActionButton checkButton;
 	private ActionButton endButton;
 	private TextArea infoArea;
@@ -29,7 +31,7 @@ public class ActionPanel extends JPanel{
 		super();
 		
 		//ready Button
-		readyButton = new ActionButton(STR_READY, DIM_BUTTON, COL_READY) {
+		readyButton = new ReadyButton(STR_READY, DIM_BUTTON, COL_READY) {
 			@Override
 			public void action() {
 				sendSignalNow(CL_READY);
@@ -116,6 +118,11 @@ public class ActionPanel extends JPanel{
 		//System.out.println("[SIGNAL]  " + signal);
 	}
 	
+	/** Sets player color. */
+	public void setPlayerColor(Pawn color) {
+		readyButton.setPlayerColor(color);
+	}
+	
 	/** Adds message to the message panel.*/
 	public void addMessage(String message) {
 		System.out.println("[MESSAGE] " + message);
@@ -149,6 +156,46 @@ public class ActionPanel extends JPanel{
       			}
     		});
     		
+    	}
+    	
+    	/** Action method, must be override by parent. */
+    	public abstract void action();
+    }
+	
+	/** Button for performing action on parent.*/
+	private abstract class ReadyButton extends JButton {
+    	
+    	private ReadyButton(String text, Dimension dim, Color col) {
+    		
+    		super(text);
+    		setPreferredSize(dim);
+    		setBackground(col);
+    		setForeground(COL_FOREGROUND);
+    		setFont(FONT_BUTTON);
+    		setBorderPainted(false);
+    		
+    		addActionListener(new ActionListener() {
+      			public void actionPerformed(ActionEvent event) {
+        			action();
+      			}
+    		});
+    		
+    	}
+    	
+    	/** Sets player color. */
+    	public void setPlayerColor(Pawn color) {
+    		switch(color) {
+    		case WHITE:
+    			setBackground(BACKGROUN_PAWN_WHITE);
+    			setForeground(COLOR_PAWN_WHITE);
+    			setText(STR_PAWN_WHITE);
+    			break;
+    		case BLACK:
+    			setBackground(BACKGROUN_PAWN_BLACK);
+    			setForeground(COLOR_PAWN_BLACK);
+    			setText(STR_PAWN_BLACK);
+    			break;
+    		}
     	}
     	
     	/** Action method, must be override by parent. */
