@@ -13,6 +13,7 @@ import constants.Statuses;
 import game.Game;
 
 import static constants.Messages.*;
+import static constants.Territories.*;
 
 public class ServerThread extends Thread
 {
@@ -25,6 +26,7 @@ public class ServerThread extends Thread
 	ServerThread opponent;
 	Pawn color;
 	int points = 0;
+	boolean agree = false;
 	ServerThread(Socket socket)
 	{
 		this.socket = socket;
@@ -52,6 +54,8 @@ public class ServerThread extends Thread
 							}
 						line = threadIn.nextLine();
 						check = false;
+						agree = false;
+						opponent.agree = false;
 						System.out.println(line);
 						String splitString[] = line.split(" ");
 						String output = null;
@@ -165,13 +169,77 @@ public class ServerThread extends Thread
 							else
 							{
 								threadOut.println(Signals.CL_END);
-								opponent.threadOut.println(Signals.CL_END);	
+								opponent.threadOut.println(Signals.CL_END);
+								game.initTerritory();
 							}
 						}
 						else if(splitString[0].equals(Signals.CL_RESIGN))
 						{
 							threadOut.println(Signals.SE_LOST + " " + points);
 							opponent.threadOut.println(Signals.SE_WIN + " " + opponent.points);
+						}
+						else if(splitString[0].equals(Signals.CL_MYADD))
+						{
+							int position = Integer.parseInt(splitString[1]);
+							int status = game.clickTerritory(position, color.Symbol());
+							if(status == NOBODY)
+							{
+								String msg = Signals.SE_TERRADD + " " + position + " " + status;
+								threadOut.println(msg);
+								opponent.threadOut.println(msg);
+							}
+							else if(status == CONFLICT)
+							{
+								String msg = Signals.SE_TERRADD + " " + position + " " + status;
+								threadOut.println(msg);
+								opponent.threadOut.println(msg);
+							}
+							else if(status == ME)
+							{
+								String msg = Signals.SE_TERRADD + " " + position + " " + status;
+								String msg2 = Signals.SE_TERRADD + " " + position + " " + ENEMY;
+								threadOut.println(msg2);
+								opponent.threadOut.println(msg);
+							}
+							else if(status == ENEMY)
+							{
+								String msg = Signals.SE_TERRADD + " " + position + " " + status;
+								String msg2 = Signals.SE_TERRADD + " " + position + " " + ME;
+								threadOut.println(msg2);
+								opponent.threadOut.println(msg);
+							}
+						}
+						else if(splitString[0].equals(Signals.CL_AGREE))
+						{
+							agree = true;
+							points += game.getTerritoryPoints(color.Symbol());
+							if(opponent.agree == true)
+							{
+								if(opponent.points > points)
+								{
+									threadOut.println(Signals.SE_LOST + " " + points);
+									opponent.threadOut.println(Signals.SE_WIN + " " + opponent.points);
+								}
+								else if(opponent.points == points)
+								{
+									threadOut.println(Signals.SE_WIN + " " + points);
+									opponent.threadOut.println(Signals.SE_WIN + " " + opponent.points);
+								}
+								else
+								{
+									threadOut.println(Signals.SE_WIN + " " + points);
+									opponent.threadOut.println(Signals.SE_LOST + " " + opponent.points);
+								}
+							}
+							else
+							{
+								threadOut.println(Signals.SE_MESSREC + " " + Messages.SERVER + " " + WAITING);
+							}
+						}
+						else if(splitString[0].equals(Signals.CL_DISAGREE))
+						{
+							opponent.threadOut.println(Signals.SE_DISAGREE);
+							threadOut.println(Signals.SE_DISAGREE);
 						}
 					}
 				catch(Exception e)

@@ -156,6 +156,7 @@ public class Client extends JFrame
 			else if(command.equals(Signals.ENEMY_CHECKED))
 			{
 				GUI.turnON();
+				GUI.addMessage(Messages.SERVER+ " " + Messages.ENEMY_CHECK);
 				myTurn = true;
 			}
 			else if(command.equals(Signals.SE_CHECKED))
@@ -169,9 +170,18 @@ public class Client extends JFrame
 			}
 			else if(splitString[0].equals(Signals.START)) 
 			{
-				System.out.println(command);
 				int size = Integer.parseInt(splitString[1]);
 				GUI.initGame(size);
+			}
+			else if(splitString[0].equals(Signals.SE_TERRADD)) 
+			{
+				int position = Integer.parseInt(splitString[1]);
+				int status = Integer.parseInt(splitString[2]);
+				GUI.addTerritory(position, status);
+			}
+			else if(splitString[0].equals(Signals.SE_DISAGREE)) 
+			{
+				//disagree();
 			}
 		}
 		catch(Exception ex)

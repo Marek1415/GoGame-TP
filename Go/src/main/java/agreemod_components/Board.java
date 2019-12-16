@@ -61,5 +61,6 @@ public class Board extends JLayeredPane {
 	/** Switch on piece of territory in specific status.*/
 	public void addTerritory(int position, int status) {
 		layerGrid.addTerritory(position, status);
+		layerGrid.repaint();
 	}
 }

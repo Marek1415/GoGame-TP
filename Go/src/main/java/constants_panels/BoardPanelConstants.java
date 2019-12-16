@@ -26,6 +26,9 @@ public class BoardPanelConstants {
 	public final static Color COL_MYTERRITORY = new Color(0,128,0, 175);
 	public final static Color COL_ENEMYTERRITORY = new Color(105,105,105,175);
 	public final static Color COL_CONFLICT = new Color(255,0,0,175);
+	//public final static Color COL_MYTERRITORY = Color.GREEN;
+	//public final static Color COL_ENEMYTERRITORY = Color.BLACK;
+	//public final static Color COL_CONFLICT = Color.red;
 	
 	//fonts
 	public final static Font FONT_AXIS = new Font("Helvetica", Font.BOLD, 12);

@@ -313,4 +313,9 @@ public class Game {
 	public void sendSignal(String signal) {
 		
 	}
+	
+	/** Returns current amount of conflicts. */
+	public int getConflicts() {
+		return this.conflicts;
+	}
 }

@@ -92,14 +92,17 @@ public class LayerGrid extends JPanel {
         	case ME:
         		g.setColor(myTerritory);
         		g.fillRect((int)(j*step), (int)(i*step), (int)step, (int)step);
+        		System.out.println("__print ME");
         		break;
 			case ENEMY:
-					g.setColor(enemyTerritory);
-					g.fillRect((int)(j*step), (int)(i*step), (int)step, (int)step);
-					break;
+				g.setColor(enemyTerritory);
+				g.fillRect((int)(j*step), (int)(i*step), (int)step, (int)step);
+				System.out.println("__print ENEMY");
+				break;
 			case CONFLICT:
 				g.setColor(conflict);
 				g.fillRect((int)(j*step), (int)(i*step), (int)step, (int)step);
+				System.out.println("__print CONFLICT");
 				break;	
         	}
 	}
