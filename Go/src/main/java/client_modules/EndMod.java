@@ -19,8 +19,6 @@ import client_interfaces.SignalSender;
 
 import static constants.Signals.*;
 import static constants_modules.EndModConstants.*;
-import static constants.Statuses.STATUS_WIN;
-import static constants.Statuses.STATUS_LOST;
 
 
 /**
@@ -114,7 +112,7 @@ public class EndMod extends JDialog implements SignalSender {
 	
 	/** Sets panel status. */
 	public void setStatus(String status) {
-		if(status == STATUS_WIN) {
+		if(status.equals(SE_WIN)) {
 			panel.setBackground(COL_WIN);
 			setTitle(STR_WIN);
 		}
@@ -129,11 +127,6 @@ public class EndMod extends JDialog implements SignalSender {
 		setVisible(isInit);
 	}
 	
-    public static void main( String[] args ) {
-    	//TODO delete main method
-		EndMod endMod = new EndMod();
-		endMod.init(STATUS_WIN, "2");
-    }
     
     /**Performs action on parent. */
 	private abstract class ActionButton extends JButton {
@@ -160,7 +153,7 @@ public class EndMod extends JDialog implements SignalSender {
     	
     	/** Sets button status. */
     	public void setStatus(String status) {
-    		if(status == STATUS_WIN)
+    		if(status.equals(SE_WIN))
     			setBackground(colorWin);
     		else
     			setBackground(colorLost);

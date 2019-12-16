@@ -130,6 +130,11 @@ public class Client extends JFrame
 				}
 				GUI.addMessage(message);
 			}
+			else if(splitString[0].equals(Signals.SE_WIN) || splitString[0].equals(Signals.SE_LOST))
+			{
+				System.out.println(splitString[0]);
+				GUI.initEndModule(splitString[0], splitString[1]);
+			}
 			else if(splitString[0].equals(Signals.POINTS))
 			{
 				GUI.setPoints(splitString[1]);
@@ -150,6 +155,10 @@ public class Client extends JFrame
 			{
 				GUI.turnOFF();
 				myTurn = false;
+			}
+			else if(command.equals(Signals.CL_END))
+			{
+				GUI.initAgreeModule();
 			}
 			else if(splitString[0].equals(Signals.START)) 
 			{

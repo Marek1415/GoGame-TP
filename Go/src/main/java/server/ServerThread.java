@@ -21,6 +21,7 @@ public class ServerThread extends Thread
 	PrintWriter threadOut = null;
 	Socket socket = null;
 	String line;
+	boolean check = false;
 	ServerThread opponent;
 	Pawn color;
 	int points = 0;
@@ -50,6 +51,7 @@ public class ServerThread extends Thread
 								break;
 							}
 						line = threadIn.nextLine();
+						check = false;
 						System.out.println(line);
 						String splitString[] = line.split(" ");
 						String output = null;
@@ -154,8 +156,22 @@ public class ServerThread extends Thread
 						}
 						else if(splitString[0].equals(Signals.CL_CHECK))
 						{
-							threadOut.println(Signals.SE_CHECKED);
-							opponent.threadOut.println(Signals.ENEMY_CHECKED);
+							check = true;
+							if(!opponent.check)
+							{
+								threadOut.println(Signals.SE_CHECKED);
+								opponent.threadOut.println(Signals.ENEMY_CHECKED);
+							}
+							else
+							{
+								threadOut.println(Signals.CL_END);
+								opponent.threadOut.println(Signals.CL_END);	
+							}
+						}
+						else if(splitString[0].equals(Signals.CL_RESIGN))
+						{
+							threadOut.println(Signals.SE_LOST + " " + points);
+							opponent.threadOut.println(Signals.SE_WIN + " " + opponent.points);
 						}
 					}
 				catch(Exception e)
