@@ -22,7 +22,8 @@ public class Game {
 	// variables
 	ServerThread player1, player2;
 	int board[][];
-	int territory[][];
+	int whities[][];
+	int blacks[][];
 	int conflicts;
 	int size;
 	int realSize;
@@ -229,50 +230,83 @@ public class Game {
 	
 	/** Initialize territory. */
 	public void initTerritory() {
-		this.territory = new int [size][size];
+		this.whities = new int [size][size];
+		this.blacks = new int [size][size];
 		this.conflicts = 0;
 	}
 	
 	/** Adds conflict in conflicts counter. */
-	private void addConflict() {
+	private synchronized void addConflict() {
 		conflicts += 1;
 		sendSignal(SE_CONFLICT + " " + 1);
 	}
 	
 	/** Removes conflict from conflicts counter. */
-	private void removeConflict() {
+	private synchronized void removeConflict() {
 		conflicts -= 1;
 		if(conflicts == 0)
 			sendSignal(SE_CONFLICT + " " + 0);
 	}
 	
-	/** Switch territory status on specific position and color. */
-	public void clickTerritory(int position, int status, int color) {
+	/** Switch territory status on specific position and color, returns current status. */
+	public synchronized int clickTerritory(int position, int color) {
 		
 		int x = position%size;
 		int y = position/size;
 		
-		boolean wasConflict = (territory[y][x] == ISCONFLICT);
+		boolean wasConflict = (whities[y][x] + blacks[y][x] == CONFLICT);
 		
-		if(color == WHITE)
-			territory[y][x] += status * WHITE_ADD;
-		else
-			territory[y][x] += status * BLACK_ADD;
-		
-		boolean isConflict = (territory[y][x] == ISCONFLICT);
-		
-		if(wasConflict && !isConflict) {
-			removeConflict();
-			sendSignal(SE_TERRADD + " " + OK);
+		//sets new value
+		switch(color) {
+		case WHITE:
+			whities[y][x] = (whities[y][x] == NOBODY) ? TER_WHITE : NOBODY;
+			break;
+		case BLACK:
+			blacks[y][x] = (blacks[y][x] == NOBODY) ? TER_BLACK : NOBODY;
+			break;
 		}
-		else if(!wasConflict && isConflict) {
+		
+		//sets current value
+		int val = whities[y][x] + blacks[y][x];
+		
+		//returns current value
+		if(val == NOBODY) {
+			return NOBODY;
+		}
+		else if(val == CONFLICT) {
 			addConflict();
-			sendSignal(SE_TERRADD + " " + NO);
+			return CONFLICT;
+		}
+		else if(val == color) {
+			if(wasConflict) 	removeConflict();
+			return ME;
 		}
 		else {
-			sendSignal(SE_TERRADD + " " + NO);
+			if(wasConflict) 	removeConflict();
+			return ENEMY;
 		}
+	}
+	
+	/** Returns amount of points for player specific color. */
+	public int getTerritoryPoints(int color) {
+		int points = 0;
+		
+		switch(color) {
+		case WHITE:
+			for(int i = 0; i < size; i ++)
+			for(int j = 0; j < size; j ++)
+				if(whities[i][j] == WHITE && board[i+1][j+1] == BLACK)
+					points ++;
+			break;
 			
+		case BLACK:
+			for(int i = 0; i < size; i ++)
+			for(int j = 0; j < size; j ++)
+				if(blacks[i][j] == BLACK && board[i+1][j+1] == WHITE)
+					points ++;
+			break;
+		}
+		return points;
 	}
 	
 	/** Sends signal, must be override by parent.*/

@@ -45,6 +45,7 @@ public final class Signals {
 	public final static String SE_LOST = "SE_LOST";
 	
 	//territory signals
+	public final static String SE_TERINIT = "SE_TERINIT";
 	public final static String CL_AGREE = "CL_AGREE";
 	public final static String CL_DISAGREE = "CL_DISAGREE";
 	public final static String CL_MYADD = "CL_MYADD";

@@ -131,7 +131,7 @@ public class AgreeMod extends JDialog implements SignalSender{
 		agreeMod.addTerritory(2, CONFLICT);
 		agreeMod.addTerritory(9, CONFLICT);
 		agreeMod.addTerritory(8, CONFLICT);
-		agreeMod.addTerritory(9, EMPTY);
+		agreeMod.addTerritory(9, NOBODY);
 		agreeMod.switchConflict(true);
 	}
 	
