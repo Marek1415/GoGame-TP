@@ -243,6 +243,8 @@ public class ServerThread extends Thread
 							points += game.getTerritoryPoints(color.Symbol());
 							if(opponent.agree == true)
 							{
+								agree = false;
+								opponent.agree = false;
 								threadOut.println(Signals.POINTS + " " + points);
 								opponent.threadOut.println(Signals.POINTS + " " + opponent.points);
 								if(opponent.points > points)
@@ -273,7 +275,7 @@ public class ServerThread extends Thread
 							{
 								opponent.agree = false;
 							}
-							opponent.threadOut.println(Signals.SE_DISAGREE);
+							opponent.threadOut.println(Signals.ENEMY_DISAGREE);
 							threadOut.println(Signals.SE_DISAGREE);
 						}
 					}

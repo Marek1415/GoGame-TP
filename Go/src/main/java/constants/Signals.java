@@ -54,6 +54,7 @@ public final class Signals {
 	public final static String CL_AGREE = "CL_AGREE";
 	public final static String CL_DISAGREE = "CL_DISAGREE";
 	public final static String SE_DISAGREE = "SE_DISAGREE";
+	public final static String ENEMY_DISAGREE = "ENEMY_DISAGREE";
 	public final static String CL_MYADD = "CL_MYADD";
 	public final static String SE_TERRADD = "SE_TERRADD";
 	public final static String SE_CONFLICT = "SE_CONFLICT";

@@ -183,6 +183,15 @@ public class Client extends JFrame
 			else if(splitString[0].equals(Signals.SE_DISAGREE)) 
 			{
 				agreeMode = false;
+				GUI.turnON();
+				myTurn = true;
+				GUI.hideAgreeModule();
+			}
+			else if(splitString[0].equals(Signals.ENEMY_DISAGREE)) 
+			{
+				GUI.turnOFF();
+				myTurn = false;
+				agreeMode = false;
 				GUI.hideAgreeModule();
 			}
 		}
