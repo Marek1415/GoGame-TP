@@ -23,12 +23,14 @@ class SocketServer
 	String line = "";
 	ServerThread serverThread;
 	static ArrayList<ServerThread> waiting;
+	static ArrayList<ServerThread> waitingBot;
 	static ArrayList<ServerThread> serverThreads;
 	int portNumber = 4444;
 	SocketServer()
 	{
 		serverThreads = new ArrayList<ServerThread>();
 		waiting = new ArrayList<ServerThread>();
+		waitingBot = new ArrayList<ServerThread>();
 		try
 			{
 				server = new ServerSocket(portNumber);
@@ -58,7 +60,6 @@ class SocketServer
 				serverThread.start();
 			}
 	}
-	
 	protected void finalize()
 	{
 		try

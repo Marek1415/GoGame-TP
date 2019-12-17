@@ -11,6 +11,7 @@ import constants.PawnColors.Pawn;
 import constants.Signals;
 import constants.Statuses;
 import game.Game;
+import bot.*;
 
 import static constants.Messages.*;
 import static constants.Territories.*;
@@ -27,6 +28,7 @@ public class ServerThread extends Thread
 	Pawn color;
 	int points = 0;
 	boolean agree = false;
+	BotWrapper bot = null;
 	ServerThread(Socket socket)
 	{
 		this.socket = socket;
@@ -34,6 +36,7 @@ public class ServerThread extends Thread
 			{
 				threadIn = new Scanner(new InputStreamReader(socket.getInputStream()));
 				threadOut = new PrintWriter(socket.getOutputStream(), true);
+				System.out.println(socket);
 			}
 		catch(IOException e)
 			{
@@ -62,13 +65,18 @@ public class ServerThread extends Thread
 						String output = null;
 						if(splitString[0].equals(Signals.CL_PUT))
 						{
+							System.out.println("here");
 							int place = Integer.parseInt(splitString[1]);
 							int status = game.tryPut(place, this.color.Symbol());
+							System.out.println("her1e");
 							if(status == Statuses.STATUS_PUT)
 							{
+								System.out.println("her2e");
 								output = Signals.SE_PUTOK + " " + place;
+								System.out.println(opponent);
 								threadOut.println(output);
 								opponent.threadOut.println(Signals.CL_PUT + " " + place);
+								System.out.println("he3re");
 							}
 							else if(status == Statuses.STATUS_KILL)
 							{
@@ -126,10 +134,10 @@ public class ServerThread extends Thread
 						}
 						else if(splitString[0].equals(Signals.CL_ROOMNEW))
 						{
-							int bot = Integer.parseInt(splitString[1]);
+							int botCond = Integer.parseInt(splitString[1]);
 							color = Pawn.WHITE;
 							threadOut.println(Signals.COLOR_WHITE);
-							if(bot != 10)
+							if(botCond != 10)
 							{
 								synchronized(this)
 								{
@@ -140,7 +148,14 @@ public class ServerThread extends Thread
 							}
 							else
 							{
-								
+								synchronized(this)
+								{
+									SocketServer.waitingBot.add(this);
+								}
+								game = new Game();
+								game.initBoard(Integer.parseInt(splitString[2]));
+								bot = new BotWrapper(game);
+								threadOut.println(Signals.CL_READY);
 							}
 						}
 						else if(splitString[0].equals(Signals.CL_ROOMJOIN))
@@ -151,12 +166,28 @@ public class ServerThread extends Thread
 								color = Pawn.BLACK;
 								threadOut.println(Signals.COLOR_BLACK);
 								opponent = SocketServer.waiting.get(0);
-								SocketServer.waiting.get(0).opponent = this;
+								SocketServer.waitingBot.get(0).opponent = this;
 								System.out.println("musi dzialac");
 								this.game = SocketServer.waiting.get(0).game;
 								threadOut.println(Signals.START + " " + game.getSize());
 								opponent.threadOut.println(Signals.CL_READY);
 								SocketServer.waiting.remove(0);
+							}
+						}
+						else if(splitString[0].equals(Signals.CL_ROOMJOINBOT))
+						{
+							synchronized(this)
+							{
+								while(SocketServer.waitingBot.isEmpty()) { TimeUnit.SECONDS.sleep(1); }
+								color = Pawn.BLACK;
+								threadOut.println(Signals.COLOR_BLACK);
+								opponent = SocketServer.waitingBot.get(0);
+								SocketServer.waitingBot.get(0).opponent = this;
+								System.out.println("musi dzialac");
+								this.game = SocketServer.waitingBot.get(0).game;
+								threadOut.println(Signals.START + " " + game.getSize());
+								opponent.threadOut.println(Signals.CL_READY);
+								SocketServer.waitingBot.remove(0);
 							}
 						}
 						else if(splitString[0].equals(Signals.CL_CHECK))

@@ -16,6 +16,7 @@ public final class Signals {
 	//public final static String CL_ROOMSET = "CL_ROOMSET";
 	public final static String CL_ROOMNEW = "CL_ROOMNEW";//Ok
 	public final static String CL_ROOMJOIN = "CL_ROOMJOIN";//Ok
+	public final static String CL_ROOMJOINBOT = "CL_ROOMJOINBOT";//Ok
 	public final static String CL_SIZESET = "CL_SIZESET";//Ok
 	public final static String SE_ENEMYNEW = "SE_ENEMYNEW";//Ok
 	public final static String CL_READY = "CL_READY";//Ok
@@ -28,6 +29,7 @@ public final class Signals {
 	
 	//signals during the game
 	public final static String CL_PUT = "CL_PUT";				//OK
+	public final static String SE_PUT = "SE_PUT";				//OK
 	public final static String SE_PUTOK = "SE_PUTOK";			//OK
 	public final static String SE_PUTNO = "SE_PUTNO";			//OK
 	public final static String CL_CHECK = "CL_CHECK";
