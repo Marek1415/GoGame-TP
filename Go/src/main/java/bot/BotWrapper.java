@@ -45,9 +45,7 @@ public class BotWrapper extends Thread
 				{
 					int place = Integer.parseInt(splitString[1]);
 					bot.putEnemyPawn(place);
-					out.println("bot is putting here" + place);
 					int move = bot.makeBotMove();
-					out.println("bot is moving here" + move);
 					if(move == Statuses.STATUS_CANT)
 					{
 						out.println(Signals.CL_RESIGN);
@@ -56,6 +54,16 @@ public class BotWrapper extends Thread
 					else
 					{
 						out.println(Signals.CL_PUT + " " + move);
+						bot.putBotPawn(move);
+					}
+				}
+				else if(splitString[0].equals(Signals.REMOVE))
+				{
+					int size = splitString.length;
+					for(int i = 1; i < size; i++)
+					{
+						int place = Integer.parseInt(splitString[i]);
+						bot.removePawn(place);
 					}
 				}
 				else if(splitString[0].equals(Signals.CL_CHECK))

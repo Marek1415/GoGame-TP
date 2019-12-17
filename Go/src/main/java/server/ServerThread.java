@@ -62,23 +62,18 @@ public class ServerThread extends Thread
 						{
 							opponent.agree = false;
 						}
-						System.out.println(line);
 						String splitString[] = line.split(" ");
 						String output = null;
 						if(splitString[0].equals(Signals.CL_PUT))
 						{
-							System.out.println("here");
 							int place = Integer.parseInt(splitString[1]);
 							int status = game.tryPut(place, this.color.Symbol());
-							System.out.println("her1e");
 							if(status == Statuses.STATUS_PUT)
 							{
-								System.out.println("her2e");
 								output = Signals.SE_PUTOK + " " + place;
 								System.out.println(opponent);
 								threadOut.println(output);
 								opponent.threadOut.println(Signals.CL_PUT + " " + place);
-								System.out.println("he3re");
 							}
 							else if(status == Statuses.STATUS_KILL)
 							{
