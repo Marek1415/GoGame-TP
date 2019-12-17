@@ -14,21 +14,17 @@ import game.Game;
 
 public class BotWrapper extends Thread
 {
-	Game game = null;
 	Socket socket = null;
 	PrintWriter out = null;
 	Scanner in = null;
-	boolean agree = false;
 	Bot bot;
 	String line;
 	Pawn color = Pawn.BLACK;
 	
-	public BotWrapper(Game game)
+	public BotWrapper()
 	{
 		listen();
-		this.game = game;
 		bot = new Bot();
-		bot.initBot(game.getSize());
 		bot.setColor(color.Symbol());
 		out.println(Signals.CL_ROOMJOINBOT);
 	}
@@ -49,9 +45,9 @@ public class BotWrapper extends Thread
 				{
 					int place = Integer.parseInt(splitString[1]);
 					bot.putEnemyPawn(place);
-					System.out.println(place);
+					out.println("bot is putting here" + place);
 					int move = bot.makeBotMove();
-					System.out.println(move);
+					out.println("bot is moving here" + move);
 					if(move == Statuses.STATUS_CANT)
 					{
 						out.println(Signals.CL_RESIGN);
@@ -59,8 +55,27 @@ public class BotWrapper extends Thread
 					}
 					else
 					{
-						out.println(Signals.CL_PUT + " " + 5);
+						out.println(Signals.CL_PUT + " " + move);
 					}
+				}
+				else if(splitString[0].equals(Signals.CL_CHECK))
+				{
+					int move = bot.makeBotMove();
+					System.out.println(move);
+					if(move == Statuses.STATUS_CANT)
+					{
+						out.println(Signals.CL_CHECK);
+						break;
+					}
+					else
+					{
+						out.println(Signals.CL_PUT + " " + move);
+					}
+				}
+				else if(splitString[0].equals(Signals.START))
+				{
+					int size = Integer.parseInt(splitString[1]);
+					bot.initBot(size);
 				}
 			}
 			catch(Exception e)

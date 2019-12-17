@@ -59,7 +59,9 @@ public class ServerThread extends Thread
 						check = false;
 						agree = false;
 						if(opponent != null)
+						{
 							opponent.agree = false;
+						}
 						System.out.println(line);
 						String splitString[] = line.split(" ");
 						String output = null;
@@ -154,7 +156,8 @@ public class ServerThread extends Thread
 								}
 								game = new Game();
 								game.initBoard(Integer.parseInt(splitString[2]));
-								bot = new BotWrapper(game);
+								bot = new BotWrapper();
+								bot.start();
 								threadOut.println(Signals.CL_READY);
 							}
 						}
@@ -167,7 +170,6 @@ public class ServerThread extends Thread
 								threadOut.println(Signals.COLOR_BLACK);
 								opponent = SocketServer.waiting.get(0);
 								SocketServer.waitingBot.get(0).opponent = this;
-								System.out.println("musi dzialac");
 								this.game = SocketServer.waiting.get(0).game;
 								threadOut.println(Signals.START + " " + game.getSize());
 								opponent.threadOut.println(Signals.CL_READY);
@@ -180,10 +182,8 @@ public class ServerThread extends Thread
 							{
 								while(SocketServer.waitingBot.isEmpty()) { TimeUnit.SECONDS.sleep(1); }
 								color = Pawn.BLACK;
-								threadOut.println(Signals.COLOR_BLACK);
 								opponent = SocketServer.waitingBot.get(0);
 								SocketServer.waitingBot.get(0).opponent = this;
-								System.out.println("musi dzialac");
 								this.game = SocketServer.waitingBot.get(0).game;
 								threadOut.println(Signals.START + " " + game.getSize());
 								opponent.threadOut.println(Signals.CL_READY);
