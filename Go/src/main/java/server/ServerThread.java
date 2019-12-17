@@ -57,11 +57,6 @@ public class ServerThread extends Thread
 							}
 						line = threadIn.nextLine();
 						check = false;
-						agree = false;
-						if(opponent != null)
-						{
-							opponent.agree = false;
-						}
 						String splitString[] = line.split(" ");
 						String output = null;
 						if(splitString[0].equals(Signals.CL_PUT))
@@ -96,11 +91,11 @@ public class ServerThread extends Thread
 								output = Signals.SE_PUTNO + " ";
 								if(status == Statuses.STATUS_SUICIDE)
 								{
-									output = output + SERVER + Messages.SUICIDE;
+									output = output + SERVER + Messages.BAD;
 								}
 								else if(status == Statuses.STATUS_KO)
 								{
-									output = output + SERVER + " " + Messages.KO;
+									output = output + SERVER + " " + Messages.BAD;
 								}
 								else if(status == Statuses.STATUS_NOEMPTY)
 								{
@@ -164,7 +159,7 @@ public class ServerThread extends Thread
 								color = Pawn.BLACK;
 								threadOut.println(Signals.COLOR_BLACK);
 								opponent = SocketServer.waiting.get(0);
-								SocketServer.waitingBot.get(0).opponent = this;
+								SocketServer.waiting.get(0).opponent = this;
 								this.game = SocketServer.waiting.get(0).game;
 								threadOut.println(Signals.START + " " + game.getSize());
 								opponent.threadOut.println(Signals.CL_READY);
@@ -207,6 +202,11 @@ public class ServerThread extends Thread
 						}
 						else if(splitString[0].equals(Signals.CL_MYADD))
 						{
+							agree = false;
+							if(opponent != null)
+							{
+								opponent.agree = false;
+							}
 							int position = Integer.parseInt(splitString[1]);
 							int status = game.clickTerritory(position, color.Symbol());
 							if(status == NOBODY)
@@ -239,9 +239,12 @@ public class ServerThread extends Thread
 						else if(splitString[0].equals(Signals.CL_AGREE))
 						{
 							agree = true;
+							System.out.println(opponent.agree);
 							points += game.getTerritoryPoints(color.Symbol());
 							if(opponent.agree == true)
 							{
+								threadOut.println(Signals.POINTS + " " + points);
+								opponent.threadOut.println(Signals.POINTS + " " + opponent.points);
 								if(opponent.points > points)
 								{
 									threadOut.println(Signals.SE_LOST + " " + points);
@@ -265,6 +268,11 @@ public class ServerThread extends Thread
 						}
 						else if(splitString[0].equals(Signals.CL_DISAGREE))
 						{
+							agree = false;
+							if(opponent != null)
+							{
+								opponent.agree = false;
+							}
 							opponent.threadOut.println(Signals.SE_DISAGREE);
 							threadOut.println(Signals.SE_DISAGREE);
 						}

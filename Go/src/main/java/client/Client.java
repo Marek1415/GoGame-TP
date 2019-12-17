@@ -25,7 +25,7 @@ import static constants.Signals.*;
 public class Client extends JFrame
 {
 	Pawn color, enemyColor;
-	static boolean myTurn;
+	boolean myTurn, agreeMode;
 	ClientGUI GUI;
 	ClientThread clientThread;
 	Socket socket = null;
@@ -37,7 +37,7 @@ public class Client extends JFrame
 	{
 		//listen
 		listen();
-		
+		agreeMode = false;
 		//initialize GUI
 		GUI = new ClientGUI() {
 			
@@ -166,6 +166,7 @@ public class Client extends JFrame
 			}
 			else if(command.equals(Signals.CL_END))
 			{
+				agreeMode = true;
 				GUI.initAgreeModule();
 			}
 			else if(splitString[0].equals(Signals.START)) 
@@ -181,7 +182,8 @@ public class Client extends JFrame
 			}
 			else if(splitString[0].equals(Signals.SE_DISAGREE)) 
 			{
-				//disagree();
+				agreeMode = false;
+				GUI.hideAgreeModule();
 			}
 		}
 		catch(Exception ex)
@@ -209,14 +211,21 @@ public class Client extends JFrame
 		{
 			GUI.addMessage(Messages.NO_CLIENT);
 		}
-		else if(myTurn) 
+		else if(myTurn && !agreeMode) 
 		{
 			System.out.println(signal);
 			out.println(signal);
 		}
 		else
 		{
-			GUI.addMessage(THIS + NO_TURN);
+			if(!myTurn)
+			{
+				GUI.addMessage(THIS + NO_TURN);
+			}
+			else
+			{
+				GUI.addMessage(THIS + AGREE_MODE);
+			}
 		}
 	}
 	

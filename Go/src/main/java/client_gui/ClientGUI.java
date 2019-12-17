@@ -138,7 +138,10 @@ public class ClientGUI extends JFrame implements PawnOperations
 		endMod.setLocationRelativeTo(this);
 		pack();
 	}
-	
+	public void hideAgreeModule()
+	{
+		agreeMod.setVisible(false);
+	}
 	/** Initialize new game module. */
 	public void initNewGameModule() {
 		newGameMod.init();

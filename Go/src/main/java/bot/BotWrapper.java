@@ -57,6 +57,14 @@ public class BotWrapper extends Thread
 						bot.putBotPawn(move);
 					}
 				}
+				else if(splitString[0].equals(Signals.SE_WIN) || splitString[0].equals(Signals.SE_LOST))
+				{
+					break;
+				}
+				else if(splitString[0].equals(Signals.CL_AGREE) || splitString[0].equals(Signals.SE_TERRADD))
+				{
+					out.println(Signals.CL_AGREE);
+				}
 				else if(splitString[0].equals(Signals.REMOVE))
 				{
 					int size = splitString.length;
@@ -66,7 +74,7 @@ public class BotWrapper extends Thread
 						bot.removePawn(place);
 					}
 				}
-				else if(splitString[0].equals(Signals.CL_CHECK))
+				else if(splitString[0].equals(Signals.ENEMY_CHECKED))
 				{
 					int move = bot.makeBotMove();
 					System.out.println(move);

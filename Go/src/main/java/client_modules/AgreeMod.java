@@ -34,7 +34,6 @@ public class AgreeMod extends JDialog implements SignalSender{
 			@Override
 			public void action() {
 				sendSignal(CL_AGREE);
-				initMe(false);
 			}
 		};
 

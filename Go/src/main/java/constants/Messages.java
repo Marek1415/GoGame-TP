@@ -10,7 +10,8 @@ public class Messages {
 		public static final String COLOR_WHITE = "Wylosowales kolor bialy.";
 		public static final String COLOR_BLACK = "Wylosowales kolor czarny.";
 		public static final String ENEMY_CHECK = "Przeciwnik czekal.";
-		
+		public static final String BAD = "Niedozwolony ruch";
+		public static final String AGREE_MODE = "Nie mozna wykonac ruchu podczas wyboru terytorium";
 		public static final String SERVER = "[SERVER] ";
 		public static final String CLIENT = "[CLIENT] ";
 		public static final String THIS = "[THIS] ";
