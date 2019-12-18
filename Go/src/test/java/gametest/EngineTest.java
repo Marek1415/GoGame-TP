@@ -157,7 +157,7 @@ public class EngineTest {
 	
 	//@Ignore
 	@Test
-	public void testSuicideOne() {
+	public void testSuicideOneFirst() {
 		int size = 5;
 		int realSize = getRealSize(size);
 		int [][] board = new int[realSize][realSize];
@@ -196,5 +196,23 @@ public class EngineTest {
 		putPawn(size, board, 12, BLACK);
 		
 		assertEquals(isSuicide(size, board, 17, BLACK), true);
+	}
+	
+	//@Ignore
+	@Test
+	public void testSuicideOneSecond() {
+		int size = 5;
+		int realSize = getRealSize(size);
+		int [][] board = new int[realSize][realSize];
+		initBorders(realSize, board);
+		
+		putPawn(board, 2, 1, WHITE);
+		putPawn(board, 1, 2, WHITE);
+		putPawn(board, 3, 2, WHITE);
+		putPawn(board, 2, 3, WHITE);
+		
+		assertEquals(isSuicide(size, board, 2, 2, BLACK), true);
+		assertEquals(isSuicide(size, board, 2, 2, WHITE), false);
+		assertEquals(isSuicide(size, board, 3, 1, BLACK), false);
 	}
 }

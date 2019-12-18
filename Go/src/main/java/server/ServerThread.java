@@ -146,7 +146,7 @@ public class ServerThread extends Thread
 								}
 								game = new Game();
 								game.initBoard(Integer.parseInt(splitString[2]));
-								bot = new BotWrapper();
+								bot = new BotWrapper(game);
 								bot.start();
 								threadOut.println(Signals.CL_READY);
 							}

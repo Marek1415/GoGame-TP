@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import game.Engine;
+import game.Game;
 /**
  * @author gumises
  * Bot class performs simple moves to kill enemy and safe own life.
@@ -31,6 +32,7 @@ public class Bot {
 	
 	//random
 	private Random random;
+	public Game game;
 	
 	public Bot() {
 		/*
@@ -106,10 +108,10 @@ public class Bot {
 		
 		for(int i = 1; i < realSize-1; i++)
 		for(int j = 1; j < realSize-1; j++)
-			if(board[i][j] == EMPTY && !isSuicide(size, board, j,  i, color))
+			if(board[i][j] == EMPTY && !isSuicide(size, board, getPosition(size, j, i), color))
 				moves.add(getPosition(size, j, i));
 		
-		if(moves.size() > 5)
+		if(moves.size() > 0)
 			return getRandomPosition(moves);
 		else
 			return STATUS_CANT;
@@ -300,7 +302,8 @@ public class Bot {
 	
 	/**Gets last ko position from game. Must be override by parent. */
 	public void getLastKo() {
-		//TODO override by parent
+		if(game != null)
+			lastKo = game.getKo();
 	}
 	
 	/** Prints board in the console. */
@@ -313,8 +316,4 @@ public class Bot {
 		Engine.printRealBoard(realSize, board);
 	}
 	
-	public static void main(String [] args) {
-		//TODO delete main method
-		new Bot();
-	}
 }

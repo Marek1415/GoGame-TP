@@ -11,7 +11,7 @@ import bot.Bot;
 
 public class BotRandomMoveTest {
 
-	@Ignore
+	//@Ignore
 	@Test
 	public void loorForRandomNotTestFirst() {
 		int size = 5;
@@ -25,7 +25,7 @@ public class BotRandomMoveTest {
 		assertEquals(bot.lookForRandom(), STATUS_CANT);
 	}
 	
-	@Ignore
+	//@Ignore
 	@Test
 	public void loorForRandomNotTestSecond() {
 		int size = 5;
@@ -43,7 +43,7 @@ public class BotRandomMoveTest {
 		assertEquals(bot.lookForRandom(), STATUS_CANT);
 	}
 	
-	@Ignore
+	//@Ignore
 	@Test
 	public void loorForRandomTestFirst() {
 		int size = 5;
@@ -69,7 +69,7 @@ public class BotRandomMoveTest {
 		}
 	}
 	
-	@Ignore
+	//@Ignore
 	@Test
 	public void loorForRandomTestSecond() {
 		int size = 5;

@@ -21,10 +21,11 @@ public class BotWrapper extends Thread
 	String line;
 	Pawn color = Pawn.BLACK;
 	
-	public BotWrapper()
+	public BotWrapper(Game game)
 	{
 		listen();
 		bot = new Bot();
+		bot.game = game;
 		bot.setColor(color.Symbol());
 		out.println(Signals.CL_ROOMJOINBOT);
 	}
@@ -109,9 +110,7 @@ public class BotWrapper extends Thread
 				}
 				else if(splitString[0].equals(Signals.SE_PUTNO))
 				{
-					System.out.println("this should not happen");
 					int move = bot.makeBotRandomMove();
-					System.out.println(move);
 					if(move == Statuses.STATUS_CANT)
 					{
 						out.println(Signals.CL_CHECK);

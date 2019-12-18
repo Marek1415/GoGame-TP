@@ -1,12 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?><diagram program="umlet" version="13.3">
-  <zoom_level>10</zoom_level>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>8</zoom_level>
   <element>
     <id>UMLActor</id>
     <coordinates>
-      <x>780</x>
-      <y>250</y>
-      <w>80</w>
-      <h>100</h>
+      <x>568</x>
+      <y>200</y>
+      <w>64</w>
+      <h>88</h>
     </coordinates>
     <panel_attributes>Gracz 1</panel_attributes>
     <additional_attributes/>
@@ -14,10 +15,10 @@
   <element>
     <id>UMLActor</id>
     <coordinates>
-      <x>420</x>
-      <y>110</y>
-      <w>80</w>
-      <h>100</h>
+      <x>280</x>
+      <y>88</y>
+      <w>64</w>
+      <h>88</h>
     </coordinates>
     <panel_attributes>Gracz 2</panel_attributes>
     <additional_attributes/>
@@ -25,10 +26,10 @@
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>550</x>
-      <y>280</y>
-      <w>180</w>
-      <h>90</h>
+      <x>384</x>
+      <y>224</y>
+      <w>144</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes>Gra z ludzkim graczem</panel_attributes>
     <additional_attributes/>
@@ -36,10 +37,10 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>620</x>
-      <y>360</y>
-      <w>100</w>
-      <h>160</h>
+      <x>440</x>
+      <y>288</y>
+      <w>80</w>
+      <h>128</h>
     </coordinates>
     <panel_attributes>lt=.&gt;
 &lt;&lt;extends&gt;&gt;</panel_attributes>
@@ -48,10 +49,10 @@
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>550</x>
-      <y>500</y>
-      <w>180</w>
-      <h>80</h>
+      <x>384</x>
+      <y>400</y>
+      <w>144</w>
+      <h>64</h>
     </coordinates>
     <panel_attributes>Gra z botem</panel_attributes>
     <additional_attributes/>
@@ -59,10 +60,10 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>500</x>
-      <y>140</y>
-      <w>110</w>
-      <h>160</h>
+      <x>344</x>
+      <y>112</y>
+      <w>88</w>
+      <h>128</h>
     </coordinates>
     <panel_attributes/>
     <additional_attributes>90.0;140.0;10.0;10.0</additional_attributes>
@@ -70,10 +71,10 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>730</x>
-      <y>280</y>
-      <w>90</w>
-      <h>50</h>
+      <x>528</x>
+      <y>224</y>
+      <w>72</w>
+      <h>40</h>
     </coordinates>
     <panel_attributes/>
     <additional_attributes>10.0;30.0;70.0;10.0</additional_attributes>
@@ -81,10 +82,10 @@
   <element>
     <id>UMLActor</id>
     <coordinates>
-      <x>390</x>
-      <y>500</y>
-      <w>60</w>
-      <h>100</h>
+      <x>256</x>
+      <y>400</y>
+      <w>48</w>
+      <h>88</h>
     </coordinates>
     <panel_attributes>Bot</panel_attributes>
     <additional_attributes/>
@@ -92,10 +93,10 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>440</x>
-      <y>520</y>
-      <w>110</w>
-      <h>40</h>
+      <x>296</x>
+      <y>416</y>
+      <w>88</w>
+      <h>32</h>
     </coordinates>
     <panel_attributes/>
     <additional_attributes>10.0;20.0;90.0;20.0</additional_attributes>
@@ -103,10 +104,10 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>420</x>
-      <y>210</y>
-      <w>50</w>
-      <h>270</h>
+      <x>280</x>
+      <y>168</y>
+      <w>40</w>
+      <h>216</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>30.0;10.0;10.0;250.0</additional_attributes>
