@@ -37,7 +37,7 @@ public class ClientGUI extends JFrame implements PawnOperations
 	private EndMod endMod;
 	private NewGameMod newGameMod;
 	private AgreeMod agreeMod;
-	
+
 	/** Public constructor. */
 	public ClientGUI() {		
 		
@@ -135,13 +135,20 @@ public class ClientGUI extends JFrame implements PawnOperations
 	/** Initialize the end module.*/
 	public void initEndModule(String status, String points) {
 		endMod.init(status, points);
-		endMod.setLocationRelativeTo(this);
+		if(agreeMod.isVisible())
+			endMod.setLocationRelativeTo(agreeMod);
+		else
+			endMod.setLocationRelativeTo(this);
 		pack();
 	}
-	public void hideAgreeModule()
-	{
+	
+	/** Switch off agree module, switch on main frame. */
+	public void hideAgreeModule() {
 		agreeMod.setVisible(false);
+		this.setVisible(true);
+		pack();
 	}
+	
 	/** Initialize new game module. */
 	public void initNewGameModule() {
 		newGameMod.init();
@@ -156,6 +163,7 @@ public class ClientGUI extends JFrame implements PawnOperations
 				boardPanel.getCurrentPawns()
 				);
 		agreeMod.setLocationRelativeTo(this);
+		this.setVisible(false);
 		pack();
 	}
 	
@@ -252,10 +260,11 @@ public class ClientGUI extends JFrame implements PawnOperations
 		pointsPanel.turnOFF();
 	}
 	
-	public void disconnected()
-	{
+	/** Invoked when oponent is disconnected. */
+	public void disconnected() {
 		pointsPanel.disconnected();
 	}
+	
 	/** Invoked when enemy join the game. */
 	public void enemyJoin() {
 		actionPanel.enemyJoin();
@@ -267,7 +276,7 @@ public class ClientGUI extends JFrame implements PawnOperations
 	}
 	
 	/** Switches the conflict status. */
-	public void switchConflict(boolean conflict) {
+	public void switchConflict(String conflict) {
 		agreeMod.switchConflict(conflict);
 	}
 	

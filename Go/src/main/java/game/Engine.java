@@ -27,6 +27,15 @@ public class Engine {
 		}
 	}
 	
+	/** Prints territory board in the console. */
+	public static void printTerritoryBoard(int size, int [][] territory) {
+		for (int i = 0; i < size; i++) {
+			for (int j = 0; j < size; j++)
+				System.out.print(territory[i][j] + " ");
+			System.out.println();
+		}
+	}
+	
 	/** Returns territory breaths. */
 	public static ArrayList<Integer> getBreaths(int size, int[][] board, ArrayList<Integer> territory) {
 		int realSize = getRealSize(size);

@@ -10,12 +10,14 @@ public final class EndModConstants extends Constants{
 	//strings
 	public final static String STR_WIN = "Wygrałeś!";
 	public final static String STR_LOST = "Przegrałeś!";
+	public final static String STR_REMIS = "Remis!";
 	public final static String STR_POINTSLABEL = "punkty:";
 	public final static String STR_ENDBUTTON = "Zakończ";
 	
 	//colors
 	public final static Color COL_WIN = Color.GREEN;
 	public final static Color COL_LOST = Color.RED;
+	public final static Color COL_REMIS = Color.BLUE;
 	public final static Color COL_ENDBUTTON = Color.RED;
 	public final static Color COL_FOREGROUND = Color.WHITE;
 	

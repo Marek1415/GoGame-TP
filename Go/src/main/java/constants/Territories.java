@@ -11,4 +11,6 @@ public class Territories {
 	public final static int TER_BLACK = 3;
 	public final static int CONFLICT = 4;
 	
+	public final static String CONFLICT_ON = "CONFLICT_ON";
+	public final static String CONFLICT_OFF = "CONFLICT_OFF";
 }

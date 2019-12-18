@@ -295,14 +295,14 @@ public class Game {
 		case WHITE:
 			for(int i = 0; i < size; i ++)
 			for(int j = 0; j < size; j ++)
-				if(whities[i][j] == WHITE && board[i+1][j+1] == BLACK)
+				if(whities[i][j] == TER_WHITE && board[i+1][j+1] == BLACK)
 					points ++;
 			break;
 			
 		case BLACK:
 			for(int i = 0; i < size; i ++)
 			for(int j = 0; j < size; j ++)
-				if(blacks[i][j] == BLACK && board[i+1][j+1] == WHITE)
+				if(blacks[i][j] == TER_BLACK && board[i+1][j+1] == WHITE)
 					points ++;
 			break;
 		}
@@ -317,5 +317,9 @@ public class Game {
 	/** Returns current amount of conflicts. */
 	public int getConflicts() {
 		return this.conflicts;
+	}
+	
+	public static void main(String [] args) {
+		Game game = new Game();
 	}
 }

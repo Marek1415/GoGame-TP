@@ -161,7 +161,6 @@ public class GameTest {
 	@Test
 	public void testKoInitStatus() {
 		int size = 5;
-		int position = 10;
 		Game game = new Game();
 		game.initBoard(size);
 		assertEquals(game.getKo(), STATUS_KOINIT);
@@ -197,6 +196,205 @@ public class GameTest {
 		assertEquals(game.tryPut(24, BLACK), STATUS_PUT);
 		assertEquals(game.tryPut(25, BLACK), STATUS_OVERRANGE);
 		
+	}
+	
+	//@Ignore
+	@Test
+	public void testPointsFirst() {
+		int size = 5;
+		Game game = new Game();
+		game.initBoard(size);
+		
+		game.tryPut(0, WHITE);
+		game.tryPut(1, WHITE);
+		game.tryPut(2, WHITE);
+		game.tryPut(3, WHITE);
+		game.initTerritory();
+		game.clickTerritory(0, BLACK);
+		game.clickTerritory(1, BLACK);
+		game.clickTerritory(2, BLACK);
+		game.clickTerritory(3, BLACK);
+		game.clickTerritory(3, BLACK);
+		
+		assertEquals(game.getTerritoryPoints(BLACK), 3);
+		assertEquals(game.getTerritoryPoints(WHITE), 0);
+	}
+	
+	//@Ignore
+	@Test
+	public void testPointsSecond() {
+		int size = 5;
+		Game game = new Game();
+		game.initBoard(size);
+		
+		//init black position
+		game.tryPut(0, BLACK);
+		game.tryPut(1, BLACK);
+		game.tryPut(2, BLACK);
+		game.tryPut(5, BLACK);
+		game.tryPut(6, BLACK);
+		game.tryPut(7, BLACK);
+		
+		//init white position
+		game.tryPut(17, WHITE);
+		game.tryPut(18, WHITE);
+		game.tryPut(19, WHITE);
+		game.tryPut(22, WHITE);
+		game.tryPut(23, WHITE);
+		game.tryPut(24, WHITE);
+		
+		//step 1
+		game.initTerritory();
+		assertEquals(game.getTerritoryPoints(BLACK), 0);
+		assertEquals(game.getTerritoryPoints(WHITE), 0);
+		
+		//step 2
+		game.initTerritory();
+		game.clickTerritory(0, WHITE);
+		game.clickTerritory(0, WHITE);
+		game.clickTerritory(1, WHITE);
+		game.clickTerritory(2, WHITE);
+		game.clickTerritory(17, BLACK);
+		game.clickTerritory(17, BLACK);
+		game.clickTerritory(19, BLACK);
+		game.clickTerritory(22, BLACK);
+		game.clickTerritory(23, BLACK);
+		game.clickTerritory(24, BLACK);
+		assertEquals(game.getTerritoryPoints(BLACK), 4);
+		assertEquals(game.getTerritoryPoints(WHITE), 2);
+		
+		//step 3
+		game.initTerritory();
+		game.clickTerritory(0, WHITE);
+		game.clickTerritory(1, WHITE);
+		game.clickTerritory(2, WHITE);
+		game.clickTerritory(5, WHITE);
+		game.clickTerritory(6, WHITE);
+		game.clickTerritory(7, WHITE);
+		game.clickTerritory(8, WHITE);
+		game.clickTerritory(16, BLACK);
+		game.clickTerritory(17, BLACK);
+		game.clickTerritory(18, BLACK);
+		game.clickTerritory(19, BLACK);
+		game.clickTerritory(22, BLACK);
+		game.clickTerritory(23, BLACK);
+		game.clickTerritory(24, BLACK);
+		assertEquals(game.getTerritoryPoints(BLACK), 6);
+		assertEquals(game.getTerritoryPoints(WHITE), 6);
+	}
+	
+	//@Ignore
+	@Test
+	public void testConflictSingle() {
+		int size = 5;
+		Game game = new Game();
+		game.initBoard(size);
+		
+		// empty
+		game.initTerritory();
+		assertEquals(game.getConflicts(), 0);
+		
+		// white
+		game.initTerritory();
+		game.clickTerritory(0, WHITE);
+		assertEquals(game.getConflicts(), 0);
+		
+		// black
+		game.initTerritory();
+		game.clickTerritory(0, BLACK);
+		assertEquals(game.getConflicts(), 0);
+		
+		// white & black
+		game.initTerritory();
+		game.clickTerritory(0, WHITE);
+		game.clickTerritory(0, BLACK);
+		assertEquals(game.getConflicts(), 1);
+		
+		// white -> white & black
+		game.initTerritory();
+		game.clickTerritory(0, WHITE);
+		game.clickTerritory(0, WHITE);
+		game.clickTerritory(0, BLACK);
+		assertEquals(game.getConflicts(), 0);
+		
+		// black -> black & white
+		game.initTerritory();
+		game.clickTerritory(0, BLACK);
+		game.clickTerritory(0, BLACK);
+		game.clickTerritory(0, WHITE);
+		assertEquals(game.getConflicts(), 0);
+		
+		// black -> black -> black & white
+		game.initTerritory();
+		game.clickTerritory(0, BLACK);
+		game.clickTerritory(0, BLACK);
+		game.clickTerritory(0, BLACK);
+		game.clickTerritory(0, WHITE);
+		assertEquals(game.getConflicts(), 1);
+		
+		// white -> white -> white & black
+		game.initTerritory();
+		game.clickTerritory(0, WHITE);
+		game.clickTerritory(0, WHITE);
+		game.clickTerritory(0, WHITE);
+		game.clickTerritory(0, BLACK);
+		assertEquals(game.getConflicts(), 1);
+		
+		// white -> white -> white & black -> black
+		game.initTerritory();
+		game.clickTerritory(0, WHITE);
+		game.clickTerritory(0, WHITE);
+		game.clickTerritory(0, WHITE);
+		game.clickTerritory(0, BLACK);
+		game.clickTerritory(0, BLACK);
+		assertEquals(game.getConflicts(), 0);
+		
+		// black -> black -> black & white -> white
+		game.initTerritory();
+		game.clickTerritory(0, BLACK);
+		game.clickTerritory(0, BLACK);
+		game.clickTerritory(0, BLACK);
+		game.clickTerritory(0, WHITE);
+		game.clickTerritory(0, WHITE);
+		assertEquals(game.getConflicts(), 0);
+	}
+	
+	//@Ignore
+	@Test
+	public void testConflictMany() {
+		int size = 5;
+		Game game = new Game();
+		game.initBoard(size);
+		
+		// step 1
+		game.initTerritory();
+		game.clickTerritory(0, WHITE);
+		game.clickTerritory(0, BLACK);
+		game.clickTerritory(1, WHITE);
+		game.clickTerritory(1, BLACK);
+		game.clickTerritory(2, WHITE);
+		game.clickTerritory(2, BLACK);
+		assertEquals(game.getConflicts(), 3);
+		
+		// step 1
+		game.initTerritory();
+		game.clickTerritory(0, WHITE);
+		game.clickTerritory(0, BLACK);
+		game.clickTerritory(1, WHITE);
+		game.clickTerritory(1, BLACK);
+		game.clickTerritory(1, WHITE);
+		game.clickTerritory(1, BLACK);
+		assertEquals(game.getConflicts(), 1);
+		
+		// step 1
+		game.initTerritory();
+		game.clickTerritory(0, WHITE);
+		game.clickTerritory(0, BLACK);
+		game.clickTerritory(1, WHITE);
+		game.clickTerritory(2, BLACK);
+		game.clickTerritory(3, WHITE);
+		game.clickTerritory(4, BLACK);
+		assertEquals(game.getConflicts(), 1);
 	}
 	
 }

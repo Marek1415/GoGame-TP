@@ -10,6 +10,7 @@ import constants.Messages;
 import constants.PawnColors.Pawn;
 import constants.Signals;
 import constants.Statuses;
+import constants.Territories;
 import game.Game;
 import bot.*;
 
@@ -235,6 +236,18 @@ public class ServerThread extends Thread
 								threadOut.println(msg2);
 								opponent.threadOut.println(msg);
 							}
+							
+							System.out.println("amount of conflicts: " + game.getConflicts());
+							if(game.getConflicts() > 0) {
+								String msg = Signals.SE_CONFLICT + " " + Territories.CONFLICT_ON;
+								threadOut.println(msg);
+								opponent.threadOut.println(msg);
+							}
+							else {
+								String msg = Signals.SE_CONFLICT + " " + Territories.CONFLICT_OFF;
+								threadOut.println(msg);
+								opponent.threadOut.println(msg);
+							}
 						}
 						else if(splitString[0].equals(Signals.CL_AGREE))
 						{
@@ -254,8 +267,8 @@ public class ServerThread extends Thread
 								}
 								else if(opponent.points == points)
 								{
-									threadOut.println(Signals.SE_WIN + " " + points);
-									opponent.threadOut.println(Signals.SE_WIN + " " + opponent.points);
+									threadOut.println(Signals.SE_REMIS + " " + points);
+									opponent.threadOut.println(Signals.SE_REMIS + " " + opponent.points);
 								}
 								else
 								{

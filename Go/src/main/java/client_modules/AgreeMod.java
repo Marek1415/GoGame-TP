@@ -131,15 +131,15 @@ public class AgreeMod extends JDialog implements SignalSender{
 		agreeMod.addTerritory(9, CONFLICT);
 		agreeMod.addTerritory(8, CONFLICT);
 		agreeMod.addTerritory(9, NOBODY);
-		agreeMod.switchConflict(true);
+		agreeMod.switchConflict(CONFLICT_OFF);
 	}
 	
 	/** Switches the conflict status. */
-	public void switchConflict(boolean conflict) {
-		if(conflict)
-			agreeButton.setEnabledStatus(false);
-		else
+	public void switchConflict(String conflict) {
+		if(conflict.equals(CONFLICT_OFF))
 			agreeButton.setEnabledStatus(true);
+		else
+			agreeButton.setEnabledStatus(false);
 	}
 	
 }

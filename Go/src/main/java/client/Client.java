@@ -134,7 +134,9 @@ public class Client extends JFrame
 				}
 				GUI.addMessage(message);
 			}
-			else if(splitString[0].equals(Signals.SE_WIN) || splitString[0].equals(Signals.SE_LOST))
+			else if(splitString[0].equals(Signals.SE_WIN)
+					|| splitString[0].equals(Signals.SE_LOST)
+					|| splitString[0].equals(Signals.SE_REMIS))
 			{
 				System.out.println(splitString[0]);
 				GUI.initEndModule(splitString[0], splitString[1]);
@@ -156,7 +158,7 @@ public class Client extends JFrame
 			else if(command.equals(Signals.ENEMY_CHECKED))
 			{
 				GUI.turnON();
-				GUI.addMessage(Messages.SERVER+ " " + Messages.ENEMY_CHECK);
+				GUI.addMessage(Messages.SERVER + " " + Messages.ENEMY_CHECK);
 				myTurn = true;
 			}
 			else if(command.equals(Signals.SE_CHECKED))
@@ -193,6 +195,10 @@ public class Client extends JFrame
 				myTurn = false;
 				agreeMode = false;
 				GUI.hideAgreeModule();
+			}
+			else if(splitString[0].equals(Signals.SE_CONFLICT)) 
+			{
+				GUI.switchConflict(splitString[1]);
 			}
 		}
 		catch(Exception ex)

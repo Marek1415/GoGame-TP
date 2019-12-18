@@ -16,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import client_interfaces.SignalSender;
+import constants.Signals;
 
 import static constants.Signals.*;
 import static constants_modules.EndModConstants.*;
@@ -116,9 +117,13 @@ public class EndMod extends JDialog implements SignalSender {
 			panel.setBackground(COL_WIN);
 			setTitle(STR_WIN);
 		}
-		else {
+		else if(status.equals(SE_LOST)){
 			panel.setBackground(COL_LOST);
 			setTitle(STR_LOST);
+		}
+		else {
+			panel.setBackground(COL_REMIS);
+			setTitle(STR_REMIS);
 		}
 	}
 	
@@ -133,12 +138,14 @@ public class EndMod extends JDialog implements SignalSender {
     	
 		private final Color colorWin;
 		private final Color colorLost;
+		private final Color colorRemis;
 		
     	private ActionButton() {
     		
     		super(STR_ENDBUTTON);
     		this.colorWin = COL_WIN.darker();
     		this.colorLost = COL_LOST.darker();
+    		this.colorRemis = COL_REMIS.darker();
     		setPreferredSize(DIM_ENDBUTTON);
     		setForeground(COL_FOREGROUND);
     		setFont(FONT_BUTTON);
@@ -155,8 +162,10 @@ public class EndMod extends JDialog implements SignalSender {
     	public void setStatus(String status) {
     		if(status.equals(SE_WIN))
     			setBackground(colorWin);
-    		else
+    		else if(status.contentEquals(SE_LOST))
     			setBackground(colorLost);
+    		else
+    			setBackground(colorRemis);
     	}
     	
     	/** action method, must be override by parent */
@@ -198,5 +207,10 @@ public class EndMod extends JDialog implements SignalSender {
     	private void setPoints(String points) {
     		this.setText(points);
     	}
+    }
+    
+    public static void main(String [] args) {
+    	EndMod endmod = new EndMod();
+    	endmod.init(Signals.SE_REMIS, "15");
     }
 }
