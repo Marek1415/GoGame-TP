@@ -46,23 +46,34 @@ public class BotWrapper extends Thread
 					int place = Integer.parseInt(splitString[1]);
 					bot.putEnemyPawn(place);
 					int move = bot.makeBotMove();
+					System.out.println(move);
 					if(move == Statuses.STATUS_CANT)
 					{
 						out.println(Signals.CL_RESIGN);
 						break;
 					}
-					else
-					{
+					else {
 						out.println(Signals.CL_PUT + " " + move);
-						bot.putBotPawn(move);
 					}
+					//else
+					//{
+					//	out.println(Signals.CL_PUT + " " + move);
+					//	bot.putBotPawn(move);
+					//}
 				}
-				else if(splitString[0].equals(Signals.SE_WIN) || splitString[0].equals(Signals.SE_LOST))
+				else if(splitString[0].equals(Signals.SE_PUTOK)) {
+					int place = Integer.parseInt(splitString[1]);
+					bot.putBotPawn(place);
+				}
+				else if(splitString[0].equals(Signals.SE_WIN)
+						|| splitString[0].equals(Signals.SE_LOST)
+						|| splitString[0].equals(Signals.SE_REMIS))
 				{
 					break;
 				}
-				else if(splitString[0].equals(Signals.CL_AGREE) || splitString[0].equals(Signals.SE_TERRADD))
+				else if(splitString[0].equals(Signals.SE_AGREE) || splitString[0].equals(Signals.SE_TERRADD))
 				{
+					System.out.println("Ask bot for agreeing");
 					out.println(Signals.CL_AGREE);
 				}
 				else if(splitString[0].equals(Signals.REMOVE))
@@ -80,6 +91,7 @@ public class BotWrapper extends Thread
 					System.out.println(move);
 					if(move == Statuses.STATUS_CANT)
 					{
+						System.out.println("Checked!");
 						out.println(Signals.CL_CHECK);
 						break;
 					}
@@ -93,10 +105,25 @@ public class BotWrapper extends Thread
 					int size = Integer.parseInt(splitString[1]);
 					bot.initBot(size);
 				}
+				else if(splitString[0].equals(Signals.SE_PUTNO))
+				{
+					System.out.println("this should not happen");
+					int move = bot.makeBotRandomMove();
+					System.out.println(move);
+					if(move == Statuses.STATUS_CANT)
+					{
+						out.println(Signals.CL_CHECK);
+						break;
+					}
+					else
+					{
+						out.println(Signals.CL_PUT + " " + move);
+					}
+				}
 			}
 			catch(Exception e)
 			{
-				System.out.println("Problem z watkiem kllienta");
+				System.out.println("Problem z watkiem klienta");
 			}
 		}
 	}

@@ -86,7 +86,6 @@ implements PawnOperations {
 	
 	/** Adds a pawn with specific color on specific position.*/
 	public void addPawn(int number, int color) {
-		System.out.println("New pawn!");
 		if(color == PawnColors.Pawn.WHITE.Symbol())
 		{
 			pawns[number/size][number%size] = PawnColors.Pawn.WHITE.Symbol();

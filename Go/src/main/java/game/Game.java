@@ -48,35 +48,35 @@ public class Game {
 		// is empty
 		if (!isEmpty(cords)) {
 			noEmpty();
-			printBoard(realSize, board);
+			//printBoard(realSize, board);
 			return STATUS_NOEMPTY;
 		}
 
 		// is ko
 		if (isKo(cords)) {
 			ko();
-			printBoard(realSize, board);
+			//printBoard(realSize, board);
 			return STATUS_KO;
 		}
 
 		// is kill
 		if (isKill(cords, color)) {
 			prepareKill();
-			printBoard(realSize, board);
+			//printBoard(realSize, board);
 			return STATUS_KILL;
 		}
 
 		// is suicide
 		if (isSuicide(position, color)) {
 			suicide();
-			printBoard(realSize, board);
+			//printBoard(realSize, board);
 			return STATUS_SUICIDE;
 		}
 
 		putPawn(size, board, position, color);
 		lastKo = STATUS_KOINIT;
 		put();
-		printBoard(realSize, board);
+		//printBoard(realSize, board);
 		return STATUS_PUT;
 	}
 

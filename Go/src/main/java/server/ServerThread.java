@@ -253,9 +253,11 @@ public class ServerThread extends Thread
 						{
 							agree = true;
 							System.out.println(opponent.agree);
-							points += game.getTerritoryPoints(color.Symbol());
+							opponent.threadOut.println(Signals.SE_AGREE);
+							
 							if(opponent.agree == true)
 							{
+								points += game.getTerritoryPoints(color.Symbol());
 								agree = false;
 								opponent.agree = false;
 								threadOut.println(Signals.POINTS + " " + points);

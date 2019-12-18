@@ -94,6 +94,12 @@ public class Bot {
 		return move;
 	}
 	
+	/** Performs random bot move. */
+	public int makeBotRandomMove() {
+		//random move or cant
+		return lookForRandom();
+	}
+	
 	/** Returns random move, if its possible. */
 	public int lookForRandom() {
 		ArrayList<Integer> moves = new ArrayList<Integer>();
@@ -103,7 +109,7 @@ public class Bot {
 			if(board[i][j] == EMPTY && !isSuicide(size, board, j,  i, color))
 				moves.add(getPosition(size, j, i));
 		
-		if(moves.size() > 0)
+		if(moves.size() > 5)
 			return getRandomPosition(moves);
 		else
 			return STATUS_CANT;

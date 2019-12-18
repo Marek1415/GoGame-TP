@@ -53,6 +53,7 @@ public final class Signals {
 	//territory signals
 	//public final static String SE_TERINIT = "SE_TERINIT";
 	public final static String CL_AGREE = "CL_AGREE";
+	public final static String SE_AGREE = "SE_AGREE";
 	public final static String CL_DISAGREE = "CL_DISAGREE";
 	public final static String SE_DISAGREE = "SE_DISAGREE";
 	public final static String ENEMY_DISAGREE = "ENEMY_DISAGREE";
