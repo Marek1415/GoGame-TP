@@ -193,9 +193,11 @@ public class Game {
 
 	/** Invoked when move kills enemy. Must be override by parent. */
 	public void kill(int[] killed) {
-		//System.out.println("[GAME] " + "killing");
+		System.out.println("[GAME] " + "killing");
 		for (int i = 0; i < currentKilled.size(); i++)
-			//System.out.println("killed " + i + " : " + currentKilled.get(i));
+		{
+			System.out.println("killed " + i + " : " + currentKilled.get(i));
+		}
 	}
 
 	/** Invoked when pawn was put. Must be override by parent. */

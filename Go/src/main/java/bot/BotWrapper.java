@@ -46,7 +46,6 @@ public class BotWrapper extends Thread
 					int place = Integer.parseInt(splitString[1]);
 					bot.putEnemyPawn(place);
 					int move = bot.makeBotMove();
-					System.out.println(move);
 					if(move == Statuses.STATUS_CANT)
 					{
 						out.println(Signals.CL_RESIGN);
