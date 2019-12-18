@@ -67,7 +67,6 @@ public class ServerThread extends Thread
 							if(status == Statuses.STATUS_PUT)
 							{
 								output = Signals.SE_PUTOK + " " + place;
-								System.out.println(opponent);
 								threadOut.println(output);
 								opponent.threadOut.println(Signals.CL_PUT + " " + place);
 							}
@@ -237,7 +236,6 @@ public class ServerThread extends Thread
 								opponent.threadOut.println(msg);
 							}
 							
-							System.out.println("amount of conflicts: " + game.getConflicts());
 							if(game.getConflicts() > 0) {
 								String msg = Signals.SE_CONFLICT + " " + Territories.CONFLICT_ON;
 								threadOut.println(msg);
@@ -252,9 +250,7 @@ public class ServerThread extends Thread
 						else if(splitString[0].equals(Signals.CL_AGREE))
 						{
 							agree = true;
-							System.out.println(opponent.agree);
-							opponent.threadOut.println(Signals.SE_AGREE);
-							
+							opponent.threadOut.println(Signals.SE_AGREE);							
 							if(opponent.agree == true)
 							{
 								points += game.getTerritoryPoints(color.Symbol());

@@ -65,6 +65,9 @@ public class BotWrapper extends Thread
 					int place = Integer.parseInt(splitString[1]);
 					bot.putBotPawn(place);
 				}
+				else if(splitString[0].equals(Signals.SE_PUTNO)) {
+					out.println(Signals.CL_CHECK);
+				}
 				else if(splitString[0].equals(Signals.SE_WIN)
 						|| splitString[0].equals(Signals.SE_LOST)
 						|| splitString[0].equals(Signals.SE_REMIS))

@@ -178,29 +178,29 @@ public class Game {
 	
 	/** Invoked when field isn't empty. This method must be override by parent. */
 	public void noEmpty() {
-		System.out.println("[GAME] " + NO_EMPTY);
+		//System.out.println("[GAME] " + NO_EMPTY);
 	}
 
 	/** Invoked when move is suicide without kills. sMust be override by parent. */
 	public void suicide() {
-		System.out.println("[GAME] " + SUICIDE);
+		//System.out.println("[GAME] " + SUICIDE);
 	}
 
 	/** Invoked when move is ko. Must be override by parent. */
 	public void ko() {
-		System.out.println("[GAME] " + KO);
+		//System.out.println("[GAME] " + KO);
 	}
 
 	/** Invoked when move kills enemy. Must be override by parent. */
 	public void kill(int[] killed) {
-		System.out.println("[GAME] " + "killing");
+		//System.out.println("[GAME] " + "killing");
 		for (int i = 0; i < currentKilled.size(); i++)
-			System.out.println("killed " + i + " : " + currentKilled.get(i));
+			//System.out.println("killed " + i + " : " + currentKilled.get(i));
 	}
 
 	/** Invoked when pawn was put. Must be override by parent. */
 	public void put() {
-		System.out.println("[GAME] " + "putting");
+		//System.out.println("[GAME] " + "putting");
 	}
 
 	 /** Returns current board size. */
