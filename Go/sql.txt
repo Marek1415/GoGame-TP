@@ -1,0 +1,23 @@
+DROP DATABASE IF EXISTS `gogame`;
+
+CREATE DATABASE `gogame`;
+ 
+USE gogame;
+ 
+CREATE TABLE `games` (
+  `id` INT UNIQUE NOT NULL AUTO_INCREMENT,
+  `date` DATETIME NOT NULL,
+  `size` INT NOT NULL,
+  PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `moves` (
+  `game_id` INT NOT NULL,
+  `move` INT  NOT NULL,
+  `player` varchar(1) NOT NULL,
+  `position` INT NOT NULL,
+  PRIMARY KEY (`game_id`, `move`),
+  KEY `fk_game` (`game_id`),
+  KEY `key_move` (`move`),
+  CONSTRAINT `fk_game` FOREIGN KEY (`game_id`) REFERENCES `games` (`id`)
+);
