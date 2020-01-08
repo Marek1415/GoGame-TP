@@ -11,6 +11,7 @@ import static constants.Signals.*;
 import java.util.ArrayList;
 
 import constants.PawnColors;
+import database.DatabaseConnector;
 
 import static game.Engine.*;
 
@@ -26,6 +27,8 @@ public class Game {
 	int blacks[][];
 	int conflicts;
 	int size;
+	int id;
+	int move;
 	int realSize;
 	int lastKo; 
 	public ArrayList<Integer> currentKilled = new ArrayList<Integer>();
@@ -73,7 +76,9 @@ public class Game {
 			return STATUS_SUICIDE;
 		}
 
+		//correct move
 		putPawn(size, board, position, color);
+		insertMove(position, color);
 		lastKo = STATUS_KOINIT;
 		put();
 		//printBoard(realSize, board);
@@ -87,6 +92,8 @@ public class Game {
 		board = new int[realSize][realSize];
 		initBorders(realSize, board);
 		lastKo = STATUS_KOINIT;
+		insertGame();
+		move = 1;
 	}
 
 	/** Checks if specific board field is empty. */
@@ -319,6 +326,24 @@ public class Game {
 	/** Returns current amount of conflicts. */
 	public int getConflicts() {
 		return this.conflicts;
+	}
+	
+	/** Inserts game into database. */
+	public void insertGame() {
+		this.id = DatabaseConnector.insertGame(size);
+	}
+	
+	/** Insets move into database. */
+	public void insertMove(int position, int color) {
+		switch(color) {
+			case WHITE: 
+				DatabaseConnector.insertMove(id, move, position, 'W');
+				break;
+			case BLACK: 
+				DatabaseConnector.insertMove(id, move, position, 'B');
+				break;
+		}
+		move += 1;
 	}
 	
 	public static void main(String [] args) {

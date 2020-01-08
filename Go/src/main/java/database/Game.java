@@ -26,6 +26,7 @@ public class Game {
     @Column(name="id")
     private int id;
     
+	//TODO change to timestamp
     @Column(name="date")
     private Date date;
     
