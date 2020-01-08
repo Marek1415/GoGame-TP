@@ -49,6 +49,7 @@ public class BotWrapper extends Thread
 					int move = bot.makeBotMove();
 					if(move == Statuses.STATUS_CANT)
 					{
+						//TODO tutaj można dać check zamiast resign
 						out.println(Signals.CL_RESIGN);
 						break;
 					}
@@ -108,9 +109,12 @@ public class BotWrapper extends Thread
 					int size = Integer.parseInt(splitString[1]);
 					bot.initBot(size);
 				}
+				/*
 				else if(splitString[0].equals(Signals.SE_PUTNO))
 				{
+					//TODO to trzeba usunąć, bot nie możę robić nieprawidłowych ruchów
 					int move = bot.makeBotRandomMove();
+					System.out.println("__bad bot mode__");
 					if(move == Statuses.STATUS_CANT)
 					{
 						out.println(Signals.CL_CHECK);
@@ -121,6 +125,7 @@ public class BotWrapper extends Thread
 						out.println(Signals.CL_PUT + " " + move);
 					}
 				}
+				*/
 			}
 			catch(Exception e)
 			{

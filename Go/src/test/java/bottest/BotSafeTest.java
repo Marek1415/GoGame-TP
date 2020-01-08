@@ -98,5 +98,29 @@ public class BotSafeTest {
 		
 		assertEquals(bot.lookForSafe(), 20);
 	}
+	
+	@Test
+	public void lookForSafeSucideTest() {
+		int size = 5;
+		int realSize = 7;
+		Bot bot = new Bot();
+		bot.initBot(size);
+		bot.setColor(BLACK);
+		
+		//init bot
+		bot.putBotPawn(7);
+		
+		//init enemy
+		bot.putEnemyPawn(2);
+		bot.putEnemyPawn(3);
+		bot.putEnemyPawn(12);
+		bot.putEnemyPawn(13);
+		bot.putEnemyPawn(6);
+		bot.putEnemyPawn(9);
+		
+		assertEquals(bot.lookForSafe(), STATUS_CANT);
+		
+		
+	}
 
 }

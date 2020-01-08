@@ -78,22 +78,42 @@ public class Bot {
 		
 		//help
 		move = lookForSafe();
-		if(move != STATUS_CANT)
+		if(move != STATUS_CANT) {
+			System.out.println("__safe");
+			printMoveTemp(move);
 			return move;
+		}
 		
 		//kill
 		move = lookForKill();
-		if(move != STATUS_CANT)
+		if(move != STATUS_CANT) {
+			System.out.println("__kill");
+			printMoveTemp(move);
 			return move;
-		
+		}
+			
 		//kill opportunity
 		move = lookForOpportunity();
-		if(move != STATUS_CANT)
+		if(move != STATUS_CANT) {
+			System.out.println("__opportunity");
+			printMoveTemp(move);
 			return move;
+		}
+			
 		
 		//random move or cant
 		move = lookForRandom();
+		System.out.println("__random");
+		printMoveTemp(move);
 		return move;
+	}
+	
+	public void printMoveTemp(int move) {
+		//TODO delete this function 
+		int x = move%size;
+		int y = move/size;
+		printBoard();
+		System.out.println("__move: " + x + " " + y);
 	}
 	
 	/** Performs random bot move. */
@@ -224,7 +244,7 @@ public class Bot {
 		for(int j = 1; j < realSize-1; j++) {
 			if(board[i][j] == EMPTY) {
 				tempSafeAmount = trySafe(j, i);
-				if(tempSafeAmount > safeAmount) {
+				if(tempSafeAmount > safeAmount && !isSuicide(size, board, j, i, color)) {
 					safeAmount = tempSafeAmount;
 					safePosition = getPosition(size, j, i);
 				}
@@ -278,6 +298,7 @@ public class Bot {
 	/** Sets value of last ko. */
 	public void setLastKo(int ko) {
 		this.lastKo = ko;
+		System.out.println("__last bot ko__");
 	}
 	
 	/** Returns the value of specific field. */
