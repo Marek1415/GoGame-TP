@@ -28,6 +28,7 @@ public class StartMod extends JDialog {
 	//action buttons
 	AbstractButton newGameButton;
 	AbstractButton joinGameButton;
+	AbstractButton replyButton;
 	
 	//labels
 	JLabel infoLabel;
@@ -62,6 +63,15 @@ public class StartMod extends JDialog {
 			}
 		};
 		
+		//reply button
+		replyButton = new ActionButton(STR_REPLY, DIM_REPLY, COL_REPLY) {
+			@Override
+			public void action() {
+				showReply();
+				dispose();
+			}
+		};
+		
 		//gridBagLayout, gridBagConstraint
 		GridBagLayout layout = new GridBagLayout(); 
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -70,7 +80,7 @@ public class StartMod extends JDialog {
 		//info
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		gbc.gridwidth = 2;
+		gbc.gridwidth = 3;
 		gbc.insets = new Insets(5, 5, 5, 5);
 		add(infoLabel, gbc);
 		
@@ -84,6 +94,11 @@ public class StartMod extends JDialog {
 		gbc.gridx = 1;
 		gbc.gridy = 1;
 		add(joinGameButton, gbc);
+		
+		//reply
+		gbc.gridx = 2;
+		gbc.gridy = 1;
+		add(replyButton, gbc);
 		
 		pack();
 		setVisible(true);
@@ -101,6 +116,10 @@ public class StartMod extends JDialog {
     
     /** Join game mode, must be override by parent.*/
     public void joinGame() {
+    }
+    
+    /** Show reply mode, must be override by parent.*/
+    public void showReply() {
     }
 	
     /** Action Button for performing action on parent.*/
