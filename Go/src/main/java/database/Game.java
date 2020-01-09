@@ -77,4 +77,16 @@ public class Game {
 	public void setMoves(List<Move> moves) {
 		this.moves = moves;
 	}
+	
+	public String getIdStr() {
+		return Integer.toString(id);
+	}
+	
+	public String getSizeStr() {
+		return Integer.toString(size);
+	}
+	
+	public String getDateStr() {
+		return date.toString();
+	}
 }

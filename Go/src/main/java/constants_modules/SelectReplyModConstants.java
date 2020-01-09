@@ -8,16 +8,16 @@ import java.awt.Font;
 public final class SelectReplyModConstants extends Constants{
 	
 	//strings
-	public final static String STR_INFO = "Wybierz gre z listy";
+	public final static String STR_TITLE = "Wybierz gre z listy";
 	
 	//dimensions
-	public final static Dimension DIM_INFO = new Dimension(400,100);
-	public final static Dimension DIM_BUTTON = new Dimension(400,100);
+	public final static Dimension DIM_BUTTON = new Dimension(300,80);
 	public final static Dimension DIM_PANE = new Dimension(400,400);
 	
 	//colors
 	public final static Color COL_FOREGROUND = Color.WHITE;
-	
+	public final static Color COL_BUTTON = Color.DARK_GRAY;
+	public final static Color COL_PANEL = Color.BLACK;
 	//fonts
 	public final static Font FONT_BUTTON = new Font("Helvetica", Font.PLAIN, 20);
 	

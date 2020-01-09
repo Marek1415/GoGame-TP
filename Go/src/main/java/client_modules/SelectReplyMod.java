@@ -28,9 +28,6 @@ import static constants_modules.SelectReplyModConstants.*;
  */
 public class SelectReplyMod extends JFrame {
 
-	//label
-	private InfoLabel infoLabel;
-	
 	//panels
 	private JPanel panel;
 	private JScrollPane scrollPane;
@@ -41,92 +38,89 @@ public class SelectReplyMod extends JFrame {
 	//games
 	List<Game> games;
 	
-	public SelectReplyMod() {
+	public void init() {
 		
-		//label
-		infoLabel = new InfoLabel(STR_INFO, DIM_INFO);
+		//games
+		games = DatabaseConnector.getGames();
 		
 		//gridBagLayout, gridBagConstraint
 		GridBagLayout layout = new GridBagLayout(); 
 		GridBagConstraints gbc = new GridBagConstraints();
-		setLayout(layout);
 		
 		//gbc init
 		gbc.fill = GridBagConstraints.BOTH;
-		gbc.weightx = 1;
-		gbc.weighty = 1;
-		
-		//label
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		gbc.insets = new Insets(10,10,10,10);
-		add(infoLabel, gbc);
+		gbc.weightx = 1;
+		gbc.insets = new Insets(0, 0, 4, 0);
 		
 		//games
 		panel = new JPanel();
-		panel.setLayout(new GridLayout(0,1));
-		//panel.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		panel.setBackground(COL_PANEL);
+		panel.setLayout(layout);
 		
-		//panel.setLayout(new ScrollPaneLayout());
-		games = DatabaseConnector.getGames();
 		for(int i = 0; i < games.size(); i++) {
+			if(i == games.size()-1)
+				gbc.insets = new Insets(0,0,0,0);
 			gameButton = new ActionButton(games.get(i));
-			panel.add(gameButton);
-			System.out.println(games.get(i).getId());
+			panel.add(gameButton, gbc);
+			gbc.gridy += 1;
 		}
+
+		//scroll panel
 		scrollPane = new JScrollPane(panel);
 		scrollPane.setPreferredSize(DIM_PANE);
-		
-		//panel
-		gbc.gridx = 0;
-		gbc.gridy = 1;
-		add(scrollPane, gbc);
+		scrollPane.getVerticalScrollBar().setUnitIncrement(10);
+		add(scrollPane);
 		
 		pack();
 		setVisible(true);
-		//setResizable(false);
-		//setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setResizable(false);
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		setTitle(STR_TITLE);
+		//setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 	
 	/** Called when gameButton is pressed, must be override by parent. */ 
 	public void selectGame(int id) {
-		System.out.println("selected: " + id);
+		//System.out.println("selected: " + id);
 	}
 	
     /**Performs action on parent. */
 	private class ActionButton extends JButton {
     	
+		int id;
+		
     	private ActionButton(Game game) {
     		
-    		super("Buttonik");
+    		super();
+    		prepareText(game);
     		setPreferredSize(DIM_BUTTON);
+    		setBackground(COL_BUTTON);
     		setForeground(COL_FOREGROUND);
     		setFont(FONT_BUTTON);
     		setBorderPainted(false);
     		
     		addActionListener(new ActionListener() {
       			public void actionPerformed(ActionEvent event) {
-        			selectGame(5);
+        			selectGame(id);
+        			dispose();
       			}
     		});
     	}
-	}
-	
-    /** Label for displaying info about dialog. */
-    private class InfoLabel extends JLabel {
     	
-    	private InfoLabel(String text, Dimension dim) {
-    		super(text);
-    		setFont(FONT);
-    		setPreferredSize(dim);
-    		setHorizontalAlignment(JLabel.CENTER);
-    	    setVerticalAlignment(JLabel.CENTER);
+    	private void prepareText(Game gm) {
+    		this.id = gm.getId();
+    		setText(
+    				"nr: " + gm.getIdStr() + "  |  " + 
+    				"size: " + gm.getSizeStr() + "  |  " + 
+    				gm.getDateStr());
     	}
-    }
+	}
 
 	public static void main(String[] args) {
 		//TODO delete main method
-		new SelectReplyMod();
+		SelectReplyMod replyMod = new SelectReplyMod();
+		replyMod.init();
 	}
 }

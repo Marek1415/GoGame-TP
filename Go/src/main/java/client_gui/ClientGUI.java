@@ -13,6 +13,7 @@ import client_modules.AgreeMod;
 import client_modules.EndMod;
 import client_modules.JoinGameMod;
 import client_modules.NewGameMod;
+import client_modules.SelectReplyMod;
 import client_modules.StartMod;
 import client_panels.ActionPanel;
 import client_panels.BoardPanel;
@@ -37,6 +38,7 @@ public class ClientGUI extends JFrame implements PawnOperations
 	private EndMod endMod;
 	private NewGameMod newGameMod;
 	private AgreeMod agreeMod;
+	private SelectReplyMod selectReplyMod;
 
 	/** Public constructor. */
 	public ClientGUI() {		
@@ -53,6 +55,11 @@ public class ClientGUI extends JFrame implements PawnOperations
 			@Override
 			public void joinGame() {
 				recSignalNow(CL_ROOMJOIN);
+			}
+			
+			@Override
+			public void showReply() {
+				initSelectReplyMod();
 			}
 		};
 		
@@ -79,6 +86,14 @@ public class ClientGUI extends JFrame implements PawnOperations
 			@Override
 			public void sendSignal(String signal) {
 				recSignalNow(signal);
+			}
+		};
+		
+		//agree module
+		selectReplyMod = new SelectReplyMod() {
+			@Override
+			public void selectGame(int id) {
+				initReplyMod(id);
 			}
 		};
 		
@@ -149,14 +164,14 @@ public class ClientGUI extends JFrame implements PawnOperations
 		pack();
 	}
 	
-	/** Initialize new game module. */
+	/** Initializes new game module. */
 	public void initNewGameModule() {
 		newGameMod.init();
 		newGameMod.setLocationRelativeTo(this);
 		pack();
 	}
 	
-	/** Initialize the agree module.*/
+	/** Initializes the agree module.*/
 	public void initAgreeModule() {
 		agreeMod.init(
 				boardPanel.getCurrentSize(),
@@ -165,6 +180,16 @@ public class ClientGUI extends JFrame implements PawnOperations
 		agreeMod.setLocationRelativeTo(this);
 		this.setVisible(false);
 		pack();
+	}
+	
+	/** Initializes the select reply module.*/
+	public void initSelectReplyMod() {
+		selectReplyMod.init();
+	}
+	
+	/** Initializes the reply module.*/
+	public void initReplyMod(int id) {
+		System.out.println("reply selected: " + id);
 	}
 	
 	/** Displays the main game frame.*/
