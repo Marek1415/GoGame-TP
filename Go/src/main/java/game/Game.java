@@ -65,6 +65,7 @@ public class Game {
 		// is kill
 		if (isKill(cords, color)) {
 			prepareKill();
+			insertMove(position, color);
 			//printBoard(realSize, board);
 			return STATUS_KILL;
 		}
@@ -140,12 +141,13 @@ public class Game {
 		int[][] temp = getBoardCopy(realSize, board);
 		putPawn(temp, x, y, color);
 		currentKilled.clear();
-
+		
 		killStatus[0] = isKilled(temp, x + 1, y, enemyColor);
 		killStatus[1] = isKilled(temp, x - 1, y, enemyColor);
 		killStatus[2] = isKilled(temp, x, y - 1, enemyColor);
 		killStatus[3] = isKilled(temp, x, y + 1, enemyColor);
-
+		
+		saveCurrentKilled();
 		if (killStatus[0] || killStatus[1] || killStatus[2] || killStatus[3]) {
 			putPawn(board, x, y, color);
 			return true;
@@ -333,7 +335,7 @@ public class Game {
 		this.id = DatabaseConnector.insertGame(size);
 	}
 	
-	/** Insets move into database. */
+	/** Inserts move into database. */
 	public void insertMove(int position, int color) {
 		switch(color) {
 			case WHITE: 
@@ -344,6 +346,14 @@ public class Game {
 				break;
 		}
 		move += 1;
+	}
+	
+	/** Inserts kill moves into database. */
+	public void saveCurrentKilled() {
+		for(int i = 0; i < currentKilled.size(); i++) {
+			DatabaseConnector.insertMove(id, move, currentKilled.get(i), 'D');
+			move += 1;
+		}
 	}
 	
 	public static void main(String [] args) {

@@ -37,7 +37,7 @@ class SocketServer
 			}
 		catch(IOException e)
 			{
-				System.out.println("Nie można utworzyć serwera na porcie " + portNumber);
+				System.out.println("Nie mozna utworzyc serwera na porcie " + portNumber);
 				System.exit(-1);
 			}
 	}
@@ -52,7 +52,7 @@ class SocketServer
 				}
 				catch(Exception e)
 				{
-						System.out.println("Błąd przy tworzeniu wątku");
+						System.out.println("Blad przy tworzeniu watku");
 						System.exit(-1);
 				}
 				serverThread = new ServerThread(socket);

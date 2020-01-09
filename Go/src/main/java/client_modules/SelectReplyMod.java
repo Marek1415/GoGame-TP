@@ -83,7 +83,7 @@ public class SelectReplyMod extends JFrame {
 	
 	/** Called when gameButton is pressed, must be override by parent. */ 
 	public void selectGame(int id) {
-		//System.out.println("selected: " + id);
+		dispose();
 	}
 	
     /**Performs action on parent. */

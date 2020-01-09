@@ -13,6 +13,7 @@ import client_modules.AgreeMod;
 import client_modules.EndMod;
 import client_modules.JoinGameMod;
 import client_modules.NewGameMod;
+import client_modules.ReplyMod;
 import client_modules.SelectReplyMod;
 import client_modules.StartMod;
 import client_panels.ActionPanel;
@@ -39,6 +40,7 @@ public class ClientGUI extends JFrame implements PawnOperations
 	private NewGameMod newGameMod;
 	private AgreeMod agreeMod;
 	private SelectReplyMod selectReplyMod;
+	private ReplyMod replyMod;
 
 	/** Public constructor. */
 	public ClientGUI() {		
@@ -89,13 +91,16 @@ public class ClientGUI extends JFrame implements PawnOperations
 			}
 		};
 		
-		//agree module
+		//select reply module
 		selectReplyMod = new SelectReplyMod() {
 			@Override
 			public void selectGame(int id) {
 				initReplyMod(id);
 			}
 		};
+		
+		//reply module
+		replyMod = new ReplyMod();
 		
 		
 		//PANELS
@@ -189,7 +194,8 @@ public class ClientGUI extends JFrame implements PawnOperations
 	
 	/** Initializes the reply module.*/
 	public void initReplyMod(int id) {
-		System.out.println("reply selected: " + id);
+		replyMod.setVisible(true);
+		replyMod.init(id);
 	}
 	
 	/** Displays the main game frame.*/
