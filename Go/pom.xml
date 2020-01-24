@@ -7,12 +7,28 @@
   <version>1.0-SNAPSHOT</version>
   <name>Go</name>
   <url>http://maven.apache.org</url>
-  
+  <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>10</source>
+                    <target>10</target>
+                </configuration>
+            </plugin>
+        </plugins>
+		<resources>
+		  <resource>
+			<directory>images</directory>
+			<includes><include>*.png</include></includes>
+		  </resource>
+		</resources>
+  </build>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
   </properties>
-
   <dependencies>
   
     <dependency>
