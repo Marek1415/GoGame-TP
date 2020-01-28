@@ -29,7 +29,7 @@ public class ReplyMod extends JDialog{
 
 	// action button
 	ActionButton exitButton;
-	ActionButton startButton;
+	ActionButton moveButton;
 
 	//board
 	Board board;
@@ -37,15 +37,17 @@ public class ReplyMod extends JDialog{
 	//database elements
 	private Game game;
 	private List<Move> moves;
+	int moveCounter;
+	boolean wasEnd;
 	
 	public ReplyMod() {
 
 		//start button
-		startButton = new ActionButton(STR_START, DIM_START, COL_START) {
+		moveButton = new ActionButton("Next", DIM_START, COL_START) {
 			
 			@Override
 			public void action() {
-				makeMoves();
+				makeMove();
 			}
 		};
 		
@@ -78,7 +80,7 @@ public class ReplyMod extends JDialog{
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.weightx = 1;
 		gbc.gridwidth = 1;
-		add(startButton, gbc);
+		add(moveButton, gbc);
 		
 		// exit
 		gbc.gridx = 1;
@@ -98,6 +100,9 @@ public class ReplyMod extends JDialog{
 	public void init(int id) {
 		game = DatabaseConnector.getGame(id);
 		moves = DatabaseConnector.getMoves(id);
+		System.out.println("movesSize: " + moves.size());
+		moveCounter = 0;
+		wasEnd = false;
 		
 		board.init(game.getSize());
 		pack();
@@ -125,31 +130,40 @@ public class ReplyMod extends JDialog{
 	}
 	
 	/** Puts players moves on board. */
-	public void makeMoves() {
+	public void makeMove() {
 		
 		int position;
 		char player;
 		
-		for(int i = 0; i < moves.size(); i++) {
-			System.out.println("Start!");
-			position = moves.get(i).getPosition();
-			player = moves.get(i).getPlayer();
+		while(true) {
+			if(moveCounter >= moves.size()) {
+				makeEnd();
+				return;
+			}
+			position = moves.get(moveCounter).getPosition();
+			player = moves.get(moveCounter).getPlayer();
+			moveCounter ++;
+			
 			if(player == 'W') {
-				addPawn(position, Pawn.WHITE.Symbol());
-				makeDelay(500);
+				addPawn(position, Pawn.BLACK.Symbol());
+				return;
 			}
 			else if(player == 'B'){
-				addPawn(position, Pawn.BLACK.Symbol());
-				makeDelay(500);
+				addPawn(position, Pawn.WHITE.Symbol());
+				return;
 			}
 			else if(player == 'D'){
 				removePawn(position);
-				makeDelay(100);
 			}
-			repaint();
-			pack();
-			System.out.println("Stop!");
+		repaint();
 		}
+	}
+	
+	/** Performs replay ends. */
+	public void makeEnd() {
+		moveButton.setText("KONIEC");
+		moveButton.setBackground(Color.DARK_GRAY);
+		moveButton.setEnabled(false);
 	}
 	
 	/** Falls asleep for a specified time. */

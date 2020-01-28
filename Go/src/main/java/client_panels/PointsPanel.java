@@ -34,10 +34,10 @@ public class PointsPanel extends JPanel {
 	public PointsPanel() {
 		
 		//images
-		redOFF = getIcon("redOFF.png");
-		redON = getIcon("redON.png");
-		greenOFF = getIcon("greenOFF.png");
-		greenON = getIcon("greenON.png");
+		redOFF = getIcon("images/redOFF.png");
+		redON = getIcon("images/redON.png");
+		greenOFF = getIcon("images/greenOFF.png");
+		greenON = getIcon("images/greenON.png");
 		
 		//components
 		pointsLabel = new PointsLabel(STR_POINTS);
