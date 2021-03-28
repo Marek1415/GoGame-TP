@@ -14,7 +14,7 @@
 Go Game to implementacja chińskiej gry go w całości napisana w Javie. Do wyboru użytkownik ma rozgrywkę z innym graczem lub z botem. Dodatkowo istnieje możliwość wyboru rozmiaru planszy. Aplikacja działa w technologii klient-serwer, dzięki czemu możliwe jest przeprowadzenie rozgrywki pomiędzy wieloma graczami na tym samym urządzeniu. Przebieg rozgrywki jest zapisywany w lokalnej bazie danych, a po jej zakończeniu możemy go odtworzyć.  
 Zasady gry w Go można znaleźć [tutaj](https://pl.wikipedia.org/wiki/Zasady_go).  
   
-![Przegrana runda w grze Go](img/gamelost.png "Przegrana runda w grze Go")
+![Rozgrywka w grze Go](img/gameplay.png "Rozgrywka w grze Go")
 
 ## Wykorzystane narzędzia
 * Java 8
