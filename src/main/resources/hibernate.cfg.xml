@@ -1,0 +1,39 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-configuration SYSTEM 
+"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+   <session-factory>
+   
+      <property name = "hibernate.dialect">
+         org.hibernate.dialect.MySQLDialect
+      </property>
+
+      <property name = "hibernate.connection.driver_class">
+         com.mysql.jdbc.Driver
+      </property>
+
+      <property name = "hibernate.connection.url">
+         jdbc:mysql://localhost/gogame?useLegacyDatetimeCode=false&amp;serverTimezone=UTC
+      </property>
+
+      <property name="connection.pool_size">1</property>
+
+      <property name = "hibernate.connection.username">
+         student
+      </property>
+
+      <property name = "hibernate.connection.password">
+         student
+      </property>
+
+      <mapping class="database.Game"/>
+      <mapping class="database.Move"/>
+
+<!--      drop user student@localhost;-->
+<!--      flush privileges;-->
+<!--      create user student@localhost identified by 'student';-->
+<!--      ALTER USER 'student'@'localhost' IDENTIFIED WITH mysql_native_password BY 'student';-->
+<!--      GRANT ALL PRIVILEGES ON *.* TO 'student'@'localhost';-->
+
+   </session-factory>
+</hibernate-configuration>
