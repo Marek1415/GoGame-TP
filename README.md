@@ -1,5 +1,6 @@
 # Go Game | 2020
 
+
 ## Spis treści
 - [O projekcie](#o-projekcie)
 - [Wykorzystane narzędzia](#wykorzystane-narzędzia)
