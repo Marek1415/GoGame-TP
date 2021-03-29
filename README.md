@@ -19,6 +19,7 @@ Zasady gry w Go można znaleźć [tutaj](https://pl.wikipedia.org/wiki/Zasady_go
 
 ## Wykorzystane narzędzia
 * Java 8
+* Swing
 * MySQL 8.0.22
 * Hibernate 4.1.9
 
